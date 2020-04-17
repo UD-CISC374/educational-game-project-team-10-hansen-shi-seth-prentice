@@ -8,7 +8,11 @@ export default class MainScene extends Phaser.Scene {
   }
 
   create() {
-    this.exampleObject = new ExampleObject(this, 0, 0);
+    let tutMap = this.add.tilemap('tutorial');
+    let baseLayer = tutMap.addTilesetImage('otherTiles', 'tiles');
+
+    let bottom = tutMap.createStaticLayer('Tile Layer 1', [baseLayer], 0, 0);
+    
   }
 
   update() {
