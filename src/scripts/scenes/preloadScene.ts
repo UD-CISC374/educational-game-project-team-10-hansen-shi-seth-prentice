@@ -9,6 +9,10 @@ export default class PreloadScene extends Phaser.Scene {
       frameWidth:32,
       frameHeight:32
     });
+    this.load.spritesheet("skeleton", "assets/Enemies/skeleton.png",{
+      frameWidth:16,
+      frameHeight:16
+    });
   }
 
   create() {
