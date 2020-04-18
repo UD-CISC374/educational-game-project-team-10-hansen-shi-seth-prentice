@@ -7,10 +7,9 @@ export default class MainScene extends Phaser.Scene {
   private player: Player;
   enemy : Skeleton;
   background: Phaser.GameObjects.TileSprite;
-  height: number = 480;
-  width: number = 640;
+  height: number; 
+  width: number; 
   cursorKeys: Phaser.Types.Input.Keyboard.CursorKeys;
-  //myCam: Cameras.Scene2D.Camera;
   enemies: Phaser.GameObjects.Group;
 
 
@@ -19,10 +18,14 @@ export default class MainScene extends Phaser.Scene {
   }
 
   create() {
+    
+    this.height = <number> this.game.config.height;
+    this.width = <number> this.game.config.width;
+    
     let tutMap = this.make.tilemap({key: 'tutorial'});
     let baseLayer = tutMap.addTilesetImage('otherTiles', 'tiles');
 
-    var bottom = tutMap.createStaticLayer('Tile Layer 1', [baseLayer], 0, 0).setDepth(1);
+    var bottom = tutMap.createStaticLayer('Tile Layer 1', baseLayer, 0, 0);
     
     
     this.background = this.add.tileSprite(0, 0, 640, this.height, "background").setDepth(-1);//I know its shit, we can get a better one later
@@ -35,30 +38,34 @@ export default class MainScene extends Phaser.Scene {
 
     //define anything that needs animation here
     this.player = new Player(this, 0, this.height - 200);
-    this.enemy = new Skeleton(this, 200, this.height - 60, 1);
+    this.enemy = new Skeleton(this, 200, this.height - 60, 5, 2);
 
-    //camera stuff
-    /*this.myCam = this.cameras.main;
-    this.myCam.setBounds(0, 0, this.width * 100, this.height);
-    this.myCam.startFollow(this.player);*/
     
+    //camera
     this.cameras.main.setBounds(0, 0, tutMap.widthInPixels, tutMap.heightInPixels);
     this.cameras.main.startFollow(this.player);
 
     //collison stuff
     this.physics.add.overlap(this.player, this.enemies, this.enterCombat);
     
-    //so that doesn't work, I've tried literally every bug fix for phaser 2 and 3
+    //WHY YOU NO WORK
     this.physics.add.collider(this.player, bottom);
     bottom.setCollisionByProperty({collides: true});
+
+    const debugGraphics = this.add.graphics().setAlpha(0.75);
+    bottom.renderDebug(debugGraphics, {
+    tileColor: null, // Color of non-colliding tiles
+    collidingTileColor: null, // Color of colliding tiles
+    faceColor: new Phaser.Display.Color(255, 0, 255, 255)
+    });
+    
     
   }
+  
 
   update() {//                           update is here
     this.movePlayerManager();
     this.enemiesManager();
-    
-    //this.background.tilePositionX = this.myCam.scrollX;
   }
 
   movePlayerManager() { //moves player with arrow keys (not down)
@@ -103,7 +110,7 @@ export default class MainScene extends Phaser.Scene {
       }
       else{
         let temp = enemy.name.split(" ");
-        this.scene.start('BattleScene', { type: temp[0], value: <number> <unknown>temp[1], health: temp[0] });
+        this.scene.start('BattleScene', { type: temp[0], hp: <number><unknown>temp[1], atk: <number><unknown>temp[2] });
         //switchy scene go brrr
         //this.scene.switch('SkellyScene');
         enemy.destroy();

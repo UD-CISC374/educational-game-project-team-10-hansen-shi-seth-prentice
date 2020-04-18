@@ -2,14 +2,15 @@ export default class Skeleton extends Phaser.GameObjects.Sprite {
     body: Phaser.Physics.Arcade.Body;
     homeX: number;
     facingLeft: boolean;
-    value: number;
+    ///value: number;
     health: number;
+    attack: number;
 
-    constructor(scene, x: number, y: number, v: number) {
+    constructor(scene, x: number, y: number, hp: number, atk: number) {
         super(scene, x, y, 'skeleton');
         this.homeX = x;
         this.facingLeft=true;
-        this.name = 'skeleton ' + v;
+        this.name = 'skeleton ' + hp + ' ' + atk;
         this.health = 5;
 
 

@@ -20,7 +20,7 @@ export default class SkellyScene extends Phaser.Scene {
         this.background.setOrigin(0, 0);
         this.background.setScrollFactor(0);
 
-        this.enemy = new Skeleton(this, 600, this.height - 200, 1);
+        this.enemy = new Skeleton(this, 600, this.height - 200, 5, 2);
         this.enemy.flipX = true; 
         this.enemy.setScale(5);
         this.enemy.anims.pause();

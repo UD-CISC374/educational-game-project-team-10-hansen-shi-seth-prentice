@@ -7,8 +7,8 @@ import { Renderer } from 'phaser';
 import skellyScene from './scenes/skellyScene';
 import SkellyScene from './scenes/skellyScene';
 
-const DEFAULT_WIDTH = 640;
-const DEFAULT_HEIGHT = 480;
+const DEFAULT_WIDTH: number = 640;
+const DEFAULT_HEIGHT: number = 480;
 
 
 const config: GameConfig = {
@@ -28,7 +28,7 @@ const config: GameConfig = {
         default: 'arcade',
         arcade: {
             debug: true
-            //gravity: { y: 400 }
+            //gravity: { y: 1000 }
         }
     }
 };
