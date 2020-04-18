@@ -24,7 +24,7 @@ export default class MainScene extends Phaser.Scene {
   }
 
   create() {
-    this.background = this.add.tileSprite(0, 0, 448, this.height, "background");//I know its shit, we can get a better one later
+    this.background = this.add.tileSprite(0, 0, 448, this.height, "background");
     this.background.setOrigin(0, 0);
     this.background.setScrollFactor(0);
     this.cursorKeys = this.input.keyboard.createCursorKeys();
@@ -58,9 +58,9 @@ export default class MainScene extends Phaser.Scene {
     this.physics.add.overlap(this.player, this.enemies, this.enterCombat);
   }
 
-  update() {
+  update() {//                           update is here
     this.movePlayerManager();
-    this.moveEnemies();
+    this.enemiesManager();
     this.background.tilePositionX = this.myCam.scrollX;
   }
 
@@ -95,16 +95,21 @@ export default class MainScene extends Phaser.Scene {
     }
   }
 
-  moveEnemies() {
+  enemiesManager() {
     for (let i = 0; i < this.enemies.getChildren().length; i++) {
       let enemy = this.enemies.getChildren()[i];
-      enemy.update();
+      if(enemy.active){
+        enemy.update();
+      }
+      else{
+        this.scene.start('BattleScene', { type: enemy.name.substr(0,enemy.name.length -1), value: <number> <unknown>enemy.name.substr(enemy.name.length - 1,1) })
+        enemy.destroy();
+      }
     }
   }
 
   enterCombat(player, enemy) {
     console.log("get hit nerd");
+    enemy.active = false;
   }
-
-  //makeEnemy(){let skele = new Skeleton(this, 200, this.height - 20, 5);}
 }
