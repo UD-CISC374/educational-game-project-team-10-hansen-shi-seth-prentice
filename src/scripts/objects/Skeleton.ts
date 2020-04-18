@@ -11,7 +11,7 @@ export default class Skeleton extends Phaser.GameObjects.Sprite {
         //this.play('skeleton_anim');
         this.homeX = x;
         this.facingLeft=true;
-        this.name = 'skeleton' + v;
+        this.name = 'skeleton ' + v;
         //this.battle = false;
 
 
