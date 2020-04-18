@@ -36,21 +36,6 @@ export default class MainScene extends Phaser.Scene {
     this.cursorKeys = this.input.keyboard.createCursorKeys();
     this.enemies = this.physics.add.group();
 
-
-    //animations under here
-    this.anims.create({
-      key: "player_anim",
-      frames: this.anims.generateFrameNumbers("player", { start: 0, end: 3 }),
-      frameRate: 7,
-      repeat: -1
-    });
-    this.anims.create({
-      key: "skeleton_anim",
-      frames: this.anims.generateFrameNumbers("skeleton", { start: 0, end: 3 }),
-      frameRate: 7,
-      repeat: -1
-    });
-
     //define anything that needs animation here
     this.player = new Player(this, 0, this.height - 13);
     new Skeleton(this, 200, this.height - 20, 5);
@@ -83,10 +68,10 @@ export default class MainScene extends Phaser.Scene {
       this.player.moving = true;
     }
     if (this.player.moving) {
-      this.player.anims.resume();
+      //this.player.anims.resume();
     }
     else {
-      this.player.anims.pause();
+      //this.player.anims.pause();
     }
     if (this.cursorKeys.up?.isDown && this.player.y == this.height - 20) {
       this.player.velY = 9;

@@ -28,6 +28,18 @@ export default class PreloadScene extends Phaser.Scene {
   }
 
   create() {
+    this.anims.create({
+      key: "player_anim",
+      frames: this.anims.generateFrameNumbers("player", { start: 0, end: 3 }),
+      frameRate: 7,
+      repeat: -1
+    });
+    this.anims.create({
+      key: "skeleton_anim",
+      frames: this.anims.generateFrameNumbers("skeleton", { start: 0, end: 3 }),
+      frameRate: 7,
+      repeat: -1
+    });
     
     this.scene.start('MainScene');
   }
