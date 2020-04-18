@@ -102,7 +102,8 @@ export default class MainScene extends Phaser.Scene {
         enemy.update();
       }
       else{
-        this.scene.start('BattleScene', { type: enemy.name.substr(0,enemy.name.length -1), value: <number> <unknown>enemy.name.substr(enemy.name.length - 1,1) })
+        let temp = enemy.name.split(" ");
+        this.scene.start('BattleScene', { type: temp[0], value: <number> <unknown>temp[1] });
         enemy.destroy();
       }
     }
