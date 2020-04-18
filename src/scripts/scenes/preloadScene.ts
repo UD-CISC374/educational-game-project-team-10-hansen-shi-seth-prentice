@@ -7,6 +7,7 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.tilemapTiledJSON('tutorial', './assets/maps/map.json');
     this.load.image('tiles', './assets/tileSets/tutorialTileSet.png');
 
+    //for loading screen later, don't mind him
     let loadingBar = this.add.graphics({
       fillStyle : {
         color : 0xffffff
