@@ -26,6 +26,7 @@ export default class PreloadScene extends Phaser.Scene {
       frameWidth:16,
       frameHeight:16
     });
+    this.load.image("platform", "assets/platforms/map.png")
   }
 
   create() {

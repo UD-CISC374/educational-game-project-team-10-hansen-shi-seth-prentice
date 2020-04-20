@@ -2,8 +2,8 @@ import Skeleton from "../objects/Skeleton";
 
 export default class BattleScene extends Phaser.Scene {
   background: Phaser.GameObjects.TileSprite;
-  height: number = 480;
-  width: number = 640;
+  height: number;
+  width: number;
   hp: number;
   atk: number;
   type: string;
@@ -21,15 +21,18 @@ export default class BattleScene extends Phaser.Scene {
   }
   
   create() {
+
+    this.width = <number> this.game.config.width;
+    this.height = <number> this.game.config.height;
     
     this.enemies = this.physics.add.group();
 
-    this.background = this.add.tileSprite(0, 0, 640, this.height, "background");
+    this.background = this.add.tileSprite(0, 0, this.width, this.height, "background");
     this.background.setOrigin(0, 0);
     this.background.setScrollFactor(0);
 
     if (this.type === "skeleton"){
-      this.enemy = new Skeleton(this, this.width - 40, this.height - 200, this.hp, this.atk);
+      this.enemy = new Skeleton(this, this.width - 40, this.height - 300, this.hp, this.atk);
       this.enemy.flipX = true;
       this.enemy.setScale(5);
       this.enemy.anims.pause();
@@ -42,7 +45,7 @@ export default class BattleScene extends Phaser.Scene {
     
     
     
-    this.player = this.add.sprite(60, 300, 'player');
+    this.player = this.add.sprite(60, this.height - 300, 'player');
     this.player.setScale(3);
     //this.player.play('player_anim');
     console.log("create complete");

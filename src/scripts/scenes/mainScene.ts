@@ -22,13 +22,15 @@ export default class MainScene extends Phaser.Scene {
     this.height = <number> this.game.config.height;
     this.width = <number> this.game.config.width;
     
-    let tutMap = this.make.tilemap({key: 'tutorial'});
-    let baseLayer = tutMap.addTilesetImage('otherTiles', 'tiles');
+    //let tutMap = this.make.tilemap({key: 'tutorial'});
+    //let baseLayer = tutMap.addTilesetImage('otherTiles', 'tiles');
+    //var bottom = tutMap.createStaticLayer('Tile Layer 1', baseLayer, 0, 0);
 
-    var bottom = tutMap.createStaticLayer('Tile Layer 1', baseLayer, 0, 0);
-    
-    
-    this.background = this.add.tileSprite(0, 0, 640, this.height, "background").setDepth(-1);//I know its shit, we can get a better one later
+    let floor = this.physics.add.sprite(475, 600, 'platform').setImmovable(true);
+
+    //let crystal = this.physics.add.sprite()
+
+    this.background = this.add.tileSprite(0, 0, this.width, this.height, "background").setDepth(-1);//I know its shit, we can get a better one later
     this.background.setOrigin(0, 0);
     this.background.setScrollFactor(0);
     
@@ -37,27 +39,31 @@ export default class MainScene extends Phaser.Scene {
     this.enemies = this.physics.add.group();
 
     //define anything that needs animation here
-    this.player = new Player(this, 0, this.height - 200);
-    this.enemy = new Skeleton(this, 200, this.height - 60, 5, 2);
-
+    this.player = new Player(this, 0, this.height - 400);
+    this.player.setGravityY(1400);
+    this.enemy = new Skeleton(this, 860, this.height - 400, 5, 2);
+    this.enemies.add(this.enemy);
+    this.enemy.setGravityY(1400);
     
     //camera
-    this.cameras.main.setBounds(0, 0, tutMap.widthInPixels, tutMap.heightInPixels);
+    this.cameras.main.setBounds(0, 0, this.width, this.height);
     this.cameras.main.startFollow(this.player);
 
     //collison stuff
     this.physics.add.overlap(this.player, this.enemies, this.enterCombat);
+    this.physics.add.collider(this.player, floor);
+    this.physics.add.collider(this.enemy, floor);
     
     //WHY YOU NO WORK
-    this.physics.add.collider(this.player, bottom);
-    bottom.setCollisionByProperty({collides: true});
+    //bottom.setCollisionByProperty({collides: true});
+    //this.physics.add.collider(this.player, bottom);
 
-    const debugGraphics = this.add.graphics().setAlpha(0.75);
+    /*const debugGraphics = this.add.graphics().setAlpha(0.75);
     bottom.renderDebug(debugGraphics, {
     tileColor: null, // Color of non-colliding tiles
     collidingTileColor: null, // Color of colliding tiles
     faceColor: new Phaser.Display.Color(255, 0, 255, 255)
-    });
+    });*/
     
     
   }
@@ -89,17 +95,10 @@ export default class MainScene extends Phaser.Scene {
     else {
       this.player.anims.pause();
     }
-    if (this.cursorKeys.up?.isDown && this.player.y == this.height - 20) {
-      this.player.velY = 11;
+    if (this.cursorKeys.up?.isDown && this.player.body.touching.down) {
+      this.player.setVelocityY(-500);
     }
-    //gravity: phaser gravity is annoying so im gonna ignore it
-    this.player.y -= this.player.velY;
-    if (this.player.velY > -15) {
-      this.player.velY -= .5;
-    }
-    if (this.player.y > this.height - 20) {
-      this.player.y = this.height - 20;
-    }
+    
   }
 
   enemiesManager() {
@@ -110,7 +109,9 @@ export default class MainScene extends Phaser.Scene {
       }
       else{
         let temp = enemy.name.split(" ");
-        this.scene.start('BattleScene', { type: temp[0], hp: <number><unknown>temp[1], atk: <number><unknown>temp[2] });
+        this.scene.launch('BattleScene', { type: temp[0], hp: <number><unknown>temp[1], atk: <number><unknown>temp[2] });
+        this.scene.pause('MainScene');
+        this.scene.sendToBack('MainScene');
         //switchy scene go brrr
         //this.scene.switch('SkellyScene');
         enemy.destroy();

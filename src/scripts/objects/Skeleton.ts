@@ -1,4 +1,4 @@
-export default class Skeleton extends Phaser.GameObjects.Sprite {
+export default class Skeleton extends Phaser.Physics.Arcade.Sprite {
     body: Phaser.Physics.Arcade.Body;
     homeX: number;
     facingLeft: boolean;
@@ -13,9 +13,9 @@ export default class Skeleton extends Phaser.GameObjects.Sprite {
         this.name = 'skeleton ' + hp + ' ' + atk;
         this.health = 5;
 
-
+        scene.physics.add.existing(this);
         scene.add.existing(this);
-        scene.enemies.add(this);
+        //scene.enemies.add(this);
         this.setScale(2);
         this.body.setSize(12, 16);
         this.body.setOffset(2, 0);
