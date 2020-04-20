@@ -10,12 +10,14 @@ export default class BattleScene extends Phaser.Scene {
   enemy: any;
   player: Phaser.GameObjects.Sprite;
   enemies: Phaser.GameObjects.Group;
+  heartContainers: Phaser.GameObjects.Group;
   one: Phaser.GameObjects.BitmapText;
   two: Phaser.GameObjects.BitmapText;
   three: Phaser.GameObjects.BitmapText;
   plus: Phaser.GameObjects.BitmapText;
   minus: Phaser.GameObjects.BitmapText;
   phase: number = 0;
+  heart: Phaser.GameObjects.Image;
   constructor() {
     super({ key: 'BattleScene' });
   }
@@ -32,6 +34,9 @@ export default class BattleScene extends Phaser.Scene {
     this.height = <number> this.game.config.height;
     
     this.enemies = this.physics.add.group();
+    this.heartContainers = this.physics.add.group();
+
+    this.heart = this.add.sprite(this.width - 40, this.height - 200, "heart");
 
     this.background = this.add.tileSprite(0, 0, this.width, this.height, "background");
     this.background.setOrigin(0, 0);

@@ -18,6 +18,7 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.on("progress", (percent)=>{
       console.log(percent);
     })
+    
     this.load.image("background" , "assets/environment-background.png");
     this.load.spritesheet("player", "assets/WizSheet.png",{
       frameWidth:32,
@@ -27,7 +28,9 @@ export default class PreloadScene extends Phaser.Scene {
       frameWidth:16,
       frameHeight:16
     });
-    this.load.image("platform", "assets/platforms/map.png")
+    this.load.image("platform", "assets/platforms/map.png");
+    this.load.image("gem", "assets/crystals/emerald.png");
+    this.load.image("heart", "assets/heart.png");
   }
 
   create() {
