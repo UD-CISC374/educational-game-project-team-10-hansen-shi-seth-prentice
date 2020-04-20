@@ -6,7 +6,7 @@ export default class PreloadScene extends Phaser.Scene {
   preload() {
     this.load.tilemapTiledJSON('tutorial', './assets/maps/map.json');
     this.load.image('tiles', './assets/tileSets/tutorialTileSet.png');
-    this.load.bitmapFont("pixelFont", "assets/font.png", "assets/font.xml");
+    this.load.bitmapFont("pixelFont", "assets/fonts/font.png", "assets/font.xml");
 
     //for loading screen later, don't mind him
     let loadingBar = this.add.graphics({

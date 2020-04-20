@@ -36,8 +36,6 @@ export default class BattleScene extends Phaser.Scene {
     this.enemies = this.physics.add.group();
     this.heartContainers = this.physics.add.group();
 
-    this.heart = this.add.sprite(this.width - 40, this.height - 200, "heart");
-
     this.background = this.add.tileSprite(0, 0, this.width, this.height, "background");
     this.background.setOrigin(0, 0);
     this.background.setScrollFactor(0);
