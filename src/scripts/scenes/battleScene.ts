@@ -10,6 +10,12 @@ export default class BattleScene extends Phaser.Scene {
   enemy: any;
   player: Phaser.GameObjects.Sprite;
   enemies: Phaser.GameObjects.Group;
+  one: Phaser.GameObjects.BitmapText;
+  two: Phaser.GameObjects.BitmapText;
+  three: Phaser.GameObjects.BitmapText;
+  plus: Phaser.GameObjects.BitmapText;
+  minus: Phaser.GameObjects.BitmapText;
+  phase: number = 0;
   constructor() {
     super({ key: 'BattleScene' });
   }
@@ -41,7 +47,22 @@ export default class BattleScene extends Phaser.Scene {
     //it doesn't auto complete for some reason
     //but it works
     console.log(this.enemy.getHealth());
+    this.one = this.add.bitmapText(60,this.height-80,"pixelFont", "1", 16 );
+    this.one.name = '1';
+    this.two = this.add.bitmapText(120,this.height-80,"pixelFont", "2", 16 );
+    this.two.name = '2';
+    this.three = this.add.bitmapText(180,this.height-80,"pixelFont", "3", 16 );
+    this.three.name = '3';
+    this.plus = this.add.bitmapText(240,this.height-80,"pixelFont", "+", 16 );
+    this.plus.name = '+';
+    this.minus = this.add.bitmapText(300,this.height-80,"pixelFont", "-", 16 );
+    this.minus.name = '-';
     
+    this.one.setInteractive().on('pointerdown',this.valSelect);
+    this.two.setInteractive().on('pointerdown',this.valSelect);
+    this.three.setInteractive().on('pointerdown',this.valSelect);
+    this.plus.setInteractive().on('pointerdown',this.valSelect);
+    this.minus.setInteractive().on('pointerdown',this.valSelect);
     
     
     
@@ -52,6 +73,9 @@ export default class BattleScene extends Phaser.Scene {
   }
 
   update() {
+  }
 
+  valSelect(crystal){
+    console.log(crystal.name);
   }
 }
