@@ -124,15 +124,15 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/educational-game-project-team-10-hansen-shi-seth-prentice/alphafavicon.ico"
   },
   {
-    "revision": "a3da0f1d67411d6f600c",
-    "url": "/educational-game-project-team-10-hansen-shi-seth-prentice/alphagen.main.4a0567b5721224c5d822.bundle.js"
+    "revision": "e0ce62d07a662c238f99",
+    "url": "/educational-game-project-team-10-hansen-shi-seth-prentice/alphagen.main.c7dc1f2d1b1bf420ece3.bundle.js"
   },
   {
     "revision": "79244101a84faa626992",
     "url": "/educational-game-project-team-10-hansen-shi-seth-prentice/alphagen.vendors.b45a024788a7c2f75858.bundle.js"
   },
   {
-    "revision": "1f8259fedb0d06e743ae3d12a12e42ea",
+    "revision": "a14862bf9a475123bc361f6bfd198b52",
     "url": "/educational-game-project-team-10-hansen-shi-seth-prentice/alphaindex.html"
   },
   {
