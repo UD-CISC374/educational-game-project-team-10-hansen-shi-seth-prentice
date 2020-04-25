@@ -22,6 +22,9 @@ export default class BattleScene extends Phaser.Scene {
   first: Phaser.GameObjects.BitmapText;
   op: Phaser.GameObjects.BitmapText;
   second: Phaser.GameObjects.BitmapText;
+  helpText: Phaser.GameObjects.BitmapText;
+  enemyHp: Phaser.GameObjects.BitmapText;
+  animText: Phaser.GameObjects.BitmapText;
 
   constructor() {
     super({ key: 'BattleScene' });
@@ -83,6 +86,13 @@ export default class BattleScene extends Phaser.Scene {
     this.op = this.add.bitmapText(150,this.height-300,"pixelFont", "_", 50 );
     this.second = this.add.bitmapText(180,this.height-300,"pixelFont", "_", 50 );
 
+    this.helpText = this.add.bitmapText(10, 10,"pixelFont", "Click a number, then an operator then another number \n reduce the enemy hp to 0 to win", 30 );
+
+    this.enemyHp = this.add.bitmapText(this.width - 70, this.height - 370,"pixelFont", "HP: " + this.hp, 30 );
+
+    this.animText = this.add.bitmapText(this.width/2 - 70, this.height - 320,"pixelFont", "fancy animation here", 30 );
+    this.animText.alpha = 0;
+
     console.log("create complete");
   }
 
@@ -92,13 +102,24 @@ export default class BattleScene extends Phaser.Scene {
       this.hp--;
       this.sceneSwitcher();
     }
+    if(this.helpText.alpha > 0){
+      this.helpText.alpha -=.003;
+    }
+    if(this.animText.alpha > 0){
+      this.animText.alpha -=.003;
+    }
+    this.enemyHp.text = "HP: " + this.hp;
   }
 
-  oneClicked(crystal: Phaser.GameObjects.BitmapText){
-    console.log(this.phase);
+  oneClicked(){
+    console.log(1);
     if(this.phase === 1){
       this.first.text = "1";
       this.phase++;
+    }
+    else if(this.phase === 2){
+      this.helpText.text = "Please select an operator";
+      this.helpText.alpha = 1;
     }
     else if(this.phase === 3){
       this.second.text = "1";
@@ -107,11 +128,15 @@ export default class BattleScene extends Phaser.Scene {
     }
   }
 
-  twoClicked(crystal: Phaser.GameObjects.BitmapText){
+  twoClicked(){
     console.log(2);
     if(this.phase === 1){
       this.first.text = "2";
       this.phase++;
+    }
+    else if(this.phase === 2){
+      this.helpText.text = "Please select an operator";
+      this.helpText.alpha = 1;
     }
     else if(this.phase === 3){
       this.second.text = "2";
@@ -120,11 +145,15 @@ export default class BattleScene extends Phaser.Scene {
     }
   }
 
-  threeClicked(crystal: Phaser.GameObjects.BitmapText){
+  threeClicked(){
     console.log(3);
     if(this.phase === 1){
       this.first.text = "3";
       this.phase++;
+    }
+    else if(this.phase === 2){
+      this.helpText.text = "Please select an operator";
+      this.helpText.alpha = 1;
     }
     else if(this.phase === 3){
       this.second.text = "3";
@@ -133,19 +162,27 @@ export default class BattleScene extends Phaser.Scene {
     }
   }
 
-  plusClicked(crystal: Phaser.GameObjects.BitmapText){
+  plusClicked(){
     console.log("+");
     if(this.phase === 2){
       this.op.text = "+";
       this.phase++;
     }
+    else if(this.phase === 1 || this.phase === 3){
+      this.helpText.text = "Please select a number";
+      this.helpText.alpha = 1;
+    }
   }
 
-  minusClicked(crystal: Phaser.GameObjects.BitmapText){
+  minusClicked(){
     console.log("-");
     if(this.phase === 2){
       this.op.text = "-";
       this.phase++;
+    }
+    else if(this.phase === 1 || this.phase === 3){
+      this.helpText.text = "Please select a number";
+      this.helpText.alpha = 1;
     }
   }
 
@@ -161,6 +198,7 @@ export default class BattleScene extends Phaser.Scene {
     this.first.text = "_";
     this.second.text = "_";
     console.log(this.hp);
+    this.animText.alpha = 1;
   }
 
   sceneSwitcher() {
