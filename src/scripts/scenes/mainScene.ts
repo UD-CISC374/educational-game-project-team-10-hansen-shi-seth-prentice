@@ -14,6 +14,8 @@ export default class MainScene extends Phaser.Scene {
   gems: Phaser.GameObjects.Group;
 
   playerGems: Phaser.GameObjects.BitmapText;
+
+  helpText: Phaser.GameObjects.BitmapText;
   
   
 
@@ -31,6 +33,8 @@ export default class MainScene extends Phaser.Scene {
     //var bottom = tutMap.createStaticLayer('Tile Layer 1', baseLayer, 0, 0);
 
     let floor = this.physics.add.sprite(475, 600, 'platform').setImmovable(true);
+
+    this.helpText = this.add.bitmapText(10, 10,"pixelFont", "Move with arrow keys", 30 );
     
 
     this.background = this.add.tileSprite(0, 0, this.width, this.height, "background").setDepth(-1);//I know its shit, we can get a better one later
