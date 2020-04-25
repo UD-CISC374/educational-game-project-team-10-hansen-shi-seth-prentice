@@ -15,6 +15,7 @@ export default class MainScene extends Phaser.Scene {
 
   playerGems: Phaser.GameObjects.BitmapText;
   
+  
 
   constructor() {
     super({ key: 'MainScene' });
@@ -64,7 +65,9 @@ export default class MainScene extends Phaser.Scene {
     this.physics.add.overlap(this.player, this.enemies, this.enterCombat);
     this.physics.add.collider(this.player, floor);
     this.physics.add.collider(this.enemy, floor);
+    this.physics.add.collider(this.gems, floor);
     this.physics.add.overlap(this.player, testGem, this.pickupItem);
+    this.physics.add.overlap(this.player, this.gems, this.pickupItem);
     
     //WHY YOU NO WORK
     //bottom.setCollisionByProperty({collides: true});
@@ -85,6 +88,7 @@ export default class MainScene extends Phaser.Scene {
     this.movePlayerManager();
     this.enemiesManager();
     this.collectionHandler();
+    this.emitManager();
   }
 
   movePlayerManager() { //moves player with arrow keys (not down)
@@ -124,9 +128,9 @@ export default class MainScene extends Phaser.Scene {
         this.scene.launch('BattleScene', { type: temp[0], hp: <number><unknown>temp[1], atk: <number><unknown>temp[2] });
         this.scene.pause('MainScene');
         this.scene.sendToBack('MainScene');
+        this.player.setVelocity(0, 0);
         //switchy scene go brrr
         //this.scene.switch('SkellyScene');
-        enemy.destroy();
       }
     }
   }
@@ -147,5 +151,17 @@ export default class MainScene extends Phaser.Scene {
   enterCombat(player, enemy) {
     console.log("get hit nerd");
     enemy.active = false;
+  }
+
+  emitManager(){
+    this.scene.get("BattleScene").events.once("win", ()=>{
+      console.log("here");
+      this.spawnLoot(this.enemy);
+      this.enemy.destroy();
+    });
+  }
+
+  spawnLoot(enemy: Phaser.GameObjects.Sprite){
+    this.gems.create(enemy.x, enemy.y - 100, 'gem').setGravityY(200);
   }
 }
