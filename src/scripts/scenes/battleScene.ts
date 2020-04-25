@@ -59,13 +59,13 @@ export default class BattleScene extends Phaser.Scene {
     this.player.setScale(3);
     this.player.anims.pause();
 
-    this.scene.launch('UI', { playerHp: this.player.health, enemyHp: this.enemy.health, enemyAtk: this.enemy.atk })
+    //this.scene.launch('UI', { playerHp: this.player.health, enemyHp: this.enemy.health, enemyAtk: this.enemy.atk })
 
     //this.heart = this.add.sprite(60, this.height - 400, 'heart');
     //it doesn't auto complete for some reason
     //but it works
     console.log(this.enemy.getHealth());
-    this.one = this.add.bitmapText(65,this.height-80,"pixelFont", "1", 30 );
+    this.one = this.add.bitmapText(65,this.height-80,"pixelFont", "1", 30 );//these are hard to click but they are changing to images so I dont care for now
     this.one.name = '1';
     this.two = this.add.bitmapText(130,this.height-80,"pixelFont", "2", 30 );
     this.two.name = '2';
