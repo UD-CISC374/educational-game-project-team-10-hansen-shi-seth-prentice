@@ -142,7 +142,7 @@ export default class BattleScene extends Phaser.Scene {
   minusClicked(crystal: Phaser.GameObjects.BitmapText){
     console.log("-");
     if(this.phase === 2){
-      this.op.text = "+";
+      this.op.text = "-";
       this.phase++;
     }
   }
