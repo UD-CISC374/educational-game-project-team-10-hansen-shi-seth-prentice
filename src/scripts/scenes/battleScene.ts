@@ -83,24 +83,10 @@ export default class BattleScene extends Phaser.Scene {
     this.op = this.add.bitmapText(150,this.height-300,"pixelFont", "_", 50 );
     this.second = this.add.bitmapText(180,this.height-300,"pixelFont", "_", 50 );
 
-
-    
-    
-    
-    this.player = this.add.sprite(60, this.height - 300, 'player');
-    this.player.setScale(3);
-    //this.player.play('player_anim');
     console.log("create complete");
   }
 
   update() {
-<<<<<<< HEAD
-    this.attackHandler();
-  }
-
-  valSelect(crystal) {
-    console.log(crystal.name);
-=======
     if(this.hp === 0){
       console.log("win");
       this.hp--;
@@ -174,7 +160,6 @@ export default class BattleScene extends Phaser.Scene {
     this.first.text = "_";
     this.second.text = "_";
     console.log(this.hp);
->>>>>>> aabaf3d988428d3908c6dde67435389b4d8e6b9e
   }
 
   attackHandler() {
