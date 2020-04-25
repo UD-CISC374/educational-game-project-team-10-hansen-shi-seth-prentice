@@ -4,7 +4,7 @@ export default class Skeleton extends Phaser.Physics.Arcade.Sprite {
     facingLeft: boolean;
     ///value: number;
     health: number;
-    attack: number;
+    atk: number;
 
     constructor(scene, x: number, y: number, hp: number, atk: number) {
         super(scene, x, y, 'skeleton');
@@ -12,7 +12,7 @@ export default class Skeleton extends Phaser.Physics.Arcade.Sprite {
         this.facingLeft=true;
         this.name = 'skeleton ' + hp + ' ' + atk;
         this.health = 5;
-
+        this.atk = 1;
         scene.physics.add.existing(this);
         scene.add.existing(this);
         //scene.enemies.add(this);
