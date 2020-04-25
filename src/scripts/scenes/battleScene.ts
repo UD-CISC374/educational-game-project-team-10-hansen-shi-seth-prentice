@@ -16,8 +16,12 @@ export default class BattleScene extends Phaser.Scene {
   three: Phaser.GameObjects.BitmapText;
   plus: Phaser.GameObjects.BitmapText;
   minus: Phaser.GameObjects.BitmapText;
-  phase: number = 0;
+  phase: number = 1;
   heart: Phaser.GameObjects.Image;
+  first: Phaser.GameObjects.BitmapText;
+  op: Phaser.GameObjects.BitmapText;
+  second: Phaser.GameObjects.BitmapText;
+
   constructor() {
     super({ key: 'BattleScene' });
   }
@@ -50,22 +54,28 @@ export default class BattleScene extends Phaser.Scene {
     //it doesn't auto complete for some reason
     //but it works
     console.log(this.enemy.getHealth());
-    this.one = this.add.bitmapText(60,this.height-80,"pixelFont", "1", 16 );
+    this.one = this.add.bitmapText(65,this.height-80,"pixelFont", "1", 30 );
     this.one.name = '1';
-    this.two = this.add.bitmapText(120,this.height-80,"pixelFont", "2", 16 );
+    this.two = this.add.bitmapText(130,this.height-80,"pixelFont", "2", 30 );
     this.two.name = '2';
-    this.three = this.add.bitmapText(180,this.height-80,"pixelFont", "3", 16 );
+    this.three = this.add.bitmapText(195,this.height-80,"pixelFont", "3", 30 );
     this.three.name = '3';
-    this.plus = this.add.bitmapText(240,this.height-80,"pixelFont", "+", 16 );
+    this.plus = this.add.bitmapText(260,this.height-80,"pixelFont", "+", 30 );
     this.plus.name = '+';
-    this.minus = this.add.bitmapText(300,this.height-80,"pixelFont", "-", 16 );
+    this.minus = this.add.bitmapText(325,this.height-80,"pixelFont", "-", 30 );
     this.minus.name = '-';
     
-    this.one.setInteractive().on('pointerdown',this.valSelect);
-    this.two.setInteractive().on('pointerdown',this.valSelect);
-    this.three.setInteractive().on('pointerdown',this.valSelect);
-    this.plus.setInteractive().on('pointerdown',this.valSelect);
-    this.minus.setInteractive().on('pointerdown',this.valSelect);
+    this.one.setInteractive().on('pointerdown',this.oneClicked, this);
+    this.two.setInteractive().on('pointerdown',this.twoClicked, this);
+    this.three.setInteractive().on('pointerdown',this.threeClicked, this);
+    this.plus.setInteractive().on('pointerdown',this.plusClicked, this);
+    this.minus.setInteractive().on('pointerdown',this.minusClicked, this);
+
+    this.first = this.add.bitmapText(120,this.height-300,"pixelFont", "_", 50 );
+    this.op = this.add.bitmapText(150,this.height-300,"pixelFont", "_", 50 );
+    this.second = this.add.bitmapText(180,this.height-300,"pixelFont", "_", 50 );
+
+
     
     
     
@@ -76,9 +86,78 @@ export default class BattleScene extends Phaser.Scene {
   }
 
   update() {
+    if(this.hp === 0){
+      console.log("win");
+      this.hp--;
+    }
   }
 
-  valSelect(crystal){
-    console.log(crystal.name);
+  oneClicked(crystal: Phaser.GameObjects.BitmapText){
+    console.log(this.phase);
+    if(this.phase === 1){
+      this.first.text = "1";
+      this.phase++;
+    }
+    else if(this.phase === 3){
+      this.second.text = "1";
+      this.phase = 1;
+      this.resolve();
+    }
+  }
+
+  twoClicked(crystal: Phaser.GameObjects.BitmapText){
+    console.log(2);
+    if(this.phase === 1){
+      this.first.text = "2";
+      this.phase++;
+    }
+    else if(this.phase === 3){
+      this.second.text = "2";
+      this.phase = 1;
+      this.resolve();
+    }
+  }
+
+  threeClicked(crystal: Phaser.GameObjects.BitmapText){
+    console.log(3);
+    if(this.phase === 1){
+      this.first.text = "3";
+      this.phase++;
+    }
+    else if(this.phase === 3){
+      this.second.text = "3";
+      this.phase = 1;
+      this.resolve();
+    }
+  }
+
+  plusClicked(crystal: Phaser.GameObjects.BitmapText){
+    console.log("+");
+    if(this.phase === 2){
+      this.op.text = "+";
+      this.phase++;
+    }
+  }
+
+  minusClicked(crystal: Phaser.GameObjects.BitmapText){
+    console.log("-");
+    if(this.phase === 2){
+      this.op.text = "+";
+      this.phase++;
+    }
+  }
+
+  resolve(){
+    if(this.op.text === "+"){
+      this.hp -=+(+<number> <unknown>this.first.text + +<number> <unknown>this.second.text);
+    }
+    else if(this.op.text === "-"){
+      this.hp -=+(+<number> <unknown>this.first.text - +<number> <unknown>this.second.text)
+    }
+
+    this.op.text = "_";
+    this.first.text = "_";
+    this.second.text = "_";
+    console.log(this.hp);
   }
 }
