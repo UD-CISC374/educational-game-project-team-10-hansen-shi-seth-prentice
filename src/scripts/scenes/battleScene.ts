@@ -17,17 +17,12 @@ export default class BattleScene extends Phaser.Scene {
   three: Phaser.GameObjects.BitmapText;
   plus: Phaser.GameObjects.BitmapText;
   minus: Phaser.GameObjects.BitmapText;
-<<<<<<< HEAD
-  phase: number = 0;
-  heart: Phaser.GameObjects.Sprite;
-=======
   phase: number = 1;
   heart: Phaser.GameObjects.Image;
   first: Phaser.GameObjects.BitmapText;
   op: Phaser.GameObjects.BitmapText;
   second: Phaser.GameObjects.BitmapText;
 
->>>>>>> aabaf3d988428d3908c6dde67435389b4d8e6b9e
   constructor() {
     super({ key: 'BattleScene' });
   }
