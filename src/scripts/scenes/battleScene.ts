@@ -90,6 +90,7 @@ export default class BattleScene extends Phaser.Scene {
     if(this.hp === 0){
       console.log("win");
       this.hp--;
+      this.sceneSwitcher();
     }
   }
 
@@ -162,14 +163,10 @@ export default class BattleScene extends Phaser.Scene {
     console.log(this.hp);
   }
 
-  attackHandler() {
-    this.scene.get('UI').events.on('attack', () => {
-      this.scene.resume('MainScene');
-      this.scene.pause("BattleScene");
-      this.scene.sendToBack("BattleScene");
-      this.scene.setVisible(false, 'UI');
-    });
-
+  sceneSwitcher() {
+    this.scene.stop("BattleScene");
+    this.scene.resume("MainScene");
+    this.scene.setVisible(false, "UI");
   }
 }
 
