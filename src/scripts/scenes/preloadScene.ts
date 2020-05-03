@@ -23,6 +23,15 @@ export default class PreloadScene extends Phaser.Scene {
     })
     
     this.load.image("background" , "assets/environment-background.png");
+    this.load.image("crystal_button1" , "assets/crystals/Crys_1.png");
+    this.load.image("crystal_button2" , "assets/crystals/Crys_2.png");
+    this.load.image("crystal_button3" , "assets/crystals/Crys_3.png");
+    this.load.image("crystal_button4" , "assets/crystals/Crys_4.png");
+    this.load.image("crystal_button5" , "assets/crystals/Crys_5.png");
+    this.load.image("crystal_button6" , "assets/crystals/Crys_6.png");
+    this.load.image("crystal_button7" , "assets/crystals/Crys_7.png");
+    this.load.image("crystal_button8" , "assets/crystals/Crys_8.png");
+    this.load.image("crystal_button9" , "assets/crystals/Crys_9.png");
     this.load.spritesheet("player", "assets/WizSheet.png",{
       frameWidth:32,
       frameHeight:32
