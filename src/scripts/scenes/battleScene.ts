@@ -24,20 +24,37 @@ export default class BattleScene extends Phaser.Scene {
   second: Phaser.GameObjects.BitmapText;
   helpText: Phaser.GameObjects.BitmapText;
   enemyHp: Phaser.GameObjects.BitmapText;
-  animText: Phaser.GameObjects.BitmapText;
+  fireText: Phaser.GameObjects.BitmapText;
+  baddie: Skeleton;
+  playAnim: boolean = false;
+  fireball: Phaser.GameObjects.Sprite;
+  attackNum: number;
 
   constructor() {
     super({ key: 'BattleScene' });
+  }
+
+  preload(){
+    /*this.load.spritesheet('fireball', "assets/Enemies/fire-ball.png",{
+      frameWidth:16,
+      frameHeight:16
+    });
+    this.anims.create({
+      key: "fireball_anim",
+      frames: this.anims.generateFrameNumbers("skeleton", { start: 0, end: 2 }),
+      frameRate: 12,
+      repeat: -1
+    });*/
   }
 
   init(data) {
     this.type = data.type;
     this.hp = data.hp;
     this.atk = data.atk;
+    this.baddie = data.baddie;
   }
 
   create() {
-
     this.width = <number>this.game.config.width;
     this.height = <number>this.game.config.height;
 
@@ -47,6 +64,13 @@ export default class BattleScene extends Phaser.Scene {
     this.background = this.add.tileSprite(0, 0, this.width, this.height, "background");
     this.background.setOrigin(0, 0);
     this.background.setScrollFactor(0);
+
+    this.fireball= this.physics.add.sprite(150, this.height-290, 'fireball');
+    //this.fireball.setDepth(100);
+    this.fireball.setScale(3.5);
+    this.fireball.setAngle(90);
+    this.fireball.alpha=0;
+    this.fireball.play('fireball_anim');
 
     if (this.type === "skeleton") {
       this.enemy = new Skeleton(this, this.width - 40, this.height - 300, this.hp, this.atk);
@@ -90,8 +114,10 @@ export default class BattleScene extends Phaser.Scene {
 
     this.enemyHp = this.add.bitmapText(this.width - 70, this.height - 370,"pixelFont", "HP: " + this.hp, 30 );
 
-    this.animText = this.add.bitmapText(this.width/2 - 70, this.height - 320,"pixelFont", "fancy animation here", 30 );
-    this.animText.alpha = 0;
+    this.fireText = this.add.bitmapText(155,this.height-298,"pixelFont", "5", 30 );
+    this.fireText.alpha = 0;
+
+    this.fireball.play('fireball_anim');
 
     console.log("create complete");
   }
@@ -105,8 +131,32 @@ export default class BattleScene extends Phaser.Scene {
     if(this.helpText.alpha > 0){
       this.helpText.alpha -=.003;
     }
-    if(this.animText.alpha > 0){
-      this.animText.alpha -=.003;
+    if(this.playAnim){
+      if(this.first.x > 149){
+        this.fireball.x += 6;
+        this.fireText.x += 6;
+        if(this.fireball.x > this.width-50){
+          this.baddie.tint = 0xffffff;
+        }
+        if(this.fireball.x > this.width-40){
+          this.resolve();
+        }
+
+      }
+      else if(this.first.x > 140){
+        this.first.x += .3;
+        this.second.x -= .3;
+        this.first.alpha -= .03;
+        this.second.alpha -= .03;
+        this.fireball.alpha += .1;
+        this.fireText.alpha += .1;
+      }
+      else{
+        this.first.x += .25;
+        this.second.x -= .25;
+        this.op.alpha -= .015;
+      }
+
     }
     this.enemyHp.text = "HP: " + this.hp;
   }
@@ -124,7 +174,14 @@ export default class BattleScene extends Phaser.Scene {
     else if(this.phase === 3){
       this.second.text = "1";
       this.phase = 1;
-      this.resolve();
+      this.playAnim = true;
+      if(this.op.text === "+"){
+        this.attackNum =+(+<number> <unknown>this.first.text + +<number> <unknown>this.second.text);
+      }
+      else if(this.op.text === "-"){
+        this.attackNum =+(+<number> <unknown>this.first.text - +<number> <unknown>this.second.text)
+      }
+      this.fireText.text = <string> <unknown>this.attackNum;
     }
   }
 
@@ -141,7 +198,14 @@ export default class BattleScene extends Phaser.Scene {
     else if(this.phase === 3){
       this.second.text = "2";
       this.phase = 1;
-      this.resolve();
+      this.playAnim = true;
+      if(this.op.text === "+"){
+        this.attackNum =+(+<number> <unknown>this.first.text + +<number> <unknown>this.second.text);
+      }
+      else if(this.op.text === "-"){
+        this.attackNum =+(+<number> <unknown>this.first.text - +<number> <unknown>this.second.text)
+      }
+      this.fireText.text = <string> <unknown>this.attackNum;
     }
   }
 
@@ -158,7 +222,14 @@ export default class BattleScene extends Phaser.Scene {
     else if(this.phase === 3){
       this.second.text = "3";
       this.phase = 1;
-      this.resolve();
+      this.playAnim = true;
+      if(this.op.text === "+"){
+        this.attackNum =+(+<number> <unknown>this.first.text + +<number> <unknown>this.second.text);
+      }
+      else if(this.op.text === "-"){
+        this.attackNum =+(+<number> <unknown>this.first.text - +<number> <unknown>this.second.text)
+      }
+      this.fireText.text = <string> <unknown>this.attackNum;
     }
   }
 
@@ -187,18 +258,26 @@ export default class BattleScene extends Phaser.Scene {
   }
 
   resolve(){
-    if(this.op.text === "+"){
-      this.hp -=+(+<number> <unknown>this.first.text + +<number> <unknown>this.second.text);
-    }
-    else if(this.op.text === "-"){
-      this.hp -=+(+<number> <unknown>this.first.text - +<number> <unknown>this.second.text)
-    }
+    this.hp -= this.attackNum;
+
+    this.playAnim=false;
+
+    this.first.x = 120;
+    this.second.x = 180;
+    this.first.alpha = 1;
+    this.op.alpha = 1;
+    this.second.alpha = 1;
+    this.fireball.x = 150;
+    this.fireText.x = 155;
+    this.fireball.alpha = 0;
+    this.fireText.alpha = 0;
 
     this.op.text = "_";
     this.first.text = "_";
     this.second.text = "_";
+
+    this.baddie.clearTint();
     console.log(this.hp);
-    this.animText.alpha = 1;
   }
 
   sceneSwitcher() {
