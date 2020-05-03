@@ -31,39 +31,39 @@ export default class PreloadScene extends Phaser.Scene {
       frameWidth:16,
       frameHeight:16
     });
-    this.load.spritesheet("cry1", "assets/Crystal_1.png",{
+    this.load.spritesheet("cry1", "assets/crystals/Crystal_1.png",{
       frameWidth:32,
       frameHeight:32
     });
-    this.load.spritesheet("cry2", "assets/Crystal_1.png",{
+    this.load.spritesheet("cry2", "assets/crystals/Crystal_2.png",{
       frameWidth:32,
       frameHeight:32
     });
-    this.load.spritesheet("cry3", "assets/Crystal_1.png",{
+    this.load.spritesheet("cry3", "assets/crystals/Crystal_3.png",{
       frameWidth:32,
       frameHeight:32
     });
-    this.load.spritesheet("cry4", "assets/Crystal_1.png",{
+    this.load.spritesheet("cry4", "assets/crystals/Crystal_4.png",{
       frameWidth:32,
       frameHeight:32
     });
-    this.load.spritesheet("cry5", "assets/Crystal_1.png",{
+    this.load.spritesheet("cry5", "assets/crystals/Crystal_5.png",{
       frameWidth:32,
       frameHeight:32
     });
-    this.load.spritesheet("cry6", "assets/Crystal_1.png",{
+    this.load.spritesheet("cry6", "assets/crystals/Crystal_6.png",{
       frameWidth:32,
       frameHeight:32
     });
-    this.load.spritesheet("cry7", "assets/Crystal_1.png",{
+    this.load.spritesheet("cry7", "assets/crystals/Crystal_7.png",{
       frameWidth:32,
       frameHeight:32
     });
-    this.load.spritesheet("cry8", "assets/Crystal_1.png",{
+    this.load.spritesheet("cry8", "assets/crystals/Crystal_8.png",{
       frameWidth:32,
       frameHeight:32
     });
-    this.load.spritesheet("cry9", "assets/Crystal_1.png",{
+    this.load.spritesheet("cry9", "assets/crystals/Crystal_9.png",{
       frameWidth:32,
       frameHeight:32
     });

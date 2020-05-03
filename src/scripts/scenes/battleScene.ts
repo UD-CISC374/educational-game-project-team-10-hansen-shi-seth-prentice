@@ -29,22 +29,27 @@ export default class BattleScene extends Phaser.Scene {
   playAnim: boolean = false;
   fireball: Phaser.GameObjects.Sprite;
   attackNum: number;
+  cr1: Phaser.GameObjects.Sprite;
+  cr2: Phaser.GameObjects.Sprite;
+  cr3: Phaser.GameObjects.Sprite;
+  cr4: Phaser.GameObjects.Sprite;
+  cr5: Phaser.GameObjects.Sprite;
+  cr6: Phaser.GameObjects.Sprite;
+  cr7: Phaser.GameObjects.Sprite;
+  cr8: Phaser.GameObjects.Sprite;
+  cr9: Phaser.GameObjects.Sprite;
+  num1: number;
+  num2: number;
+  num3: number;
+  num4: number;
+  num5: number;
+  num6: number;
+  num7: number;
+  num8: number;
+  num9: number;
 
   constructor() {
     super({ key: 'BattleScene' });
-  }
-
-  preload(){
-    /*this.load.spritesheet('fireball', "assets/Enemies/fire-ball.png",{
-      frameWidth:16,
-      frameHeight:16
-    });
-    this.anims.create({
-      key: "fireball_anim",
-      frames: this.anims.generateFrameNumbers("skeleton", { start: 0, end: 2 }),
-      frameRate: 12,
-      repeat: -1
-    });*/
   }
 
   init(data) {
@@ -66,7 +71,6 @@ export default class BattleScene extends Phaser.Scene {
     this.background.setScrollFactor(0);
 
     this.fireball= this.physics.add.sprite(150, this.height-290, 'fireball');
-    //this.fireball.setDepth(100);
     this.fireball.setScale(3.5);
     this.fireball.setAngle(90);
     this.fireball.alpha=0;
@@ -89,20 +93,31 @@ export default class BattleScene extends Phaser.Scene {
     //it doesn't auto complete for some reason
     //but it works
     console.log(this.enemy.getHealth());
-    this.one = this.add.bitmapText(65,this.height-80,"pixelFont", "1", 30 );//these are hard to click but they are changing to images so I dont care for now
-    this.one.name = '1';
-    this.two = this.add.bitmapText(130,this.height-80,"pixelFont", "2", 30 );
-    this.two.name = '2';
-    this.three = this.add.bitmapText(195,this.height-80,"pixelFont", "3", 30 );
-    this.three.name = '3';
-    this.plus = this.add.bitmapText(260,this.height-80,"pixelFont", "+", 30 );
-    this.plus.name = '+';
-    this.minus = this.add.bitmapText(325,this.height-80,"pixelFont", "-", 30 );
-    this.minus.name = '-';
+    //this.one = this.add.bitmapText(65,this.height-80,"pixelFont", "1", 30 );
+    //this.two = this.add.bitmapText(130,this.height-80,"pixelFont", "2", 30 );
+    //this.three = this.add.bitmapText(195,this.height-80,"pixelFont", "3", 30 );
+    this.plus = this.add.bitmapText(650,this.height-80,"pixelFont", "+", 30 );
+    this.minus = this.add.bitmapText(715,this.height-80,"pixelFont", "-", 30 );
+
+    this.cr1 = this.add.sprite(65, this.height-80, 'cry1',2);
+    this.cr2 = this.add.sprite(130, this.height-80, 'cry2',2);
+    this.cr3 = this.add.sprite(195, this.height-80, 'cry3',2);
+    this.cr4 = this.add.sprite(260, this.height-80, 'cry4',2);
+    this.cr5 = this.add.sprite(325, this.height-80, 'cry5',2);
+    this.cr6 = this.add.sprite(390, this.height-80, 'cry6',2);
+    this.cr7 = this.add.sprite(455, this.height-80, 'cry7',2);
+    this.cr8 = this.add.sprite(520, this.height-80, 'cry8',2);
+    this.cr9 = this.add.sprite(585, this.height-80, 'cry9',2);
     
-    this.one.setInteractive().on('pointerdown',this.oneClicked, this);
-    this.two.setInteractive().on('pointerdown',this.twoClicked, this);
-    this.three.setInteractive().on('pointerdown',this.threeClicked, this);
+    this.cr1.setInteractive().on('pointerdown',this.oneClicked, this);
+    this.cr2.setInteractive().on('pointerdown',this.twoClicked, this);
+    this.cr3.setInteractive().on('pointerdown',this.threeClicked, this);
+    this.cr4.setInteractive().on('pointerdown',this.fourClicked, this);
+    this.cr5.setInteractive().on('pointerdown',this.fiveClicked, this);
+    this.cr6.setInteractive().on('pointerdown',this.sixClicked, this);
+    this.cr7.setInteractive().on('pointerdown',this.sevenClicked, this);
+    this.cr8.setInteractive().on('pointerdown',this.eightClicked, this);
+    this.cr9.setInteractive().on('pointerdown',this.nineClicked, this);
     this.plus.setInteractive().on('pointerdown',this.plusClicked, this);
     this.minus.setInteractive().on('pointerdown',this.minusClicked, this);
 
@@ -133,8 +148,8 @@ export default class BattleScene extends Phaser.Scene {
     }
     if(this.playAnim){
       if(this.first.x > 149){
-        this.fireball.x += 6;
-        this.fireText.x += 6;
+        this.fireball.x += 8;
+        this.fireText.x += 8;
         if(this.fireball.x > this.width-50){
           this.baddie.tint = 0xffffff;
         }
@@ -221,6 +236,150 @@ export default class BattleScene extends Phaser.Scene {
     }
     else if(this.phase === 3){
       this.second.text = "3";
+      this.phase = 1;
+      this.playAnim = true;
+      if(this.op.text === "+"){
+        this.attackNum =+(+<number> <unknown>this.first.text + +<number> <unknown>this.second.text);
+      }
+      else if(this.op.text === "-"){
+        this.attackNum =+(+<number> <unknown>this.first.text - +<number> <unknown>this.second.text)
+      }
+      this.fireText.text = <string> <unknown>this.attackNum;
+    }
+  }
+
+  fourClicked(){
+    console.log(4);
+    if(this.phase === 1){
+      this.first.text = "4";
+      this.phase++;
+    }
+    else if(this.phase === 2){
+      this.helpText.text = "Please select an operator";
+      this.helpText.alpha = 1;
+    }
+    else if(this.phase === 3){
+      this.second.text = "4";
+      this.phase = 1;
+      this.playAnim = true;
+      if(this.op.text === "+"){
+        this.attackNum =+(+<number> <unknown>this.first.text + +<number> <unknown>this.second.text);
+      }
+      else if(this.op.text === "-"){
+        this.attackNum =+(+<number> <unknown>this.first.text - +<number> <unknown>this.second.text)
+      }
+      this.fireText.text = <string> <unknown>this.attackNum;
+    }
+  }
+
+  fiveClicked(){
+    console.log(5);
+    if(this.phase === 1){
+      this.first.text = "5";
+      this.phase++;
+    }
+    else if(this.phase === 2){
+      this.helpText.text = "Please select an operator";
+      this.helpText.alpha = 1;
+    }
+    else if(this.phase === 3){
+      this.second.text = "5";
+      this.phase = 1;
+      this.playAnim = true;
+      if(this.op.text === "+"){
+        this.attackNum =+(+<number> <unknown>this.first.text + +<number> <unknown>this.second.text);
+      }
+      else if(this.op.text === "-"){
+        this.attackNum =+(+<number> <unknown>this.first.text - +<number> <unknown>this.second.text)
+      }
+      this.fireText.text = <string> <unknown>this.attackNum;
+    }
+  }
+
+  sixClicked(){
+    console.log(6);
+    if(this.phase === 1){
+      this.first.text = "6";
+      this.phase++;
+    }
+    else if(this.phase === 2){
+      this.helpText.text = "Please select an operator";
+      this.helpText.alpha = 1;
+    }
+    else if(this.phase === 3){
+      this.second.text = "6";
+      this.phase = 1;
+      this.playAnim = true;
+      if(this.op.text === "+"){
+        this.attackNum =+(+<number> <unknown>this.first.text + +<number> <unknown>this.second.text);
+      }
+      else if(this.op.text === "-"){
+        this.attackNum =+(+<number> <unknown>this.first.text - +<number> <unknown>this.second.text)
+      }
+      this.fireText.text = <string> <unknown>this.attackNum;
+    }
+  }
+
+  sevenClicked(){
+    console.log(3);
+    if(this.phase === 1){
+      this.first.text = "7";
+      this.phase++;
+    }
+    else if(this.phase === 2){
+      this.helpText.text = "Please select an operator";
+      this.helpText.alpha = 1;
+    }
+    else if(this.phase === 3){
+      this.second.text = "7";
+      this.phase = 1;
+      this.playAnim = true;
+      if(this.op.text === "+"){
+        this.attackNum =+(+<number> <unknown>this.first.text + +<number> <unknown>this.second.text);
+      }
+      else if(this.op.text === "-"){
+        this.attackNum =+(+<number> <unknown>this.first.text - +<number> <unknown>this.second.text)
+      }
+      this.fireText.text = <string> <unknown>this.attackNum;
+    }
+  }
+
+  eightClicked(){
+    console.log(8);
+    if(this.phase === 1){
+      this.first.text = "8";
+      this.phase++;
+    }
+    else if(this.phase === 2){
+      this.helpText.text = "Please select an operator";
+      this.helpText.alpha = 1;
+    }
+    else if(this.phase === 3){
+      this.second.text = "8";
+      this.phase = 1;
+      this.playAnim = true;
+      if(this.op.text === "+"){
+        this.attackNum =+(+<number> <unknown>this.first.text + +<number> <unknown>this.second.text);
+      }
+      else if(this.op.text === "-"){
+        this.attackNum =+(+<number> <unknown>this.first.text - +<number> <unknown>this.second.text)
+      }
+      this.fireText.text = <string> <unknown>this.attackNum;
+    }
+  }
+
+  nineClicked(){
+    console.log(9);
+    if(this.phase === 1){
+      this.first.text = "9";
+      this.phase++;
+    }
+    else if(this.phase === 2){
+      this.helpText.text = "Please select an operator";
+      this.helpText.alpha = 1;
+    }
+    else if(this.phase === 3){
+      this.second.text = "9";
       this.phase = 1;
       this.playAnim = true;
       if(this.op.text === "+"){
