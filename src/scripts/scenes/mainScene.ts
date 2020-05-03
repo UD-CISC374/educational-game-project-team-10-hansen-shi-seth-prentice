@@ -12,8 +12,14 @@ export default class MainScene extends Phaser.Scene {
   cursorKeys: Phaser.Types.Input.Keyboard.CursorKeys;
   enemies: Phaser.GameObjects.Group;
   gems: Phaser.GameObjects.Group;
+  floors: Phaser.GameObjects.Group;
+  tutMap: Phaser.Tilemaps.Tilemap;
+  baseLayer: Phaser.Tilemaps.Tileset;
+  bottom: Phaser.Tilemaps.StaticTilemapLayer
 
   playerGems: Phaser.GameObjects.BitmapText;
+
+  helpText: Phaser.GameObjects.BitmapText;
   
   
 
@@ -26,11 +32,20 @@ export default class MainScene extends Phaser.Scene {
     this.height = <number> this.game.config.height;
     this.width = <number> this.game.config.width;
     
-    //let tutMap = this.make.tilemap({key: 'tutorial'});
-    //let baseLayer = tutMap.addTilesetImage('otherTiles', 'tiles');
-    //var bottom = tutMap.createStaticLayer('Tile Layer 1', baseLayer, 0, 0);
+    //this.tutMap = this.make.tilemap({key: 'tutorial'});
+    //this.baseLayer = this.tutMap.addTilesetImage('otherTiles', 'tiles');
+    //this.bottom = this.tutMap.createStaticLayer('Tile Layer 1', this.baseLayer, 0, 0);
+    
+
 
     let floor = this.physics.add.sprite(475, 600, 'platform').setImmovable(true);
+    
+
+    this.helpText = this.add.bitmapText(10, 10,"pixelFont", "Move with arrow keys", 30 );
+
+    let crystal = this.physics.add.sprite(475, 500, 'cry1');
+    crystal.play('cry1_anim');
+    
     
 
     this.background = this.add.tileSprite(0, 0, this.width, this.height, "background").setDepth(-1);//I know its shit, we can get a better one later
@@ -51,25 +66,29 @@ export default class MainScene extends Phaser.Scene {
     this.enemy = new Skeleton(this, 860, this.height - 400, 5, 2);
     this.enemies.add(this.enemy);
     this.enemy.setGravityY(1400);
+
+    this.player.setCollideWorldBounds(false);
     
     //camera
-    this.cameras.main.setBounds(0, 0, this.width, this.height);
+    this.cameras.main.setBounds(0, 0, this.width*2, this.height);
+    this.cameras.main.setSize(this.width, this.height);
     this.cameras.main.startFollow(this.player);
 
     //collison stuff
     this.physics.add.overlap(this.player, this.enemies, this.enterCombat);
     this.physics.add.collider(this.player, floor);
+    this.physics.add.collider(this.player, this.floors);
     this.physics.add.collider(this.enemy, floor);
     this.physics.add.collider(this.gems, floor);
     this.physics.add.overlap(this.player, testGem, this.pickupItem);
     this.physics.add.overlap(this.player, this.gems, this.pickupItem);
     
     //WHY YOU NO WORK
-    //bottom.setCollisionByProperty({collides: true});
-    //this.physics.add.collider(this.player, bottom);
+    //this.bottom.setCollisionByProperty({collides: true});
+    //this.physics.add.collider(this.player, this.bottom);
 
     /*const debugGraphics = this.add.graphics().setAlpha(0.75);
-    bottom.renderDebug(debugGraphics, {
+    this.bottom.renderDebug(debugGraphics, {
     tileColor: null, // Color of non-colliding tiles
     collidingTileColor: null, // Color of colliding tiles
     faceColor: new Phaser.Display.Color(255, 0, 255, 255)
@@ -110,7 +129,6 @@ export default class MainScene extends Phaser.Scene {
     if (this.cursorKeys.up?.isDown && this.player.body.touching.down) {
       this.player.setVelocityY(-500);
     }
-    
   }
   enemiesManager() {
     for (let i = 0; i < this.enemies.getChildren().length; i++) {
@@ -120,7 +138,7 @@ export default class MainScene extends Phaser.Scene {
       }
       else{
         let temp = enemy.name.split(" ");
-        this.scene.launch('BattleScene', { type: temp[0], hp: <number><unknown>temp[1], atk: <number><unknown>temp[2] });
+        this.scene.launch('BattleScene', { type: temp[0], hp: <number><unknown>temp[1], atk: <number><unknown>temp[2], baddie: this.enemy });
         this.scene.pause('MainScene');
         this.scene.sendToBack('MainScene');
         this.player.setVelocity(0, 0);
