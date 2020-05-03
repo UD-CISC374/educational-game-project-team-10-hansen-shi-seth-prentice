@@ -12,7 +12,7 @@ export default class Skeleton extends Phaser.Physics.Arcade.Sprite {
         this.facingLeft=true;
         this.name = 'skeleton ' + hp + ' ' + atk;
         this.health = 5;
-        this.atk = 1;
+        this.atk = 2;
         scene.physics.add.existing(this);
         scene.add.existing(this);
         //scene.enemies.add(this);
@@ -45,5 +45,9 @@ export default class Skeleton extends Phaser.Physics.Arcade.Sprite {
         if (this.health <= 0) {
             this.anims.resume;
         }
+    }
+
+    attack(x : number){
+
     }
 }

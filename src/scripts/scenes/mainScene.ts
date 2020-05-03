@@ -31,12 +31,6 @@ export default class MainScene extends Phaser.Scene {
     
     this.height = <number> this.game.config.height;
     this.width = <number> this.game.config.width;
-    
-    //this.tutMap = this.make.tilemap({key: 'tutorial'});
-    //this.baseLayer = this.tutMap.addTilesetImage('otherTiles', 'tiles');
-    //this.bottom = this.tutMap.createStaticLayer('Tile Layer 1', this.baseLayer, 0, 0);
-    
-
 
     let floor = this.physics.add.sprite(475, 600, 'platform').setImmovable(true);
     
@@ -67,7 +61,7 @@ export default class MainScene extends Phaser.Scene {
     this.enemies.add(this.enemy);
     this.enemy.setGravityY(1400);
 
-    this.player.setCollideWorldBounds(false);
+    this.player.setCollideWorldBounds(true);
     
     //camera
     this.cameras.main.setBounds(0, 0, this.width*2, this.height);
@@ -83,16 +77,7 @@ export default class MainScene extends Phaser.Scene {
     this.physics.add.overlap(this.player, testGem, this.pickupItem);
     this.physics.add.overlap(this.player, this.gems, this.pickupItem);
     
-    //WHY YOU NO WORK
-    //this.bottom.setCollisionByProperty({collides: true});
-    //this.physics.add.collider(this.player, this.bottom);
-
-    /*const debugGraphics = this.add.graphics().setAlpha(0.75);
-    this.bottom.renderDebug(debugGraphics, {
-    tileColor: null, // Color of non-colliding tiles
-    collidingTileColor: null, // Color of colliding tiles
-    faceColor: new Phaser.Display.Color(255, 0, 255, 255)
-    });*/
+    
     
     
   }

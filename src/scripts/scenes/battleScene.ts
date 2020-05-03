@@ -25,7 +25,7 @@ export default class BattleScene extends Phaser.Scene {
   helpText: Phaser.GameObjects.BitmapText;
   enemyHp: Phaser.GameObjects.BitmapText;
   fireText: Phaser.GameObjects.BitmapText;
-  baddie: Skeleton;
+  baddie: any;
   playAnim: boolean = false;
   fireball: Phaser.GameObjects.Sprite;
   attackNum: number;
@@ -48,6 +48,10 @@ export default class BattleScene extends Phaser.Scene {
   num8: number;
   num9: number;
 
+  playerTurn : boolean = true;
+  enemyAtk: Phaser.GameObjects.BitmapText;
+  playerHp: Phaser.GameObjects.BitmapText;
+  
   constructor() {
     super({ key: 'BattleScene' });
   }
@@ -126,18 +130,20 @@ export default class BattleScene extends Phaser.Scene {
 
     this.helpText = this.add.bitmapText(10, 10,"pixelFont", "Click a number, then an operator then another number \n reduce the enemy hp to 0 to win", 30 );
 
-    this.enemyHp = this.add.bitmapText(this.width - 70, this.height - 370,"pixelFont", "HP: " + this.hp, 30 );
+    this.enemyHp = this.add.bitmapText(this.width - 60, this.height - 250,"pixelFont", "Hp: " + this.enemy.health, 30 );
+    this.enemyAtk = this.add.bitmapText(this.width - 70, this.height - 370,"pixelFont", "Atk: " + this.enemy.atk, 30 );
 
+    this.playerHp = this.add.bitmapText(30, this.height - 250,"pixelFont", "Hp: " + this.player.health, 30 );
+    
     this.fireText = this.add.bitmapText(155,this.height-298,"pixelFont", "5", 30 );
     this.fireText.alpha = 0;
 
     this.fireball.play('fireball_anim');
 
-    console.log("create complete");
   }
 
   update() {
-    if(this.hp === 0){
+    if(this.enemy.health === 0){
       console.log("win");
       this.hp--;
       this.sceneSwitcher();
@@ -172,8 +178,10 @@ export default class BattleScene extends Phaser.Scene {
       }
 
     }
-    this.enemyHp.text = "HP: " + this.hp;
+    this.enemyHp.text = "Hp: " + this.enemy.health;
+    this.playerHp.text = "Hp: " + this.player.health;
     this.emitManager();
+    this.turnManager();
   }
 
   oneClicked(){
@@ -417,7 +425,7 @@ export default class BattleScene extends Phaser.Scene {
   }
 
   resolve(){
-    this.hp -= this.attackNum;
+    this.enemy.health -= this.attackNum;
 
     this.playAnim=false;
 
@@ -437,6 +445,7 @@ export default class BattleScene extends Phaser.Scene {
 
     this.baddie.clearTint();
     console.log(this.hp);
+    this.playerTurn = false;
   }
 
   sceneSwitcher() {
@@ -455,6 +464,21 @@ export default class BattleScene extends Phaser.Scene {
       this.minus.setVisible(true);
 
     });
+  }
+
+  enemyTurn(){
+    this.physics.accelerateTo(this.enemy, this.player.x, this.player.y);
+    this.player.health -= this.enemy.atk;
+    this.playerTurn = true;
+  }
+
+  turnManager(){
+    if (this.playerTurn){
+
+    }
+    else {
+      this.enemyTurn();
+    }
   }
 }
 
