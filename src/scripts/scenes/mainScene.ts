@@ -46,12 +46,7 @@ export default class MainScene extends Phaser.Scene {
     this.gems.add(testGem);
 
     //define anything that needs animation here
-    this.player = new Player(this, 0, this.height - 400);
-    for (let i = 0; i <= this.player.health; i++ ){
-      let spacing = 50 * i;
-      this.physics.add.sprite
-    }
-
+    this.player = new Player(this, 0, this.height - 400)
     this.player.setGravityY(1400);
     this.enemy = new Skeleton(this, 860, this.height - 400, 5, 2);
     this.enemies.add(this.enemy);
@@ -129,8 +124,6 @@ export default class MainScene extends Phaser.Scene {
         this.scene.pause('MainScene');
         this.scene.sendToBack('MainScene');
         this.player.setVelocity(0, 0);
-        //switchy scene go brrr
-        //this.scene.switch('SkellyScene');
       }
     }
   }
@@ -155,7 +148,8 @@ export default class MainScene extends Phaser.Scene {
 
   emitManager(){
     this.scene.get("BattleScene").events.once("win", ()=>{
-      console.log("here");
+      this.player.setVelocityX(0);
+      this.player.setVelocityY(0);
       this.spawnLoot(this.enemy);
       this.enemy.destroy();
     });

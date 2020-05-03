@@ -61,20 +61,24 @@ export default class BattleScene extends Phaser.Scene {
 
     this.scene.launch('UI', { playerHp: this.player.health, enemyHp: this.enemy.health, enemyAtk: this.enemy.atk })
 
-    //this.heart = this.add.sprite(60, this.height - 400, 'heart');
     //it doesn't auto complete for some reason
     //but it works
     console.log(this.enemy.getHealth());
     this.one = this.add.bitmapText(65,this.height-80,"pixelFont", "1", 30 );
     this.one.name = '1';
+    this.one.setVisible(false);
     this.two = this.add.bitmapText(130,this.height-80,"pixelFont", "2", 30 );
     this.two.name = '2';
+    this.two.setVisible(false);
     this.three = this.add.bitmapText(195,this.height-80,"pixelFont", "3", 30 );
     this.three.name = '3';
+    this.three.setVisible(false);
     this.plus = this.add.bitmapText(260,this.height-80,"pixelFont", "+", 30 );
     this.plus.name = '+';
+    this.plus.setVisible(false);
     this.minus = this.add.bitmapText(325,this.height-80,"pixelFont", "-", 30 );
     this.minus.name = '-';
+    this.minus.setVisible(false);
     
     this.one.setInteractive().on('pointerdown',this.oneClicked, this);
     this.two.setInteractive().on('pointerdown',this.twoClicked, this);
@@ -109,6 +113,7 @@ export default class BattleScene extends Phaser.Scene {
       this.animText.alpha -=.003;
     }
     this.enemyHp.text = "HP: " + this.hp;
+    this.emitManager();
   }
 
   oneClicked(){
@@ -206,6 +211,17 @@ export default class BattleScene extends Phaser.Scene {
     this.scene.stop("BattleScene");
     this.scene.resume("MainScene");
     this.scene.setVisible(false, "UI");
+  }
+
+  emitManager(){
+    this.scene.get("UI").events.once("attack", ()=>{
+      this.one.setVisible(true);
+      this.two.setVisible(true);
+      this.three.setVisible(true);
+      this.plus.setVisible(true);
+      this.minus.setVisible(true);
+
+    });
   }
 }
 
