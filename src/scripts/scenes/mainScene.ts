@@ -68,8 +68,8 @@ export default class MainScene extends Phaser.Scene {
     this.enemies = this.physics.add.group();
     this.gems = this.physics.add.group();
 
-    let testGem2 = new Crystal(this, 200, 540, 'one');
-    let testGem = new Crystal(this, 300, 570, 'four');
+    let testGem2 = new Crystal(this, 200, 550, 'one');
+    let testGem = new Crystal(this, 300, 550, 'four');
     
     //let testGem = this.physics.add.sprite(200, 540, 'gem');
     this.gems.add(testGem2);
