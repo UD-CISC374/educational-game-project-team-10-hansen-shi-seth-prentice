@@ -3,6 +3,7 @@ import Player from '../objects/Player';
 import { Cameras, Types } from 'phaser';
 import Skeleton from '../objects/Skeleton';
 import Bat from '../objects/Bat';
+import Crystal from '../objects/Crystal';
 
 export default class MainScene extends Phaser.Scene {
   private player: Player;
@@ -15,6 +16,7 @@ export default class MainScene extends Phaser.Scene {
   enemies: Phaser.GameObjects.Group;
   gems: Phaser.GameObjects.Group;
   platforms: Phaser.GameObjects.Group;
+
 
   playerGems: Phaser.GameObjects.BitmapText;
 
@@ -56,6 +58,9 @@ export default class MainScene extends Phaser.Scene {
     crystal.play('cry1_anim');
 
 
+    this.helpText = this.add.bitmapText(10, 10,"pixelFont", "Move with arrow keys", 30 );
+    
+    
 
     this.background = this.add.tileSprite(0, 0, this.width, this.height, "background").setDepth(-1);//I know its shit, we can get a better one later
     this.background.setOrigin(0, 0);
@@ -66,7 +71,11 @@ export default class MainScene extends Phaser.Scene {
     this.enemies = this.physics.add.group();
     this.gems = this.physics.add.group();
 
-    let testGem = this.physics.add.sprite(200, 540, 'gem');
+    let testGem2 = new Crystal(this, 200, 540, 'one');
+    let testGem = new Crystal(this, 300, 570, 'four');
+    
+    //let testGem = this.physics.add.sprite(200, 540, 'gem');
+    this.gems.add(testGem2);
     this.gems.add(testGem);
 
     //define anything that needs animation here
@@ -90,6 +99,8 @@ export default class MainScene extends Phaser.Scene {
     this.physics.add.collider(this.enemy, this.platforms);
     this.physics.add.collider(this.gems, this.platforms);
     this.physics.add.overlap(this.player, testGem, this.pickupItem);
+    
+    
     this.physics.add.overlap(this.player, this.gems, this.pickupItem);
     this.physics.add.collider(this.player, this.elevator);
     this.physics.add.collider(this.player, this.elevator2);
@@ -142,8 +153,9 @@ export default class MainScene extends Phaser.Scene {
       if (enemy.active) {
         enemy.update();
       }
-      else {
-        this.scene.launch('BattleScene', { baddie: enemy, previousScene: this.scene.key });
+      else{
+        
+        this.scene.launch('BattleScene', {baddie: this.enemy, previousScene: this.scene.key , player:this.player});
         this.scene.pause('MainScene');
         this.scene.sendToBack('MainScene');
       }
@@ -152,13 +164,14 @@ export default class MainScene extends Phaser.Scene {
   collectionHandler() {
     for (let i = 0; i < this.gems.getChildren().length; i++) {
       let tmp = this.gems.getChildren()[i];
-      if (!tmp.active) {
-        this.player.inventory.set("power: 5", "has : 5");
+      if (!tmp.active){
+        //this.player.inventory.set("power: 5", "has : 5");
       }
     }
   }
 
-  pickupItem(player, gem) {
+  pickupItem(player, gem){
+    player.pickup(gem);
     gem.active = false;
     gem.destroy();
   }
