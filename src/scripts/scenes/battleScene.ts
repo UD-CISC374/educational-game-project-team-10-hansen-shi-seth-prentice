@@ -17,6 +17,12 @@ export default class BattleScene extends Phaser.Scene {
   one: Phaser.GameObjects.BitmapText;
   two: Phaser.GameObjects.BitmapText;
   three: Phaser.GameObjects.BitmapText;
+  four: Phaser.GameObjects.BitmapText;
+  five: Phaser.GameObjects.BitmapText;
+  six: Phaser.GameObjects.BitmapText;
+  seven: Phaser.GameObjects.BitmapText;
+  eight: Phaser.GameObjects.BitmapText;
+  nine: Phaser.GameObjects.BitmapText;
   plus: Phaser.GameObjects.BitmapText;
   minus: Phaser.GameObjects.BitmapText;
   phase: number = 1;
@@ -31,25 +37,26 @@ export default class BattleScene extends Phaser.Scene {
   playAnim: boolean = false;
   fireball: Phaser.GameObjects.Sprite;
   attackNum: number;
-  cr1: Phaser.GameObjects.Sprite;
-  cr2: Phaser.GameObjects.Sprite;
-  cr3: Phaser.GameObjects.Sprite;
-  cr4: Phaser.GameObjects.Sprite;
-  cr5: Phaser.GameObjects.Sprite;
-  cr6: Phaser.GameObjects.Sprite;
-  cr7: Phaser.GameObjects.Sprite;
-  cr8: Phaser.GameObjects.Sprite;
-  cr9: Phaser.GameObjects.Sprite;
-  num1: number;
-  num2: number;
-  num3: number;
-  num4: number;
-  num5: number;
-  num6: number;
-  num7: number;
-  num8: number;
-  num9: number;
   previousScene: string;
+  
+  cr1: Phaser.GameObjects.Image;
+  cr2: Phaser.GameObjects.Image;
+  cr3: Phaser.GameObjects.Image;
+  cr4: Phaser.GameObjects.Image;
+  cr5: Phaser.GameObjects.Image;
+  cr6: Phaser.GameObjects.Image;
+  cr7: Phaser.GameObjects.Image;
+  cr8: Phaser.GameObjects.Image;
+  cr9: Phaser.GameObjects.Image;
+  num1: number = 3;
+  num2: number = 3;
+  num3: number = 3;
+  num4: number = 3;
+  num5: number = 3;
+  num6: number = 3;
+  num7: number = 3;
+  num8: number = 3;
+  num9: number = 3;
 
   playerTurn: boolean = true;
   enemyAtk: Phaser.GameObjects.BitmapText;
@@ -100,48 +107,67 @@ export default class BattleScene extends Phaser.Scene {
 
     //this.scene.launch('UI', { playerHp: this.player.health, enemyHp: this.enemy.health, enemyAtk: this.enemy.atk })
 
+    //it doesn't auto complete for some reason
+    //but it works
 
-    //this.one = this.add.bitmapText(65,this.height-80,"pixelFont", "1", 30 );
-    //this.two = this.add.bitmapText(130,this.height-80,"pixelFont", "2", 30 );
-    //this.three = this.add.bitmapText(195,this.height-80,"pixelFont", "3", 30 );
-    this.plus = this.add.bitmapText(650, this.height - 80, "pixelFont", "+", 30);
-    this.minus = this.add.bitmapText(715, this.height - 80, "pixelFont", "-", 30);
+    this.one = this.add.bitmapText(71,this.height-95,"pixelFont", "x" + <string> <unknown>this.num1, 25 );
+    this.one.setAngle(-15);
+    this.two = this.add.bitmapText(136,this.height-95,"pixelFont", "x" + <string> <unknown>this.num2, 25 );
+    this.two.setAngle(-15);
+    this.three = this.add.bitmapText(201,this.height-95,"pixelFont", "x" + <string> <unknown>this.num3, 25 );
+    this.three.setAngle(-15);
+    this.four = this.add.bitmapText(266,this.height-95,"pixelFont", "x" + <string> <unknown>this.num4, 25 );
+    this.four.setAngle(-15);
+    this.five = this.add.bitmapText(331,this.height-95,"pixelFont", "x" + <string> <unknown>this.num5, 25 );
+    this.five.setAngle(-15);
+    this.six = this.add.bitmapText(396,this.height-95,"pixelFont", "x" + <string> <unknown>this.num6, 25 );
+    this.six.setAngle(-15);
+    this.seven = this.add.bitmapText(461,this.height-95,"pixelFont", "x" + <string> <unknown>this.num7, 25 );
+    this.seven.setAngle(-15);
+    this.eight = this.add.bitmapText(526,this.height-95,"pixelFont", "x" + <string> <unknown>this.num8, 25 );
+    this.eight.setAngle(-15);
+    this.nine = this.add.bitmapText(591,this.height-95,"pixelFont", "x" + <string> <unknown>this.num9, 25 );
+    this.nine.setAngle(-15);
 
-    this.cr1 = this.add.sprite(65, this.height - 80, 'cry1', 2);
-    this.cr2 = this.add.sprite(130, this.height - 80, 'cry2', 2);
-    this.cr3 = this.add.sprite(195, this.height - 80, 'cry3', 2);
-    this.cr4 = this.add.sprite(260, this.height - 80, 'cry4', 2);
-    this.cr5 = this.add.sprite(325, this.height - 80, 'cry5', 2);
-    this.cr6 = this.add.sprite(390, this.height - 80, 'cry6', 2);
-    this.cr7 = this.add.sprite(455, this.height - 80, 'cry7', 2);
-    this.cr8 = this.add.sprite(520, this.height - 80, 'cry8', 2);
-    this.cr9 = this.add.sprite(585, this.height - 80, 'cry9', 2);
+    this.plus = this.add.bitmapText(650,this.height-90,"pixelFont", "+", 30 );
+    this.minus = this.add.bitmapText(715,this.height-90,"pixelFont", "-", 30 );
 
-    this.cr1.setInteractive().on('pointerdown', this.oneClicked, this);
-    this.cr2.setInteractive().on('pointerdown', this.twoClicked, this);
-    this.cr3.setInteractive().on('pointerdown', this.threeClicked, this);
-    this.cr4.setInteractive().on('pointerdown', this.fourClicked, this);
-    this.cr5.setInteractive().on('pointerdown', this.fiveClicked, this);
-    this.cr6.setInteractive().on('pointerdown', this.sixClicked, this);
-    this.cr7.setInteractive().on('pointerdown', this.sevenClicked, this);
-    this.cr8.setInteractive().on('pointerdown', this.eightClicked, this);
-    this.cr9.setInteractive().on('pointerdown', this.nineClicked, this);
-    this.plus.setInteractive().on('pointerdown', this.plusClicked, this);
-    this.minus.setInteractive().on('pointerdown', this.minusClicked, this);
+    this.cr1 = this.add.image(65, this.height-80, 'crystal_button1');
+    this.cr2 = this.add.image(130, this.height-80, 'crystal_button2');
+    this.cr3 = this.add.image(195, this.height-80, 'crystal_button3');
+    this.cr4 = this.add.image(260, this.height-80, 'crystal_button4');
+    this.cr5 = this.add.image(325, this.height-80, 'crystal_button5');
+    this.cr6 = this.add.image(390, this.height-80, 'crystal_button6');
+    this.cr7 = this.add.image(455, this.height-80, 'crystal_button7');
+    this.cr8 = this.add.image(520, this.height-80, 'crystal_button8');
+    this.cr9 = this.add.image(585, this.height-80, 'crystal_button9');
+    
+    this.cr1.setInteractive().on('pointerdown',this.oneClicked, this);
+    this.cr2.setInteractive().on('pointerdown',this.twoClicked, this);
+    this.cr3.setInteractive().on('pointerdown',this.threeClicked, this);
+    this.cr4.setInteractive().on('pointerdown',this.fourClicked, this);
+    this.cr5.setInteractive().on('pointerdown',this.fiveClicked, this);
+    this.cr6.setInteractive().on('pointerdown',this.sixClicked, this);
+    this.cr7.setInteractive().on('pointerdown',this.sevenClicked, this);
+    this.cr8.setInteractive().on('pointerdown',this.eightClicked, this);
+    this.cr9.setInteractive().on('pointerdown',this.nineClicked, this);
+    this.plus.setInteractive().on('pointerdown',this.plusClicked, this);
+    this.minus.setInteractive().on('pointerdown',this.minusClicked, this);
 
-    this.first = this.add.bitmapText(120, this.height - 300, "pixelFont", "_", 50);
-    this.op = this.add.bitmapText(150, this.height - 300, "pixelFont", "_", 50);
-    this.second = this.add.bitmapText(180, this.height - 300, "pixelFont", "_", 50);
+    this.first = this.add.bitmapText(120,this.height-300,"pixelFont", "_", 50 );
+    this.op = this.add.bitmapText(150,this.height-300,"pixelFont", "_", 50 );
+    this.second = this.add.bitmapText(180,this.height-300,"pixelFont", "_", 50 );
 
-    this.helpText = this.add.bitmapText(10, 10, "pixelFont", "Click a number, then an operator then another number \n reduce the enemy hp to 0 to win", 30);
+    this.helpText = this.add.bitmapText(10, 10,"pixelFont", "Click a number, then an operator then another number \n reduce the enemy hp to 0 to win", 30 );
 
-    this.enemyHp = this.add.bitmapText(this.width - 60, this.height - 250, "pixelFont", "Hp: " + this.enemy.health, 30);
-    this.enemyAtk = this.add.bitmapText(this.width - 70, this.height - 370, "pixelFont", "Atk: " + this.enemy.atk, 30);
+    this.enemyHp = this.add.bitmapText(this.width - 70, this.height - 250,"pixelFont", "Hp: " + this.enemy.health, 30 );
+    this.enemyAtk = this.add.bitmapText(this.width - 70, this.height - 370,"pixelFont", "Atk: " + this.enemy.atk, 30 );
 
-    this.playerHp = this.add.bitmapText(30, this.height - 250, "pixelFont", "Hp: " + this.player.health, 30);
-
-    this.fireText = this.add.bitmapText(155, this.height - 298, "pixelFont", "5", 30);
+    this.playerHp = this.add.bitmapText(30, this.height - 250,"pixelFont", "Hp: " + this.player.health, 30 );
+    
+    this.fireText = this.add.bitmapText(155,this.height-298,"pixelFont", "5", 30 );
     this.fireText.alpha = 0;
+    this.fireText.tint = 0x023ada
 
     this.fireball.play('fireball_anim');
 
@@ -154,40 +180,16 @@ export default class BattleScene extends Phaser.Scene {
     if (this.helpText.alpha > 0) {
       this.helpText.alpha -= .003;
     }
-    if (this.playAnim) {
-      if (this.first.x > 149) {
-        this.fireball.x += 8;
-        this.fireText.x += 8;
-        if (this.fireball.x > this.width - 50) {
-          this.baddie.tint = 0xffffff;
-        }
-        if (this.fireball.x > this.width - 40) {
-          this.resolve();
-        }
-
-      }
-      else if (this.first.x > 140) {
-        this.first.x += .3;
-        this.second.x -= .3;
-        this.first.alpha -= .03;
-        this.second.alpha -= .03;
-        this.fireball.alpha += .1;
-        this.fireText.alpha += .1;
-      }
-      else {
-        this.first.x += .25;
-        this.second.x -= .25;
-        this.op.alpha -= .015;
-      }
-
-    }
-    this.updateHealth();
+    this.enemyHp.text = "Hp: " + this.enemy.health;
+    this.playerHp.text = "Hp: " + this.player.health;
     this.emitManager();
   }
 
   oneClicked() {
     console.log(1);
-    if (this.phase === 1) {
+    if(this.phase === 1 && this.num1>0){
+      this.num1-=1;
+      this.one.text = "x"+this.num1;
       this.first.text = "1";
       this.phase++;
     }
@@ -195,7 +197,9 @@ export default class BattleScene extends Phaser.Scene {
       this.helpText.text = "Please select an operator";
       this.helpText.alpha = 1;
     }
-    else if (this.phase === 3) {
+    else if(this.phase === 3 && this.num1 > 0){
+      this.num1-=1;
+      this.one.text = "x"+this.num1;
       this.second.text = "1";
       this.phase = 1;
       this.playAnim = true;
@@ -211,7 +215,9 @@ export default class BattleScene extends Phaser.Scene {
 
   twoClicked() {
     console.log(2);
-    if (this.phase === 1) {
+    if(this.phase === 1 && this.num2 > 0){
+      this.num2-=1;
+      this.two.text = "x"+this.num2;
       this.first.text = "2";
       this.phase++;
     }
@@ -219,7 +225,9 @@ export default class BattleScene extends Phaser.Scene {
       this.helpText.text = "Please select an operator";
       this.helpText.alpha = 1;
     }
-    else if (this.phase === 3) {
+    else if(this.phase === 3 && this.num2 > 0){
+      this.num2-=1;
+      this.two.text = "x"+this.num2;
       this.second.text = "2";
       this.phase = 1;
       this.playAnim = true;
@@ -235,7 +243,9 @@ export default class BattleScene extends Phaser.Scene {
 
   threeClicked() {
     console.log(3);
-    if (this.phase === 1) {
+    if(this.phase === 1 && this.num3>0){
+      this.num3-=1;
+      this.three.text = "x"+this.num3;
       this.first.text = "3";
       this.phase++;
     }
@@ -243,7 +253,9 @@ export default class BattleScene extends Phaser.Scene {
       this.helpText.text = "Please select an operator";
       this.helpText.alpha = 1;
     }
-    else if (this.phase === 3) {
+    else if(this.phase === 3 && this.num3){
+      this.num3-=1;
+      this.three.text = "x"+this.num3;
       this.second.text = "3";
       this.phase = 1;
       this.playAnim = true;
@@ -259,7 +271,9 @@ export default class BattleScene extends Phaser.Scene {
 
   fourClicked() {
     console.log(4);
-    if (this.phase === 1) {
+    if(this.phase === 1 && this.num4 > 0){
+      this.num4-=1;
+      this.four.text = "x"+this.num4;
       this.first.text = "4";
       this.phase++;
     }
@@ -267,7 +281,9 @@ export default class BattleScene extends Phaser.Scene {
       this.helpText.text = "Please select an operator";
       this.helpText.alpha = 1;
     }
-    else if (this.phase === 3) {
+    else if(this.phase === 3 && this.num4 > 0){
+      this.num4-=1;
+      this.four.text = "x"+this.num4;
       this.second.text = "4";
       this.phase = 1;
       this.playAnim = true;
@@ -283,7 +299,9 @@ export default class BattleScene extends Phaser.Scene {
 
   fiveClicked() {
     console.log(5);
-    if (this.phase === 1) {
+    if(this.phase === 1 && this.num5 > 0){
+      this.num5-=1;
+      this.five.text = "x"+this.num5;
       this.first.text = "5";
       this.phase++;
     }
@@ -291,7 +309,9 @@ export default class BattleScene extends Phaser.Scene {
       this.helpText.text = "Please select an operator";
       this.helpText.alpha = 1;
     }
-    else if (this.phase === 3) {
+    else if(this.phase === 3 && this.num5 > 0){
+      this.num5-=1;
+      this.five.text = "x"+this.num5;
       this.second.text = "5";
       this.phase = 1;
       this.playAnim = true;
@@ -307,7 +327,9 @@ export default class BattleScene extends Phaser.Scene {
 
   sixClicked() {
     console.log(6);
-    if (this.phase === 1) {
+    if(this.phase === 1 && this.num6 > 0){
+      this.num6-=1;
+      this.six.text = "x"+this.num6;
       this.first.text = "6";
       this.phase++;
     }
@@ -315,7 +337,9 @@ export default class BattleScene extends Phaser.Scene {
       this.helpText.text = "Please select an operator";
       this.helpText.alpha = 1;
     }
-    else if (this.phase === 3) {
+    else if(this.phase === 3 && this.num6 > 0){
+      this.num6-=1;
+      this.six.text = "x"+this.num6;
       this.second.text = "6";
       this.phase = 1;
       this.playAnim = true;
@@ -331,15 +355,21 @@ export default class BattleScene extends Phaser.Scene {
 
   sevenClicked() {
     console.log(3);
-    if (this.phase === 1) {
+    if(this.phase === 1 && this.num7 > 0){
+      this.num7-=1;
+      this.seven.text = "x"+this.num7;
       this.first.text = "7";
       this.phase++;
     }
-    else if (this.phase === 2) {
+    else if(this.phase === 2 && this.num7 > 0){
+      this.num7-=1;
+      this.seven.text = "x"+this.num7;
       this.helpText.text = "Please select an operator";
       this.helpText.alpha = 1;
     }
-    else if (this.phase === 3) {
+    else if(this.phase === 3 && this.num7 > 0){
+      this.num7-=1;
+      this.seven.text = "x"+this.num7;
       this.second.text = "7";
       this.phase = 1;
       this.playAnim = true;
@@ -355,7 +385,9 @@ export default class BattleScene extends Phaser.Scene {
 
   eightClicked() {
     console.log(8);
-    if (this.phase === 1) {
+    if(this.phase === 1 && this.num8 > 0){
+      this.num8-=1;
+      this.eight.text = "x"+this.num8;
       this.first.text = "8";
       this.phase++;
     }
@@ -363,7 +395,9 @@ export default class BattleScene extends Phaser.Scene {
       this.helpText.text = "Please select an operator";
       this.helpText.alpha = 1;
     }
-    else if (this.phase === 3) {
+    else if(this.phase === 3 && this.num8 > 0){
+      this.num8-=1;
+      this.eight.text = "x"+this.num8;
       this.second.text = "8";
       this.phase = 1;
       this.playAnim = true;
@@ -379,7 +413,9 @@ export default class BattleScene extends Phaser.Scene {
 
   nineClicked() {
     console.log(9);
-    if (this.phase === 1) {
+    if(this.phase === 1 && this.num9 > 0){
+      this.num9-=1;
+      this.nine.text = "x"+this.num9;
       this.first.text = "9";
       this.phase++;
     }
@@ -387,7 +423,9 @@ export default class BattleScene extends Phaser.Scene {
       this.helpText.text = "Please select an operator";
       this.helpText.alpha = 1;
     }
-    else if (this.phase === 3) {
+    else if(this.phase === 3 && this.num9 > 0){
+      this.num9-=1;
+      this.nine.text = "x"+this.num9;
       this.second.text = "9";
       this.phase = 1;
       this.playAnim = true;
@@ -425,11 +463,8 @@ export default class BattleScene extends Phaser.Scene {
     }
   }
 
-  resolve() {
-    this.enemy.health -= this.attackNum;
-
-    this.playAnim = false;
-
+  resolve(){
+    console.log("resolve");
     this.first.x = 120;
     this.second.x = 180;
     this.first.alpha = 1;
@@ -437,16 +472,15 @@ export default class BattleScene extends Phaser.Scene {
     this.second.alpha = 1;
     this.fireball.x = 150;
     this.fireText.x = 155;
-    this.fireball.alpha = 0;
-    this.fireText.alpha = 0;
 
     this.op.text = "_";
     this.first.text = "_";
     this.second.text = "_";
 
-    this.baddie.clearTint();
-    this.playerTurn = false;
-    this.turnCounter += 1;
+    this.enemy.x = this.width-40;
+
+    //this.baddie.clearTint();
+    console.log(this.hp);
   }
 
   sceneSwitcher() {
@@ -480,24 +514,55 @@ export default class BattleScene extends Phaser.Scene {
     });
   }
 
-  enemyTurn() {
-    if (this.enemy.chooseAction() === 'attack') {
+  enemyTurn(){
+    this.enemy.x -= 6;
+    if(this.enemy.x < 40){
       this.player.health -= this.enemy.atk;
+      this.resolve();
       this.playerTurn = true;
-    }
-    else if (this.enemy.chooseAction() === 'flee') {
-      this.fled();
+      this.playAnim=false;
     }
   }
 
-  updateHealth(){
-    this.enemyHp.text = "Hp: " + this.enemy.health;
-    this.playerHp.text = "Hp: " + this.player.health;
+  playerTurnAnim(){
+    if(this.playAnim){
+      if(this.first.x > 149){
+        this.fireball.x += 8;
+        this.fireText.x += 8;
+        if(this.fireball.x > this.width-50){
+          this.enemy.tint = 0xffffff;
+        }
+        if(this.fireball.x > this.width-40){
+          this.fireball.alpha = 0;
+          this.fireText.alpha = 0;
+          this.playerTurn = false;
+          this.enemy.health -= this.attackNum;
+          if(this.enemy.health === 0){
+            this.playerTurn = true;
+            this.playAnim=false;
+            this.resolve();
+          }
+        }
+      }
+      else if(this.first.x > 140){
+        this.first.x += .3;
+        this.second.x -= .3;
+        this.first.alpha -= .03;
+        this.second.alpha -= .03;
+        this.fireball.alpha += .1;
+        this.fireText.alpha += .1;
+      }
+      else{
+        this.first.x += .25;
+        this.second.x -= .25;
+        this.op.alpha -= .015;
+      }
+    }
   }
 
-  turnManager() {
-    if (this.playerTurn) {
-
+  turnManager(){
+    if (this.playerTurn){
+      this.playerTurnAnim();
     }
     else {
       this.enemyTurn();
