@@ -54,9 +54,6 @@ export default class MainScene extends Phaser.Scene {
 
     this.helpText = this.add.bitmapText(10, 10, "pixelFont", "Move with arrow keys", 30);
 
-    let crystal = this.physics.add.sprite(475, 500, 'cry1');
-    crystal.play('cry1_anim');
-
 
     this.helpText = this.add.bitmapText(10, 10,"pixelFont", "Move with arrow keys", 30 );
     
@@ -155,7 +152,7 @@ export default class MainScene extends Phaser.Scene {
       }
       else{
         
-        this.scene.launch('BattleScene', {baddie: this.enemy, previousScene: this.scene.key , player:this.player});
+        this.scene.launch('BattleScene', {baddie: enemy, previousScene: this.scene.key , player:this.player});
         this.scene.pause('MainScene');
         this.scene.sendToBack('MainScene');
       }
