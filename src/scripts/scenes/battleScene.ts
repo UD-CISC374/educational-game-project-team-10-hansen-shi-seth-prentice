@@ -1,6 +1,7 @@
 import Skeleton from "../objects/Skeleton";
 import Player from "../objects/Player";
 import Bunny from "../objects/Bunny";
+import Bat from "../objects/Bat";
 
 export default class BattleScene extends Phaser.Scene {
   background: Phaser.GameObjects.TileSprite;
@@ -100,6 +101,11 @@ export default class BattleScene extends Phaser.Scene {
     else if (this.baddie.name === "bunny") {
       this.enemy = new Bunny(this, this.width - 40, this.height - 300, this.hp, this.atk);
     }
+    else if (this.baddie.name === "bat"){
+      this.enemy = new Bat(this, this.width - 40, this.height - 300, this.hp, this.atk);
+      this.enemy.flipX = true;
+      this.enemy.setScale(3);
+    }
 
     this.player = new Player(this, 60, this.height - 300);
     this.player.setScale(3);
@@ -182,7 +188,7 @@ export default class BattleScene extends Phaser.Scene {
     }
     this.enemyHp.text = "Hp: " + this.enemy.health;
     this.playerHp.text = "Hp: " + this.player.health;
-    this.emitManager();
+    
   }
 
   oneClicked() {
@@ -464,7 +470,7 @@ export default class BattleScene extends Phaser.Scene {
   }
 
   resolve(){
-    console.log("resolve");
+    
     this.first.x = 120;
     this.second.x = 180;
     this.first.alpha = 1;
@@ -477,10 +483,6 @@ export default class BattleScene extends Phaser.Scene {
     this.first.text = "_";
     this.second.text = "_";
 
-    this.enemy.x = this.width-40;
-
-    //this.baddie.clearTint();
-    console.log(this.hp);
   }
 
   sceneSwitcher() {
@@ -503,22 +505,11 @@ export default class BattleScene extends Phaser.Scene {
     }
   }
 
-  emitManager() {
-    this.scene.get("UI").events.once("attack", () => {
-      this.one.setVisible(true);
-      this.two.setVisible(true);
-      this.three.setVisible(true);
-      this.plus.setVisible(true);
-      this.minus.setVisible(true);
-
-    });
-  }
-
   enemyTurn(){
     this.enemy.x -= 6;
     if(this.enemy.x < 40){
       this.player.health -= this.enemy.atk;
-      this.resolve();
+      this.enemy.x = this.width-40;
       this.playerTurn = true;
       this.playAnim=false;
     }
@@ -539,6 +530,7 @@ export default class BattleScene extends Phaser.Scene {
           this.enemy.health -= this.attackNum;
           if(this.enemy.health === 0){
             this.playerTurn = true;
+            this.turnCounter += 1;
             this.playAnim=false;
             this.resolve();
           }

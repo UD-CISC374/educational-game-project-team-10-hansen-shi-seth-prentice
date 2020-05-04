@@ -2,26 +2,28 @@
 import Player from '../objects/Player';
 import { Cameras, Types } from 'phaser';
 import Skeleton from '../objects/Skeleton';
+import Bat from '../objects/Bat';
 
 export default class MainScene extends Phaser.Scene {
   private player: Player;
-  enemy : Skeleton;
+  enemy: Skeleton;
+  enemy2: Bat;
   background: Phaser.GameObjects.TileSprite;
-  height: number; 
-  width: number; 
+  height: number;
+  width: number;
   cursorKeys: Phaser.Types.Input.Keyboard.CursorKeys;
   enemies: Phaser.GameObjects.Group;
   gems: Phaser.GameObjects.Group;
-  floors: Phaser.GameObjects.Group;
-  tutMap: Phaser.Tilemaps.Tilemap;
-  baseLayer: Phaser.Tilemaps.Tileset;
-  bottom: Phaser.Tilemaps.StaticTilemapLayer
+  platforms: Phaser.GameObjects.Group;
 
   playerGems: Phaser.GameObjects.BitmapText;
 
   helpText: Phaser.GameObjects.BitmapText;
-  
-  
+
+  elevator: Phaser.Physics.Arcade.Sprite
+  elevator2: Phaser.Physics.Arcade.Sprite
+
+
 
   constructor() {
     super({ key: 'MainScene' });
@@ -29,67 +31,84 @@ export default class MainScene extends Phaser.Scene {
 
   create() {
 
-    this.height = <number> this.game.config.height;
-    this.width = <number> this.game.config.width;
+    this.height = <number>this.game.config.height;
+    this.width = <number>this.game.config.width;
 
-    let floor = this.physics.add.sprite(520, 600, "levelFloor").setImmovable(true);
-    let stairs = this.physics.add.sprite(1220, 500, "stairs").setImmovable(true);
-    
 
-    this.helpText = this.add.bitmapText(10, 10,"pixelFont", "Move with arrow keys", 30 );
+    this.platforms = this.physics.add.staticGroup();
+    this.platforms.create(520, 600, "levelFloor");
+    this.platforms.create(-300, 400, 'levelFloor');
+    this.platforms.create(1000, 200, "levelFloor");
+    this.platforms.create(350, 325, "batform");
+    this.platforms.create(200, 250, "batform");
+    this.platforms.create(400, 185, "batform");
+    this.platforms.create(100, 50, "batform");
+    this.platforms.create(1900, 200, "altar");
+
+    this.elevator = this.physics.add.sprite(250, 400, "elevator");
+    this.elevator.setImmovable(true);
+    this.elevator2 = this.physics.add.sprite(1550, 0, "elevator");
+    this.elevator2.setImmovable(true);
+
+    this.helpText = this.add.bitmapText(10, 10, "pixelFont", "Move with arrow keys", 30);
 
     let crystal = this.physics.add.sprite(475, 500, 'cry1');
     crystal.play('cry1_anim');
-    
-    
+
+
 
     this.background = this.add.tileSprite(0, 0, this.width, this.height, "background").setDepth(-1);//I know its shit, we can get a better one later
     this.background.setOrigin(0, 0);
     this.background.setScrollFactor(0);
-    
+
     this.cursorKeys = this.input.keyboard.createCursorKeys();
-    
+
     this.enemies = this.physics.add.group();
     this.gems = this.physics.add.group();
-    
+
     let testGem = this.physics.add.sprite(200, 540, 'gem');
     this.gems.add(testGem);
 
     //define anything that needs animation here
-    this.player = new Player(this, 20, this.height - 400)
+    this.player = new Player(this, 20, this.height - 600)
     this.player.setGravityY(1400);
-    this.enemy = new Skeleton(this, 860, this.height - 400, 5, 2);
+    this.enemy = new Skeleton(this, 860, this.height - 250, 5, 2);
     this.enemies.add(this.enemy);
     this.enemy.setGravityY(1400);
-
     this.player.setCollideWorldBounds(false);
-    
+    this.enemy2 = new Bat(this, 200, 120, 3, 2);
+    this.enemies.add(this.enemy2);
+
     //camera
-    this.cameras.main.setBounds(0, 0, this.width*2, this.height);
+    this.cameras.main.setBounds(0, 0, this.width * 3, this.height);
     this.cameras.main.setSize(this.width, this.height);
     this.cameras.main.startFollow(this.player);
 
     //collison stuff
     this.physics.add.overlap(this.player, this.enemies, this.enterCombat);
-    this.physics.add.collider(this.player, floor);
-    this.physics.add.collider(this.player, this.floors);
-    this.physics.add.collider(this.enemy, floor);
-    this.physics.add.collider(this.gems, floor);
+    this.physics.add.collider(this.player, this.platforms);
+    this.physics.add.collider(this.enemy, this.platforms);
+    this.physics.add.collider(this.gems, this.platforms);
     this.physics.add.overlap(this.player, testGem, this.pickupItem);
     this.physics.add.overlap(this.player, this.gems, this.pickupItem);
-    this.physics.add.collider(this.player, stairs);
+    this.physics.add.collider(this.player, this.elevator);
+    this.physics.add.collider(this.player, this.elevator2);
     
-    
-    
-    
+
+
+
+
+
   }
-  
+
 
   update() {//                           update is here
     this.movePlayerManager();
     this.enemiesManager();
     this.collectionHandler();
     this.emitManager();
+    this.eleveatorHandler();
+    this.elevatorHandler2();
   }
 
   movePlayerManager() { //moves player with arrow keys (not down)
@@ -104,7 +123,7 @@ export default class MainScene extends Phaser.Scene {
       this.player.flipX = false;
       this.player.moving = true;
     }
-    else{
+    else {
       this.player.setVelocityX(0);
     }
     if (this.player.moving) {
@@ -120,27 +139,26 @@ export default class MainScene extends Phaser.Scene {
   enemiesManager() {
     for (let i = 0; i < this.enemies.getChildren().length; i++) {
       let enemy = this.enemies.getChildren()[i];
-      if(enemy.active){
+      if (enemy.active) {
         enemy.update();
       }
-      else{
-        
-        this.scene.launch('BattleScene', {baddie: this.enemy, previousScene: this.scene.key });
+      else {
+        this.scene.launch('BattleScene', { baddie: enemy, previousScene: this.scene.key });
         this.scene.pause('MainScene');
         this.scene.sendToBack('MainScene');
       }
     }
   }
-  collectionHandler(){
-    for (let i = 0; i <this.gems.getChildren().length; i++){
+  collectionHandler() {
+    for (let i = 0; i < this.gems.getChildren().length; i++) {
       let tmp = this.gems.getChildren()[i];
-      if (!tmp.active){
+      if (!tmp.active) {
         this.player.inventory.set("power: 5", "has : 5");
       }
     }
   }
 
-  pickupItem(player, gem){
+  pickupItem(player, gem) {
     gem.active = false;
     gem.destroy();
   }
@@ -150,14 +168,31 @@ export default class MainScene extends Phaser.Scene {
     enemy.active = false;
   }
 
-  emitManager(){
-    this.scene.get("BattleScene").events.once("win", ()=>{
+  emitManager() {
+    this.scene.get("BattleScene").events.once("win", () => {
       this.spawnLoot(this.enemy);
       this.enemy.destroy();
     });
   }
 
-  spawnLoot(enemy: Phaser.GameObjects.Sprite){
+  spawnLoot(enemy: Phaser.GameObjects.Sprite) {
     this.gems.create(enemy.x, enemy.y - 100, 'gem').setGravityY(200);
+  }
+
+  eleveatorHandler(){
+    if (this.elevator.y <= 400){
+      this.elevator.setVelocityY(50);
+    }
+    else if (this.elevator.y >= 550){
+      this.elevator.setVelocityY(-50);
+    }
+  }
+  elevatorHandler2(){
+    if (this.elevator2.y <= 0){
+      this.elevator2.setVelocityY(25);
+    }
+    else if (this.elevator2.y >= 200){
+      this.elevator2.setVelocityY(-25);
+    }
   }
 }
