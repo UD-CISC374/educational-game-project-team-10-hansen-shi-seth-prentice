@@ -4,10 +4,7 @@ export default class PreloadScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.tilemapTiledJSON('tutorial', './assets/maps/map.json');
-    this.load.tilemapTiledJSON('ti', './assets/maps/testmap5.json')
-    this.load.image('tiles', './assets/tileSets/tutorialTileSet.png');
-    this.load.image('tileset', './assets/tileSets/tiles.png');
+    
     this.load.bitmapFont("pixelFont", "assets/fonts/font.png", "assets/font.xml");
     
 
@@ -23,6 +20,7 @@ export default class PreloadScene extends Phaser.Scene {
     })
     
     this.load.image("background" , "assets/environment-background.png");
+    this.load.image("groundback", "assets/background.png");
     this.load.spritesheet("player", "assets/WizSheet.png",{
       frameWidth:32,
       frameHeight:32
@@ -72,9 +70,15 @@ export default class PreloadScene extends Phaser.Scene {
       frameHeight:16
     });
     this.load.image("platform", "assets/platforms/map.png");
+    this.load.image("levelFloor", "assets/level/level.png");
     this.load.image("gem", "assets/crystals/emerald.png");
     this.load.image("heart", "assets/heart.png");
     this.load.image("fightbtn", "assets/fightbutton.png");
+    this.load.image("fight", "assets/level/battle.png");
+    this.load.image("stairs", "assets/level/stairs.png");
+    this.load.image("bunny", "assets/Enemies/bunny.png");
+    this.load.image("mama", "assets/Enemies/mamaBun.png");
+    this.load.image("tutorialBattle", "assets/tutorialBattle.png");
 
   }
 
@@ -153,6 +157,6 @@ export default class PreloadScene extends Phaser.Scene {
     });
     
     
-    this.scene.start('MainScene');
+    this.scene.start('Tutorial');
   }
 }

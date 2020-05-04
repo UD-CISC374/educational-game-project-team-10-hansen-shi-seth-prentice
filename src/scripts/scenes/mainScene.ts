@@ -28,11 +28,12 @@ export default class MainScene extends Phaser.Scene {
   }
 
   create() {
-    
+
     this.height = <number> this.game.config.height;
     this.width = <number> this.game.config.width;
 
-    let floor = this.physics.add.sprite(475, 600, 'platform').setImmovable(true);
+    let floor = this.physics.add.sprite(520, 600, "levelFloor").setImmovable(true);
+    let stairs = this.physics.add.sprite(1220, 500, "stairs").setImmovable(true);
     
 
     this.helpText = this.add.bitmapText(10, 10,"pixelFont", "Move with arrow keys", 30 );
@@ -55,13 +56,13 @@ export default class MainScene extends Phaser.Scene {
     this.gems.add(testGem);
 
     //define anything that needs animation here
-    this.player = new Player(this, 0, this.height - 400)
+    this.player = new Player(this, 20, this.height - 400)
     this.player.setGravityY(1400);
     this.enemy = new Skeleton(this, 860, this.height - 400, 5, 2);
     this.enemies.add(this.enemy);
     this.enemy.setGravityY(1400);
 
-    this.player.setCollideWorldBounds(true);
+    this.player.setCollideWorldBounds(false);
     
     //camera
     this.cameras.main.setBounds(0, 0, this.width*2, this.height);
@@ -76,6 +77,7 @@ export default class MainScene extends Phaser.Scene {
     this.physics.add.collider(this.gems, floor);
     this.physics.add.overlap(this.player, testGem, this.pickupItem);
     this.physics.add.overlap(this.player, this.gems, this.pickupItem);
+    this.physics.add.collider(this.player, stairs);
     
     
     
@@ -122,11 +124,10 @@ export default class MainScene extends Phaser.Scene {
         enemy.update();
       }
       else{
-        let temp = enemy.name.split(" ");
-        this.scene.launch('BattleScene', { type: temp[0], hp: <number><unknown>temp[1], atk: <number><unknown>temp[2], baddie: this.enemy });
+        
+        this.scene.launch('BattleScene', {baddie: this.enemy, previousScene: this.scene.key });
         this.scene.pause('MainScene');
         this.scene.sendToBack('MainScene');
-        this.player.setVelocity(0, 0);
       }
     }
   }
@@ -151,8 +152,6 @@ export default class MainScene extends Phaser.Scene {
 
   emitManager(){
     this.scene.get("BattleScene").events.once("win", ()=>{
-      this.player.setVelocityX(0);
-      this.player.setVelocityY(0);
       this.spawnLoot(this.enemy);
       this.enemy.destroy();
     });

@@ -2,7 +2,7 @@ import Skeleton from "../objects/Skeleton";
 import Player from "../objects/Player";
 import Bunny from "../objects/Bunny";
 
-export default class BattleScene extends Phaser.Scene {
+export default class TutorialBattleScene extends Phaser.Scene {
   background: Phaser.GameObjects.TileSprite;
   height: number;
   width: number;
@@ -57,7 +57,7 @@ export default class BattleScene extends Phaser.Scene {
   tutorialBackground: Phaser.GameObjects.TileSprite;
 
   constructor() {
-    super({ key: 'BattleScene' });
+    super({ key: 'TutorialBattleScene' });
   }
 
   init(data) {
@@ -74,7 +74,7 @@ export default class BattleScene extends Phaser.Scene {
     this.enemies = this.physics.add.group();
     this.heartContainers = this.physics.add.staticGroup();
 
-    this.background = this.add.tileSprite(0, 0, this.width, this.height, "fight");
+    this.background = this.add.tileSprite(0, 0, this.width, this.height, "tutorialBattle");
     this.background.setOrigin(0, 0);
     this.background.setScrollFactor(0);
 
@@ -451,7 +451,7 @@ export default class BattleScene extends Phaser.Scene {
 
   sceneSwitcher() {
     this.events.emit("win");
-    this.scene.stop("BattleScene");
+    this.scene.stop("TutorialBattleScene");
     this.scene.resume(this.previousScene);
     this.scene.setVisible(false, "UI");
     this.scene.get(this.previousScene).input.keyboard.resetKeys();

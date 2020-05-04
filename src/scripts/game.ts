@@ -4,9 +4,9 @@ import PreloadScene from './scenes/preloadScene';
 import BattleScene from './scenes/battleScene';
 import GameConfig = Phaser.Types.Core.GameConfig;
 import { Renderer } from 'phaser';
-import skellyScene from './scenes/skellyScene';
-import SkellyScene from './scenes/skellyScene';
 import uiScene from './scenes/uiScene';
+import Tutorial from './scenes/tutorial';
+import TutorialBattleScene from './scenes/tutorialBattleScene';
 
 const DEFAULT_WIDTH: number = 960;
 const DEFAULT_HEIGHT: number = 720;
@@ -21,15 +21,14 @@ const config: GameConfig = {
         width: DEFAULT_WIDTH,
         height: DEFAULT_HEIGHT
     },
-    scene: [PreloadScene, MainScene, BattleScene, SkellyScene, uiScene],
+    scene: [PreloadScene, MainScene, BattleScene, Tutorial, uiScene, TutorialBattleScene],
     render: {
         pixelArt: true
     },
     physics: {
         default: 'arcade',
         arcade: {
-            debug: false,
-            //gravity: { y: 1400 }
+            debug: true
         }
     }
 };

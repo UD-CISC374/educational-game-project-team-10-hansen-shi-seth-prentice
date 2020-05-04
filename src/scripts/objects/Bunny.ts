@@ -1,44 +1,45 @@
-export default class Skeleton extends Phaser.Physics.Arcade.Sprite {
+export default class Bunny extends Phaser.Physics.Arcade.Sprite {
     body: Phaser.Physics.Arcade.Body;
     homeX: number;
     facingLeft: boolean;
-    ///value: number;
     health: number;
     atk: number;
 
-    constructor(scene, x: number, y: number, hp: number, atk: number) {
-        super(scene, x, y, 'skeleton');
+    constructor(scene, x: number, y: number, hp: number, attack: number) {
+        super(scene, x, y, 'bunny');
         this.homeX = x;
         this.facingLeft=true;
-        this.name = 'skeleton' 
+        this.name = 'bunny' 
         this.health = hp;
-        this.atk = atk;
+        this.atk = attack;
         scene.physics.add.existing(this);
         scene.add.existing(this);
-        //scene.enemies.add(this);
-        this.setScale(2);
-        this.body.setSize(12, 16);
-        this.body.setOffset(2, 0);
-        this.play('skeleton_anim');
+        this.setScale(1/3);
+        this.body.setSize(150, 100);
+        this.body.setOffset(50, 50);
         this.setDepth(1);
     }
 
     update(){
         if(this.facingLeft){
-            this.x -= 1;
+            this.setVelocityX(-200);
             this.flipX = true;
         }
         else{
-            this.x += 1;
+            this.setVelocityX(200);
             this.flipX = false;
         }
         if (this.x === this.homeX + 80 || this.x === this.homeX - 80){
             this.facingLeft = !this.facingLeft;
         }
     }
-    
-    chooseAction(){
-        let action : string = Phaser.Math.RND.pick(['attack', 'attack', 'attack']);
-        return action;
+    getHealth(){
+        return this.health;
     }
+
+    chooseAction(){
+       let action: string = Phaser.Math.RND.pick(['flee', 'flee', 'flee', 'attack']);
+       return action;
+    }
+
 }
