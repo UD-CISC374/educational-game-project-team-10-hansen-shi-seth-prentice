@@ -1,6 +1,7 @@
 import Skeleton from "../objects/Skeleton";
 import Player from "../objects/Player";
 import Bunny from "../objects/Bunny";
+import Crystal from "../objects/Crystal";
 
 export default class BattleScene extends Phaser.Scene {
   background: Phaser.GameObjects.TileSprite;
@@ -48,15 +49,16 @@ export default class BattleScene extends Phaser.Scene {
   cr7: Phaser.GameObjects.Image;
   cr8: Phaser.GameObjects.Image;
   cr9: Phaser.GameObjects.Image;
-  num1: number = 3;
-  num2: number = 3;
-  num3: number = 3;
-  num4: number = 3;
-  num5: number = 3;
-  num6: number = 3;
-  num7: number = 3;
-  num8: number = 3;
-  num9: number = 3;
+  num1: number;
+  num2: number;
+  num3: number;
+  num4: number;
+  num5: number;
+  num6: number;
+  num7: number;
+  num8: number;
+  num9: number;
+  mutable:Player;
 
   playerTurn: boolean = true;
   enemyAtk: Phaser.GameObjects.BitmapText;
@@ -72,6 +74,7 @@ export default class BattleScene extends Phaser.Scene {
     this.hp = data.baddie.health;
     this.atk = data.baddie.atk;
     this.previousScene = data.previousScene;
+    this.mutable = data.player
   }
 
   create() {
@@ -90,6 +93,16 @@ export default class BattleScene extends Phaser.Scene {
     this.fireball.setAngle(90);
     this.fireball.alpha = 0;
     this.fireball.play('fireball_anim');
+
+    this.num1 = <number> this.mutable.inventory.get('one');
+    this.num2 = <number> this.mutable.inventory.get('two');
+    this.num3 = <number> this.mutable.inventory.get('three');
+    this.num4 = <number> this.mutable.inventory.get('four');
+    this.num5 = <number> this.mutable.inventory.get('five');
+    this.num6 = <number> this.mutable.inventory.get('six');
+    this.num7 = <number> this.mutable.inventory.get('seven');
+    this.num8 = <number> this.mutable.inventory.get('eight');
+    this.num9 = <number> this.mutable.inventory.get('nine');
 
     if (this.baddie.name === "skeleton") {
       this.enemy = new Skeleton(this, this.width - 40, this.height - 300, this.hp, this.atk);
@@ -188,6 +201,7 @@ export default class BattleScene extends Phaser.Scene {
   oneClicked() {
     console.log(1);
     if(this.phase === 1 && this.num1>0){
+      this.mutable.reduce("one");
       this.num1-=1;
       this.one.text = "x"+this.num1;
       this.first.text = "1";
@@ -198,6 +212,7 @@ export default class BattleScene extends Phaser.Scene {
       this.helpText.alpha = 1;
     }
     else if(this.phase === 3 && this.num1 > 0){
+      this.mutable.reduce("one");
       this.num1-=1;
       this.one.text = "x"+this.num1;
       this.second.text = "1";
@@ -216,6 +231,7 @@ export default class BattleScene extends Phaser.Scene {
   twoClicked() {
     console.log(2);
     if(this.phase === 1 && this.num2 > 0){
+      this.mutable.reduce("two");
       this.num2-=1;
       this.two.text = "x"+this.num2;
       this.first.text = "2";
@@ -226,6 +242,7 @@ export default class BattleScene extends Phaser.Scene {
       this.helpText.alpha = 1;
     }
     else if(this.phase === 3 && this.num2 > 0){
+      this.mutable.reduce("two");
       this.num2-=1;
       this.two.text = "x"+this.num2;
       this.second.text = "2";
@@ -244,6 +261,7 @@ export default class BattleScene extends Phaser.Scene {
   threeClicked() {
     console.log(3);
     if(this.phase === 1 && this.num3>0){
+      this.mutable.reduce("three");
       this.num3-=1;
       this.three.text = "x"+this.num3;
       this.first.text = "3";
@@ -254,6 +272,7 @@ export default class BattleScene extends Phaser.Scene {
       this.helpText.alpha = 1;
     }
     else if(this.phase === 3 && this.num3){
+      this.mutable.reduce("three");
       this.num3-=1;
       this.three.text = "x"+this.num3;
       this.second.text = "3";
@@ -272,6 +291,7 @@ export default class BattleScene extends Phaser.Scene {
   fourClicked() {
     console.log(4);
     if(this.phase === 1 && this.num4 > 0){
+      this.mutable.reduce("four");
       this.num4-=1;
       this.four.text = "x"+this.num4;
       this.first.text = "4";
@@ -282,6 +302,7 @@ export default class BattleScene extends Phaser.Scene {
       this.helpText.alpha = 1;
     }
     else if(this.phase === 3 && this.num4 > 0){
+      this.mutable.reduce("four");
       this.num4-=1;
       this.four.text = "x"+this.num4;
       this.second.text = "4";
@@ -300,6 +321,7 @@ export default class BattleScene extends Phaser.Scene {
   fiveClicked() {
     console.log(5);
     if(this.phase === 1 && this.num5 > 0){
+      this.mutable.reduce("five");
       this.num5-=1;
       this.five.text = "x"+this.num5;
       this.first.text = "5";
@@ -310,6 +332,7 @@ export default class BattleScene extends Phaser.Scene {
       this.helpText.alpha = 1;
     }
     else if(this.phase === 3 && this.num5 > 0){
+      this.mutable.reduce("five");
       this.num5-=1;
       this.five.text = "x"+this.num5;
       this.second.text = "5";
@@ -328,6 +351,7 @@ export default class BattleScene extends Phaser.Scene {
   sixClicked() {
     console.log(6);
     if(this.phase === 1 && this.num6 > 0){
+      this.mutable.reduce("six");
       this.num6-=1;
       this.six.text = "x"+this.num6;
       this.first.text = "6";
@@ -338,6 +362,7 @@ export default class BattleScene extends Phaser.Scene {
       this.helpText.alpha = 1;
     }
     else if(this.phase === 3 && this.num6 > 0){
+      this.mutable.reduce("six");
       this.num6-=1;
       this.six.text = "x"+this.num6;
       this.second.text = "6";
@@ -356,6 +381,7 @@ export default class BattleScene extends Phaser.Scene {
   sevenClicked() {
     console.log(3);
     if(this.phase === 1 && this.num7 > 0){
+      this.mutable.reduce("seven");
       this.num7-=1;
       this.seven.text = "x"+this.num7;
       this.first.text = "7";
@@ -368,6 +394,7 @@ export default class BattleScene extends Phaser.Scene {
       this.helpText.alpha = 1;
     }
     else if(this.phase === 3 && this.num7 > 0){
+      this.mutable.reduce("seven");
       this.num7-=1;
       this.seven.text = "x"+this.num7;
       this.second.text = "7";
@@ -386,6 +413,7 @@ export default class BattleScene extends Phaser.Scene {
   eightClicked() {
     console.log(8);
     if(this.phase === 1 && this.num8 > 0){
+      this.mutable.reduce("eight");
       this.num8-=1;
       this.eight.text = "x"+this.num8;
       this.first.text = "8";
@@ -396,6 +424,7 @@ export default class BattleScene extends Phaser.Scene {
       this.helpText.alpha = 1;
     }
     else if(this.phase === 3 && this.num8 > 0){
+      this.mutable.reduce("eight");
       this.num8-=1;
       this.eight.text = "x"+this.num8;
       this.second.text = "8";
@@ -414,6 +443,7 @@ export default class BattleScene extends Phaser.Scene {
   nineClicked() {
     console.log(9);
     if(this.phase === 1 && this.num9 > 0){
+      this.mutable.reduce("nine");
       this.num9-=1;
       this.nine.text = "x"+this.num9;
       this.first.text = "9";
@@ -424,6 +454,7 @@ export default class BattleScene extends Phaser.Scene {
       this.helpText.alpha = 1;
     }
     else if(this.phase === 3 && this.num9 > 0){
+      this.mutable.reduce("nine");
       this.num9-=1;
       this.nine.text = "x"+this.num9;
       this.second.text = "9";

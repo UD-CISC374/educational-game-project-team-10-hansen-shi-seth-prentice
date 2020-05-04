@@ -2,6 +2,7 @@
 import Player from '../objects/Player';
 import { Cameras, Types } from 'phaser';
 import Skeleton from '../objects/Skeleton';
+import Crystal from '../objects/Crystal';
 
 export default class MainScene extends Phaser.Scene {
   private player: Player;
@@ -16,6 +17,7 @@ export default class MainScene extends Phaser.Scene {
   tutMap: Phaser.Tilemaps.Tilemap;
   baseLayer: Phaser.Tilemaps.Tileset;
   bottom: Phaser.Tilemaps.StaticTilemapLayer
+
 
   playerGems: Phaser.GameObjects.BitmapText;
 
@@ -37,9 +39,6 @@ export default class MainScene extends Phaser.Scene {
     
 
     this.helpText = this.add.bitmapText(10, 10,"pixelFont", "Move with arrow keys", 30 );
-
-    let crystal = this.physics.add.sprite(475, 500, 'cry1');
-    crystal.play('cry1_anim');
     
     
 
@@ -51,8 +50,12 @@ export default class MainScene extends Phaser.Scene {
     
     this.enemies = this.physics.add.group();
     this.gems = this.physics.add.group();
+
+    let testGem2 = new Crystal(this, 200, 540, 'one');
+    let testGem = new Crystal(this, 300, 570, 'four');
     
-    let testGem = this.physics.add.sprite(200, 540, 'gem');
+    //let testGem = this.physics.add.sprite(200, 540, 'gem');
+    this.gems.add(testGem2);
     this.gems.add(testGem);
 
     //define anything that needs animation here
@@ -75,7 +78,7 @@ export default class MainScene extends Phaser.Scene {
     this.physics.add.collider(this.player, this.floors);
     this.physics.add.collider(this.enemy, floor);
     this.physics.add.collider(this.gems, floor);
-    this.physics.add.overlap(this.player, testGem, this.pickupItem);
+    //this.physics.add.overlap(this.player, testGem, this.pickupItem);
     this.physics.add.overlap(this.player, this.gems, this.pickupItem);
     this.physics.add.collider(this.player, stairs);
     
@@ -125,7 +128,7 @@ export default class MainScene extends Phaser.Scene {
       }
       else{
         
-        this.scene.launch('BattleScene', {baddie: this.enemy, previousScene: this.scene.key });
+        this.scene.launch('BattleScene', {baddie: this.enemy, previousScene: this.scene.key , player:this.player});
         this.scene.pause('MainScene');
         this.scene.sendToBack('MainScene');
       }
@@ -135,12 +138,13 @@ export default class MainScene extends Phaser.Scene {
     for (let i = 0; i <this.gems.getChildren().length; i++){
       let tmp = this.gems.getChildren()[i];
       if (!tmp.active){
-        this.player.inventory.set("power: 5", "has : 5");
+        //this.player.inventory.set("power: 5", "has : 5");
       }
     }
   }
 
   pickupItem(player, gem){
+    player.pickup(gem);
     gem.active = false;
     gem.destroy();
   }

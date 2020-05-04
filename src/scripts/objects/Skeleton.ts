@@ -41,4 +41,7 @@ export default class Skeleton extends Phaser.Physics.Arcade.Sprite {
         let action : string = Phaser.Math.RND.pick(['attack', 'attack', 'attack']);
         return action;
     }
+    getHealth(){
+        return this.health;
+    }
 }
