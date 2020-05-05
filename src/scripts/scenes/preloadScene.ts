@@ -179,6 +179,7 @@ export default class PreloadScene extends Phaser.Scene {
     });
     
     
-    this.scene.start('MainScene');
+    this.scene.start('Tutorial');
+    
   }
 }
