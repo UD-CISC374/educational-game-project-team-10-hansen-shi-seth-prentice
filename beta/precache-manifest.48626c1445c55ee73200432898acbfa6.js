@@ -236,15 +236,15 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/educational-game-project-team-10-hansen-shi-seth-prentice/betafavicon.ico"
   },
   {
-    "revision": "f0d1506289044a62f1a4",
-    "url": "/educational-game-project-team-10-hansen-shi-seth-prentice/betagen.main.f3bab36c8f2f6b8632ab.bundle.js"
+    "revision": "00f2f532330bb2297ed7",
+    "url": "/educational-game-project-team-10-hansen-shi-seth-prentice/betagen.main.a4c0a22272bd0a4a4762.bundle.js"
   },
   {
     "revision": "b8eb18a4ecbcde16107e",
     "url": "/educational-game-project-team-10-hansen-shi-seth-prentice/betagen.vendors.d436f047b1959298df20.bundle.js"
   },
   {
-    "revision": "837cca1bd24defc46f93297cb758e2eb",
+    "revision": "b487fdb58d303a94760e80999ad84d67",
     "url": "/educational-game-project-team-10-hansen-shi-seth-prentice/betaindex.html"
   },
   {
