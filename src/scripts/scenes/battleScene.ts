@@ -554,11 +554,11 @@ export default class BattleScene extends Phaser.Scene {
           this.fireText.alpha = 0;
           this.playerTurn = false;
           this.enemy.health -= this.attackNum;
+          this.resolve();
           if(this.enemy.health === 0){
             this.playerTurn = true;
             this.turnCounter += 1;
             this.playAnim=false;
-            this.resolve();
           }
         }
       }
