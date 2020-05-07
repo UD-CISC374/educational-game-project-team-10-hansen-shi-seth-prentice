@@ -42,6 +42,10 @@ export default class PreloadScene extends Phaser.Scene {
       frameWidth: 16,
       frameHeight: 16
     });
+    this.load.spritesheet("ghost", "assets/Enemies/ghost.png", {
+      frameWidth: 16,
+      frameHeight: 16
+    });
     this.load.spritesheet("cry1", "assets/crystals/Crystal_1.png",{
       frameWidth:32,
       frameHeight:32
@@ -95,6 +99,7 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.image("batform", "assets/level/batform.png");
     this.load.image("elevator", "assets/level/elevator.png");
     this.load.image("altar", "assets/level/altar.png");
+    this.load.image("statue", "assets/level/statue.png");
 
   }
 
@@ -114,6 +119,12 @@ export default class PreloadScene extends Phaser.Scene {
     this.anims.create({
       key: "bat_anim",
       frames: this.anims.generateFrameNumbers("bat", {start: 0, end: 3}),
+      frameRate: 7,
+      repeat: -1
+    })
+    this.anims.create({
+      key: "ghost_anim",
+      frames: this.anims.generateFrameNumbers("ghost", {start: 0, end: 3}),
       frameRate: 7,
       repeat: -1
     })
@@ -179,7 +190,7 @@ export default class PreloadScene extends Phaser.Scene {
     });
     
     
-    this.scene.start('Tutorial');
+    this.scene.start('MainScene');
     
   }
 }

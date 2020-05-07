@@ -4,11 +4,13 @@ import { Cameras, Types } from 'phaser';
 import Skeleton from '../objects/Skeleton';
 import Bat from '../objects/Bat';
 import Crystal from '../objects/Crystal';
+import Ghost from '../objects/Ghost';
 
 export default class MainScene extends Phaser.Scene {
   private player: Player;
   enemy: Skeleton;
   enemy2: Bat;
+  enemy3: Ghost;
   background: Phaser.GameObjects.TileSprite;
   height: number;
   width: number;
@@ -46,6 +48,7 @@ export default class MainScene extends Phaser.Scene {
     this.platforms.create(400, 185, "batform");
     this.platforms.create(100, 50, "batform");
     this.platforms.create(1900, 200, "altar");
+    this.platforms.create(1900, 100, "statue");
 
     this.elevator = this.physics.add.sprite(250, 400, "elevator");
     this.elevator.setImmovable(true);
@@ -90,6 +93,8 @@ export default class MainScene extends Phaser.Scene {
     this.player.setCollideWorldBounds(false);
     this.enemy2 = new Bat(this, 200, 120, 3, 2);
     this.enemies.add(this.enemy2);
+    this.enemy3 = new Ghost(this, 1900, 150, 10, 3);
+    this.enemies.add(this.enemy3);
 
     //camera
     this.cameras.main.setBounds(0, 0, this.width * 3, this.height);
@@ -106,6 +111,7 @@ export default class MainScene extends Phaser.Scene {
     this.physics.add.overlap(this.player, this.gems, this.pickupItem);
     this.physics.add.collider(this.player, this.elevator);
     this.physics.add.collider(this.player, this.elevator2);
+    this.physics.add.overlap(this.player, this.enemy3, this.enterCombat);
     
 
 
@@ -183,7 +189,8 @@ export default class MainScene extends Phaser.Scene {
 
   spawnLoot(enemy: Phaser.GameObjects.Sprite) {
     let loot = new Crystal(this, enemy.x, enemy.y - 100, 'three');
-    this.gems.create(enemy.x, enemy.y - 100, 'gem').setGravityY(200);
+    this.gems.add(loot);
+    loot.setGravityY(400);
   }
 
   eleveatorHandler(){

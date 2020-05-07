@@ -3,6 +3,7 @@ import Player from "../objects/Player";
 import Bunny from "../objects/Bunny";
 import Bat from "../objects/Bat";
 import Crystal from "../objects/Crystal";
+import Ghost from "../objects/Ghost";
 
 export default class BattleScene extends Phaser.Scene {
   background: Phaser.GameObjects.TileSprite;
@@ -118,6 +119,11 @@ export default class BattleScene extends Phaser.Scene {
       this.enemy = new Bat(this, this.width - 40, this.height - 300, this.hp, this.atk);
       this.enemy.flipX = true;
       this.enemy.setScale(3);
+    }
+    else if (this.baddie.name === "ghost"){
+      this.enemy = new Ghost(this, this.width - 40, this.height - 300, this.hp, this.atk);
+      this.enemy.flipX = true;
+      this.enemy.setScale(4); 
     }
 
     this.player = new Player(this, 60, this.height - 300);
