@@ -200,6 +200,10 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/educational-game-project-team-10-hansen-shi-seth-prentice/betaassets/level/stairs.png"
   },
   {
+    "revision": "9acefb4bdd5f9b6c427ad4d2fbc834e5",
+    "url": "/educational-game-project-team-10-hansen-shi-seth-prentice/betaassets/level/statue.png"
+  },
+  {
     "revision": "f135c3b69abb9a42ee22b17365aa17f2",
     "url": "/educational-game-project-team-10-hansen-shi-seth-prentice/betaassets/maps/map.json"
   },
@@ -236,15 +240,15 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/educational-game-project-team-10-hansen-shi-seth-prentice/betafavicon.ico"
   },
   {
-    "revision": "00f2f532330bb2297ed7",
-    "url": "/educational-game-project-team-10-hansen-shi-seth-prentice/betagen.main.a4c0a22272bd0a4a4762.bundle.js"
+    "revision": "b22fe5187fb90d54caaa",
+    "url": "/educational-game-project-team-10-hansen-shi-seth-prentice/betagen.main.0b8eed1cffe8a3700eff.bundle.js"
   },
   {
-    "revision": "b8eb18a4ecbcde16107e",
-    "url": "/educational-game-project-team-10-hansen-shi-seth-prentice/betagen.vendors.d436f047b1959298df20.bundle.js"
+    "revision": "9483dfa7b156cf0a7bab",
+    "url": "/educational-game-project-team-10-hansen-shi-seth-prentice/betagen.vendors.ad3ee3456bbb139aa60b.bundle.js"
   },
   {
-    "revision": "b487fdb58d303a94760e80999ad84d67",
+    "revision": "70566f8bc486f0dcc57ba5166307d237",
     "url": "/educational-game-project-team-10-hansen-shi-seth-prentice/betaindex.html"
   },
   {
