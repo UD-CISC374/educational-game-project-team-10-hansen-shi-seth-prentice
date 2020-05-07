@@ -68,12 +68,18 @@ export default class MainScene extends Phaser.Scene {
     this.enemies = this.physics.add.group();
     this.gems = this.physics.add.group();
 
-    let testGem2 = new Crystal(this, 200, 550, 'one');
-    let testGem = new Crystal(this, 300, 550, 'four');
+    let testGem1 = new Crystal(this, 200, 550, 'one');
+    let testGem2 = new Crystal(this, 975, 550, 'two');
+    let testGem3 = new Crystal(this, 1000, 550, 'three');
+    let testGem4 = new Crystal(this, 300, 550, 'four');
+    let testGem5 = new Crystal(this, 1025, 550, 'two');
     
-    //let testGem = this.physics.add.sprite(200, 540, 'gem');
+    this.gems.add(testGem1);
+    this.gems.add(testGem4);
     this.gems.add(testGem2);
-    this.gems.add(testGem);
+    this.gems.add(testGem3);
+    this.gems.add(testGem5);
+    
 
     //define anything that needs animation here
     this.player = new Player(this, 20, this.height - 600)
@@ -95,7 +101,6 @@ export default class MainScene extends Phaser.Scene {
     this.physics.add.collider(this.player, this.platforms);
     this.physics.add.collider(this.enemy, this.platforms);
     this.physics.add.collider(this.gems, this.platforms);
-    this.physics.add.overlap(this.player, testGem, this.pickupItem);
     
     
     this.physics.add.overlap(this.player, this.gems, this.pickupItem);
@@ -113,7 +118,6 @@ export default class MainScene extends Phaser.Scene {
   update() {//                           update is here
     this.movePlayerManager();
     this.enemiesManager();
-    this.collectionHandler();
     this.emitManager();
     this.eleveatorHandler();
     this.elevatorHandler2();
@@ -158,14 +162,6 @@ export default class MainScene extends Phaser.Scene {
       }
     }
   }
-  collectionHandler() {
-    for (let i = 0; i < this.gems.getChildren().length; i++) {
-      let tmp = this.gems.getChildren()[i];
-      if (!tmp.active){
-        //this.player.inventory.set("power: 5", "has : 5");
-      }
-    }
-  }
 
   pickupItem(player, gem){
     player.pickup(gem);
@@ -186,6 +182,7 @@ export default class MainScene extends Phaser.Scene {
   }
 
   spawnLoot(enemy: Phaser.GameObjects.Sprite) {
+    let loot = new Crystal(this, enemy.x, enemy.y - 100, 'three');
     this.gems.create(enemy.x, enemy.y - 100, 'gem').setGravityY(200);
   }
 

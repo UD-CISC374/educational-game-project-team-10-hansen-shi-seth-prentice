@@ -124,11 +124,6 @@ export default class BattleScene extends Phaser.Scene {
     this.player.setScale(3);
     this.player.anims.pause();
 
-    //this.scene.launch('UI', { playerHp: this.player.health, enemyHp: this.enemy.health, enemyAtk: this.enemy.atk })
-
-    //it doesn't auto complete for some reason
-    //but it works
-
     this.one = this.add.bitmapText(71,this.height-95,"pixelFont", "x" + <string> <unknown>this.num1, 25 );
     this.one.setAngle(-15);
     this.two = this.add.bitmapText(136,this.height-95,"pixelFont", "x" + <string> <unknown>this.num2, 25 );
