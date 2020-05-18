@@ -80,13 +80,21 @@ export default class MainScene extends Phaser.Scene {
     let testGem3 = new Crystal(this, 1000, 550, 'three');
     let testGem4 = new Crystal(this, 300, 550, 'four');
     let testGem5 = new Crystal(this, 1025, 550, 'two');
-
+    let testGem6 = new Crystal(this, 198, 213, 'two');
+    let testGem7 = new Crystal(this, 400, 148, 'two');
+    let testGem8 = new Crystal(this, 628, 150, 'two');
+    let testGem9 = new Crystal(this, 353, 288, 'two');
+    
     this.gems.add(testGem1);
     this.gems.add(testGem4);
     this.gems.add(testGem2);
     this.gems.add(testGem3);
     this.gems.add(testGem5);
-
+    this.gems.add(testGem6);
+    this.gems.add(testGem7);
+    this.gems.add(testGem8);
+    this.gems.add(testGem9);
+    
 
     //define anything that needs animation here
     this.player = new Player(this, 20, this.height - 600)
@@ -124,13 +132,7 @@ export default class MainScene extends Phaser.Scene {
       this.player.inventory.set("three", 3);
       this.player.inventory.set("four", 2);
       this.player.inventory.set("five", 1);
-    })
-
-
-
-
-
-
+    });
   }
 
 
@@ -139,6 +141,7 @@ export default class MainScene extends Phaser.Scene {
     this.enemiesManager();
     this.eleveatorHandler();
     this.elevatorHandler2();
+    console.log(this.player.x, this.player.y);
   }
 
   movePlayerManager() { //moves player with arrow keys (not down)
