@@ -9,7 +9,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
     constructor(scene, x: number, y: number) {
         super(scene, x, y, 'player');
-        this.inventory = new Map().set("power: 0", "has: infinite");
+        this.inventory = new Map();
         this.health = 10;
         scene.physics.add.existing(this);
         scene.add.existing(this);
