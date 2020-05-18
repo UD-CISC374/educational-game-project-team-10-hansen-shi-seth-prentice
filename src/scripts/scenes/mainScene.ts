@@ -76,12 +76,20 @@ export default class MainScene extends Phaser.Scene {
     let testGem3 = new Crystal(this, 1000, 550, 'three');
     let testGem4 = new Crystal(this, 300, 550, 'four');
     let testGem5 = new Crystal(this, 1025, 550, 'two');
+    let testGem6 = new Crystal(this, 198, 213, 'two');
+    let testGem7 = new Crystal(this, 400, 148, 'two');
+    let testGem8 = new Crystal(this, 628, 150, 'two');
+    let testGem9 = new Crystal(this, 353, 288, 'two');
     
     this.gems.add(testGem1);
     this.gems.add(testGem4);
     this.gems.add(testGem2);
     this.gems.add(testGem3);
     this.gems.add(testGem5);
+    this.gems.add(testGem6);
+    this.gems.add(testGem7);
+    this.gems.add(testGem8);
+    this.gems.add(testGem9);
     
 
     //define anything that needs animation here
@@ -112,11 +120,6 @@ export default class MainScene extends Phaser.Scene {
     this.physics.add.collider(this.player, this.elevator);
     this.physics.add.collider(this.player, this.elevator2);
     this.physics.add.overlap(this.player, this.enemy3, this.enterCombat);
-    
-
-
-
-
 
   }
 
@@ -127,6 +130,7 @@ export default class MainScene extends Phaser.Scene {
     this.emitManager();
     this.eleveatorHandler();
     this.elevatorHandler2();
+    console.log(this.player.x, this.player.y);
   }
 
   movePlayerManager() { //moves player with arrow keys (not down)
@@ -163,6 +167,7 @@ export default class MainScene extends Phaser.Scene {
       else{
         
         this.scene.launch('BattleScene', {baddie: enemy, previousScene: this.scene.key , player:this.player});
+        enemy.destroy();
         this.scene.pause('MainScene');
         this.scene.sendToBack('MainScene');
       }
@@ -183,7 +188,7 @@ export default class MainScene extends Phaser.Scene {
   emitManager() {
     this.scene.get("BattleScene").events.once("win", () => {
       this.spawnLoot(this.enemy);
-      this.enemy.destroy();
+      //this.enemy.destroy();
     });
   }
 
