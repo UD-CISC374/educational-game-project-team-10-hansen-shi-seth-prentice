@@ -163,7 +163,7 @@ export default class TutorialBattleScene extends Phaser.Scene {
       this.rect.height = 17;
     }
     if(this.phase === 3){
-      this.helpText.text = "finially you select the other number, \npick 2"
+      this.helpText.text = "finally you select the other number, \npick 2"
       this.rect.x = 128.7;
       this.rect.y = this.height-80;
       this.rect.width = 20;

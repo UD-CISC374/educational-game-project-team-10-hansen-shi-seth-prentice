@@ -77,7 +77,10 @@ export default class Crystal extends Phaser.Physics.Arcade.Sprite {
         scene.attackNum = +(+<number><unknown>scene.first.text + +<number><unknown>scene.second.text);
       }
       else if (scene.text === "-") {
-        scene.attackNum = +(+<number><unknown>scene.first.text - +<number><unknown>scene.second.text)
+        scene.attackNum = +(+<number><unknown>scene.first.text - +<number><unknown>scene.second.text);
+      }
+      else if (scene.text === "x") {
+        scene.attackNum = +((+<number><unknown>scene.first.text) * (+<number><unknown>scene.second.text));
       }
       scene.fireText.text = <string><unknown>scene.attackNum;
     }

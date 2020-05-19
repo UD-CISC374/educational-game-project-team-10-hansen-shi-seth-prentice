@@ -27,6 +27,7 @@ export default class BattleScene extends Phaser.Scene {
   nine: Phaser.GameObjects.BitmapText;
   plus: Phaser.GameObjects.BitmapText;
   minus: Phaser.GameObjects.BitmapText;
+  times: Phaser.GameObjects.BitmapText;
   phase: number = 1;
   heart: Phaser.GameObjects.Image;
   first: Phaser.GameObjects.BitmapText;
@@ -150,6 +151,7 @@ export default class BattleScene extends Phaser.Scene {
 
     this.plus = this.add.bitmapText(650,this.height-90,"pixelFont", "+", 30 );
     this.minus = this.add.bitmapText(715,this.height-90,"pixelFont", "-", 30 );
+    //this.times = this.add.bitmapText(780,this.height-90,"pixelFont", "x", 30 );
 
     this.cr1 = new Crystal_button(this, 65, this.height-80, "one", this.num1);
     this.cr2 = new Crystal_button(this, 130, this.height-80, "two", this.num2);
@@ -172,6 +174,7 @@ export default class BattleScene extends Phaser.Scene {
     this.cr9.setInteractive().on('pointerdown',() => this.cr9.clicked(this), this);
     this.plus.setInteractive().on('pointerdown',this.plusClicked, this);
     this.minus.setInteractive().on('pointerdown',this.minusClicked, this);
+    //this.times.setInteractive().on('pointerdown',this.timesClicked, this);
 
     this.cr1.setInteractive().on('pointerover',() => this.cr1.hover(), this);
     this.cr2.setInteractive().on('pointerover',() => this.cr2.hover(), this);
@@ -185,7 +188,7 @@ export default class BattleScene extends Phaser.Scene {
 
     this.cr1.setInteractive().on('pointerout',() => this.cr1.no_hover(), this);
     this.cr2.setInteractive().on('pointerout',() => this.cr2.no_hover(), this);
-    this.cr3.setInteractive().on('pointerout',() => this.cr3.no_hover(), this);
+    this.cr3.setInteractive().on('pointerout',() => this.cr3.no_hover  (), this);
     this.cr4.setInteractive().on('pointerout',() => this.cr4.no_hover(), this);
     this.cr5.setInteractive().on('pointerout',() => this.cr5.no_hover(), this);
     this.cr6.setInteractive().on('pointerout',() => this.cr6.no_hover(), this);
@@ -218,14 +221,6 @@ export default class BattleScene extends Phaser.Scene {
     this.victory();
     this.turnManager();
     this.updateText();
-    console.log(this.phase);
-
-    if (this.helpText.alpha > 0) {
-      this.helpText.alpha -= .003;
-    }
-    this.enemyHp.text = "Hp: " + this.enemy.health;
-    this.playerHp.text = "Hp: " + this.player.health;
-    
   }
 
   updateText(){
@@ -238,6 +233,12 @@ export default class BattleScene extends Phaser.Scene {
     this.seven.text = "x"+this.cr7.amount;
     this.eight.text = "x"+this.cr8.amount;
     this.nine.text = "x"+this.cr9.amount;
+
+    if (this.helpText.alpha > 0) {
+      this.helpText.alpha -= .003;
+    }
+    this.enemyHp.text = "Hp: " + this.enemy.health;
+    this.playerHp.text = "Hp: " + this.player.health;
   }
 
   plusClicked() {
@@ -256,6 +257,18 @@ export default class BattleScene extends Phaser.Scene {
     console.log("-");
     if (this.phase === 2) {
       this.op.text = "-";
+      this.phase++;
+    }
+    else if (this.phase === 1 || this.phase === 3) {
+      this.helpText.text = "Please select a number";
+      this.helpText.alpha = 1;
+    }
+  }
+
+  timesClicked() {
+    console.log("x");
+    if (this.phase === 2) {
+      this.op.text = "x";
       this.phase++;
     }
     else if (this.phase === 1 || this.phase === 3) {
