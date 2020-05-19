@@ -18,6 +18,7 @@ export default class MainScene extends Phaser.Scene {
   enemies: Phaser.GameObjects.Group;
   gems: Phaser.GameObjects.Group;
   platforms: Phaser.GameObjects.Group;
+  pouch: Phaser.Physics.Arcade.Sprite;
 
 
   playerGems: Phaser.GameObjects.BitmapText;
@@ -38,7 +39,8 @@ export default class MainScene extends Phaser.Scene {
     this.height = <number>this.game.config.height;
     this.width = <number>this.game.config.width;
 
-
+    //I'm making levels the old fashioned way because I've spent way
+    //too much time trying to make tilemaps work to no avail
     this.platforms = this.physics.add.staticGroup();
     this.platforms.create(520, 600, "levelFloor");
     this.platforms.create(-300, 400, 'levelFloor');
@@ -58,11 +60,13 @@ export default class MainScene extends Phaser.Scene {
     this.helpText = this.add.bitmapText(10, 10, "pixelFont", "Move with arrow keys", 30);
 
 
-    this.helpText = this.add.bitmapText(10, 10,"pixelFont", "Move with arrow keys", 30 );
-    
-    
+    this.helpText = this.add.bitmapText(10, 10, "pixelFont", "Move with arrow keys", 30);
 
-    this.background = this.add.tileSprite(0, 0, this.width, this.height, "background").setDepth(-1);//I know its shit, we can get a better one later
+    this.pouch = this.physics.add.sprite(70, this.height-600, "pouch");
+    this.pouch.setScale(.1);
+    this.pouch.setGravityY(500);
+
+    this.background = this.add.tileSprite(0, 0, this.width, this.height, "background").setDepth(-1);
     this.background.setOrigin(0, 0);
     this.background.setScrollFactor(0);
 
@@ -99,9 +103,9 @@ export default class MainScene extends Phaser.Scene {
     this.enemies.add(this.enemy);
     this.enemy.setGravityY(1400);
     this.player.setCollideWorldBounds(false);
-    this.enemy2 = new Bat(this, 200, 120, 3, 2);
+    this.enemy2 = new Bat(this, 1200, 150, 3, 2);
     this.enemies.add(this.enemy2);
-    this.enemy3 = new Ghost(this, 1900, 150, 10, 3);
+    this.enemy3 = new Ghost(this, 1875, 150, 10, 3);
     this.enemies.add(this.enemy3);
 
     //camera
@@ -110,27 +114,34 @@ export default class MainScene extends Phaser.Scene {
     this.cameras.main.startFollow(this.player);
 
     //collison stuff
-    this.physics.add.overlap(this.player, this.enemies, this.enterCombat);
     this.physics.add.collider(this.player, this.platforms);
     this.physics.add.collider(this.enemy, this.platforms);
     this.physics.add.collider(this.gems, this.platforms);
-    
-    
-    this.physics.add.overlap(this.player, this.gems, this.pickupItem);
     this.physics.add.collider(this.player, this.elevator);
     this.physics.add.collider(this.player, this.elevator2);
-    this.physics.add.overlap(this.player, this.enemy3, this.enterCombat);
+    this.physics.add.collider(this.pouch, this.platforms);
 
+
+    this.physics.add.overlap(this.player, this.gems, this.pickupItem);
+    this.physics.add.overlap(this.player, this.enemies, this.enterCombat);
+    this.physics.add.overlap(this.player, this.enemy3, this.enterCombat);
+    this.physics.add.overlap(this.player, this.pouch, ()=>{
+      this.pouch.destroy();
+      this.player.inventory.set("one", 5);
+      this.player.inventory.set("two", 4);
+      this.player.inventory.set("three", 3);
+      this.player.inventory.set("four", 2);
+      this.player.inventory.set("five", 1);
+    });
   }
 
 
   update() {//                           update is here
     this.movePlayerManager();
     this.enemiesManager();
-    this.emitManager();
     this.eleveatorHandler();
     this.elevatorHandler2();
-    console.log(this.player.x, this.player.y);
+    this.death();
   }
 
   movePlayerManager() { //moves player with arrow keys (not down)
@@ -164,54 +175,73 @@ export default class MainScene extends Phaser.Scene {
       if (enemy.active) {
         enemy.update();
       }
-      else{
-        
-        this.scene.launch('BattleScene', {baddie: enemy, previousScene: this.scene.key , player:this.player});
+      else {
+        this.spawnLoot(enemy);
         enemy.destroy();
+        this.scene.launch('BattleScene', { baddie: enemy, previousScene: this.scene.key, player: this.player });
         this.scene.pause('MainScene');
         this.scene.sendToBack('MainScene');
       }
     }
   }
 
-  pickupItem(player, gem){
+  pickupItem(player, gem) {
     player.pickup(gem);
     gem.active = false;
     gem.destroy();
   }
 
   enterCombat(player, enemy) {
-    console.log("get hit nerd");
     enemy.active = false;
   }
 
-  emitManager() {
-    this.scene.get("BattleScene").events.once("win", () => {
-      this.spawnLoot(this.enemy);
-      //this.enemy.destroy();
-    });
+  spawnLoot(enemy: any) {
+    if (enemy.name === "skeleton") {
+      let loot = new Crystal(this, enemy.x, enemy.y - 100, 'four');
+      let loot2 = new Crystal (this, enemy.x, enemy.y - 100, 'two');
+      this.gems.add(loot);
+      this.gems.add(loot2);
+      loot.setGravityY(400);
+      loot2.setGravityY(400);
+    }
+    else if (enemy.name === "bat"){
+      let loot = new Crystal(this, enemy.x, enemy.y-100, 'three');
+      this.gems.add(loot);
+      loot.setGravityY(400);
+    }
+    else if (enemy.name === "ghost"){
+      let loot = new Crystal(this, enemy.x, enemy.y-100, 'five');
+      let loot2 = new Crystal(this, enemy.x, enemy.y-100, 'three');
+      let loot3 = new Crystal(this, enemy.x, enemy.y-100, 'one');
+      this.gems.add(loot);
+      this.gems.add(loot2);
+      this.gems.add(loot3);
+      loot.setGravityY(400);
+      loot2.setGravityY(400);
+      loot3.setGravityY(400);
+    }
   }
 
-  spawnLoot(enemy: Phaser.GameObjects.Sprite) {
-    let loot = new Crystal(this, enemy.x, enemy.y - 100, 'three');
-    this.gems.add(loot);
-    loot.setGravityY(400);
-  }
-
-  eleveatorHandler(){
-    if (this.elevator.y <= 400){
+  eleveatorHandler() {
+    if (this.elevator.y <= 400) {
       this.elevator.setVelocityY(50);
     }
-    else if (this.elevator.y >= 550){
+    else if (this.elevator.y >= 550) {
       this.elevator.setVelocityY(-50);
     }
   }
-  elevatorHandler2(){
-    if (this.elevator2.y <= 0){
+  elevatorHandler2() {
+    if (this.elevator2.y <= 100) {
       this.elevator2.setVelocityY(25);
     }
-    else if (this.elevator2.y >= 200){
+    else if (this.elevator2.y >= 300) {
       this.elevator2.setVelocityY(-25);
+    }
+  }
+
+  death(){
+    if (this.player.y > 700){
+      this.scene.launch("Restart", {currentScene: this.scene.key});
     }
   }
 }

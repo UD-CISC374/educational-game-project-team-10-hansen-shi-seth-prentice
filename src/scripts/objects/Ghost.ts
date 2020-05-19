@@ -30,7 +30,7 @@ export default class Ghost extends Phaser.Physics.Arcade.Sprite {
             this.x += 1;
             this.flipX = false;
         }
-        if (this.x === this.homeX + 270 || this.x === this.homeX - 80){
+        if (this.x === this.homeX + 190 || this.x === this.homeX - 150){
             this.facingLeft = !this.facingLeft;
         }
     }
