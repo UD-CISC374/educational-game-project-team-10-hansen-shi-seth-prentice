@@ -1,6 +1,7 @@
 import Skeleton from "../objects/Skeleton";
 import Player from "../objects/Player";
 import Bunny from "../objects/Bunny";
+import Crystal_button from "../objects/Crystal_button";
 
 export default class TutorialBattleScene extends Phaser.Scene {
   background: Phaser.GameObjects.TileSprite;
@@ -31,15 +32,15 @@ export default class TutorialBattleScene extends Phaser.Scene {
   playAnim: boolean = false;
   fireball: Phaser.GameObjects.Sprite;
   attackNum: number;
-  cr1: Phaser.GameObjects.Sprite;
-  cr2: Phaser.GameObjects.Sprite;
-  cr3: Phaser.GameObjects.Sprite;
-  cr4: Phaser.GameObjects.Sprite;
-  cr5: Phaser.GameObjects.Sprite;
-  cr6: Phaser.GameObjects.Sprite;
-  cr7: Phaser.GameObjects.Sprite;
-  cr8: Phaser.GameObjects.Sprite;
-  cr9: Phaser.GameObjects.Sprite;
+  cr1: Crystal_button;
+  cr2: Crystal_button;
+  cr3: Crystal_button;
+  cr4: Crystal_button;
+  cr5: Crystal_button;
+  cr6: Crystal_button;
+  cr7: Crystal_button;
+  cr8: Crystal_button;
+  cr9: Crystal_button;
   num1: number;
   num2: number;
   num3: number;
@@ -50,6 +51,7 @@ export default class TutorialBattleScene extends Phaser.Scene {
   num8: number;
   num9: number;
   previousScene: string;
+  rect: Phaser.GameObjects.Rectangle;
 
   playerTurn: boolean = true;
   enemyAtk: Phaser.GameObjects.BitmapText;
@@ -100,6 +102,7 @@ export default class TutorialBattleScene extends Phaser.Scene {
 
     //this.scene.launch('UI', { playerHp: this.player.health, enemyHp: this.enemy.health, enemyAtk: this.enemy.atk })
 
+    this.rect = this.add.rectangle(63.7, this.height-80, 20, 40, 0xff0000);
 
     //this.one = this.add.bitmapText(65,this.height-80,"pixelFont", "1", 30 );
     //this.two = this.add.bitmapText(130,this.height-80,"pixelFont", "2", 30 );
@@ -107,25 +110,25 @@ export default class TutorialBattleScene extends Phaser.Scene {
     this.plus = this.add.bitmapText(650, this.height - 80, "pixelFont", "+", 30);
     this.minus = this.add.bitmapText(715, this.height - 80, "pixelFont", "-", 30);
 
-    this.cr1 = this.add.sprite(65, this.height - 80, 'cry1', 2);
-    this.cr2 = this.add.sprite(130, this.height - 80, 'cry2', 2);
-    this.cr3 = this.add.sprite(195, this.height - 80, 'cry3', 2);
-    this.cr4 = this.add.sprite(260, this.height - 80, 'cry4', 2);
-    this.cr5 = this.add.sprite(325, this.height - 80, 'cry5', 2);
-    this.cr6 = this.add.sprite(390, this.height - 80, 'cry6', 2);
-    this.cr7 = this.add.sprite(455, this.height - 80, 'cry7', 2);
-    this.cr8 = this.add.sprite(520, this.height - 80, 'cry8', 2);
-    this.cr9 = this.add.sprite(585, this.height - 80, 'cry9', 2);
+    this.cr1 = new Crystal_button(this, 65, this.height-80, "one", this.num1);
+    this.cr2 = new Crystal_button(this, 130, this.height-80, "two", this.num2);
+    this.cr3 = new Crystal_button(this, 195, this.height-80, "three", this.num3);
+    this.cr4 = new Crystal_button(this, 260, this.height-80, "four", this.num4);
+    this.cr5 = new Crystal_button(this, 325, this.height-80, "five", this.num5);
+    this.cr6 = new Crystal_button(this, 390, this.height-80, "six", this.num6);
+    this.cr7 = new Crystal_button(this, 455, this.height-80, "seven", this.num7);
+    this.cr8 = new Crystal_button(this, 520, this.height-80, "eight", this.num8);
+    this.cr9 = new Crystal_button(this, 585, this.height-80, "nine", this.num9);
 
     this.cr1.setInteractive().on('pointerdown', this.oneClicked, this);
     this.cr2.setInteractive().on('pointerdown', this.twoClicked, this);
-    this.cr3.setInteractive().on('pointerdown', this.threeClicked, this);
+    /*this.cr3.setInteractive().on('pointerdown', this.threeClicked, this);
     this.cr4.setInteractive().on('pointerdown', this.fourClicked, this);
     this.cr5.setInteractive().on('pointerdown', this.fiveClicked, this);
     this.cr6.setInteractive().on('pointerdown', this.sixClicked, this);
     this.cr7.setInteractive().on('pointerdown', this.sevenClicked, this);
     this.cr8.setInteractive().on('pointerdown', this.eightClicked, this);
-    this.cr9.setInteractive().on('pointerdown', this.nineClicked, this);
+    this.cr9.setInteractive().on('pointerdown', this.nineClicked, this);*/
     this.plus.setInteractive().on('pointerdown', this.plusClicked, this);
     this.minus.setInteractive().on('pointerdown', this.minusClicked, this);
 
@@ -133,7 +136,7 @@ export default class TutorialBattleScene extends Phaser.Scene {
     this.op = this.add.bitmapText(150, this.height - 300, "pixelFont", "_", 50);
     this.second = this.add.bitmapText(180, this.height - 300, "pixelFont", "_", 50);
 
-    this.helpText = this.add.bitmapText(10, 10, "pixelFont", "Click a number, then an operator then another number \n reduce the enemy hp to 0 to win", 30);
+    this.helpText = this.add.bitmapText(10, 10, "pixelFont", "Click one, your goal is to \nreduce the enemy hp to exactly 0", 30);
 
     this.enemyHp = this.add.bitmapText(this.width - 60, this.height - 250, "pixelFont", "Hp: " + this.enemy.health, 30);
     this.enemyAtk = this.add.bitmapText(this.width - 70, this.height - 370, "pixelFont", "Atk: " + this.enemy.atk, 30);
@@ -142,6 +145,7 @@ export default class TutorialBattleScene extends Phaser.Scene {
 
     this.fireText = this.add.bitmapText(155, this.height - 298, "pixelFont", "5", 30);
     this.fireText.alpha = 0;
+    this.fireText.tint = 0x023ada//you may notice this says ada, I will pretend this is on purpose... cause it totally was... yes
 
     this.fireball.play('fireball_anim');
 
@@ -151,9 +155,24 @@ export default class TutorialBattleScene extends Phaser.Scene {
     this.victory();
     this.turnManager();
 
-    if (this.helpText.alpha > 0) {
-      this.helpText.alpha -= .003;
+    if(this.phase === 2){
+      this.helpText.text = "Next you pick an operator, \nclick on plus"
+      this.rect.x = 657.5;
+      this.rect.y = this.height-58.5;
+      this.rect.width = 17;
+      this.rect.height = 17;
     }
+    if(this.phase === 3){
+      this.helpText.text = "finally you select the other number, \npick 2"
+      this.rect.x = 128.7;
+      this.rect.y = this.height-80;
+      this.rect.width = 20;
+      this.rect.height = 40;
+    }
+
+    /*if (this.helpText.alpha > 0) {
+      this.helpText.alpha -= .003;
+    }*/
     if (this.playAnim) {
       if (this.first.x > 149) {
         this.fireball.x += 8;

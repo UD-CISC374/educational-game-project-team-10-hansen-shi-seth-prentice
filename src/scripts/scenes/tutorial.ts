@@ -11,6 +11,7 @@ export default class Tutorial extends Phaser.Scene {
     floor: Phaser.Physics.Arcade.Sprite;
     bun: Phaser.Physics.Arcade.Sprite;
     mama: Phaser.Physics.Arcade.Sprite;
+    helpText: Phaser.GameObjects.BitmapText;
     constructor() {
         super({ key: 'Tutorial' });
     }
@@ -27,6 +28,8 @@ export default class Tutorial extends Phaser.Scene {
         this.cursorKeys = this.input.keyboard.createCursorKeys();
 
         this.floor = this.physics.add.sprite(400, 675, 'platform').setImmovable(true);
+
+        this.helpText = this.add.bitmapText(10, 10, "pixelFont", "Father: Felix, go hunt a rabbit for dinner! \nCareful not to fall in the cave", 30);
 
         this.player = new Player(this, 60, this.height - 120);
         this.player.setGravityY(1400);
@@ -63,6 +66,7 @@ export default class Tutorial extends Phaser.Scene {
         this.movePlayerManager();
         this.enemyManager();
         this.feelBad();
+        this.helpText.alpha-=.003;
     }
 
     movePlayerManager() {

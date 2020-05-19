@@ -2,7 +2,7 @@ import Skeleton from "../objects/Skeleton";
 import Player from "../objects/Player";
 import Bunny from "../objects/Bunny";
 import Bat from "../objects/Bat";
-import Crystal from "../objects/Crystal";
+import Crystal_button from "../objects/Crystal_button";
 import Ghost from "../objects/Ghost";
 import Frog from '../objects/Frog';
 
@@ -29,6 +29,7 @@ export default class BattleScene extends Phaser.Scene {
   nine: Phaser.GameObjects.BitmapText;
   plus: Phaser.GameObjects.BitmapText;
   minus: Phaser.GameObjects.BitmapText;
+  times: Phaser.GameObjects.BitmapText;
   phase: number = 1;
   heart: Phaser.GameObjects.Image;
   first: Phaser.GameObjects.BitmapText;
@@ -37,21 +38,22 @@ export default class BattleScene extends Phaser.Scene {
   helpText: Phaser.GameObjects.BitmapText;
   enemyHp: Phaser.GameObjects.BitmapText;
   fireText: Phaser.GameObjects.BitmapText;
+  undo: Phaser.GameObjects.BitmapText;
   baddie: any;
   playAnim: boolean = false;
   fireball: Phaser.GameObjects.Sprite;
   attackNum: number;
   previousScene: string;
   
-  cr1: Phaser.GameObjects.Image;
-  cr2: Phaser.GameObjects.Image;
-  cr3: Phaser.GameObjects.Image;
-  cr4: Phaser.GameObjects.Image;
-  cr5: Phaser.GameObjects.Image;
-  cr6: Phaser.GameObjects.Image;
-  cr7: Phaser.GameObjects.Image;
-  cr8: Phaser.GameObjects.Image;
-  cr9: Phaser.GameObjects.Image;
+  cr1: Crystal_button;
+  cr2: Crystal_button;
+  cr3: Crystal_button;
+  cr4: Crystal_button;
+  cr5: Crystal_button;
+  cr6: Crystal_button;
+  cr7: Crystal_button;
+  cr8: Crystal_button;
+  cr9: Crystal_button;
   num1: number;
   num2: number;
   num3: number;
@@ -156,28 +158,50 @@ export default class BattleScene extends Phaser.Scene {
 
     this.plus = this.add.bitmapText(650,this.height-90,"pixelFont", "+", 30 );
     this.minus = this.add.bitmapText(715,this.height-90,"pixelFont", "-", 30 );
+    //this.times = this.add.bitmapText(780,this.height-90,"pixelFont", "x", 30 );
 
-    this.cr1 = this.add.image(65, this.height-80, 'crystal_button1');
-    this.cr2 = this.add.image(130, this.height-80, 'crystal_button2');
-    this.cr3 = this.add.image(195, this.height-80, 'crystal_button3');
-    this.cr4 = this.add.image(260, this.height-80, 'crystal_button4');
-    this.cr5 = this.add.image(325, this.height-80, 'crystal_button5');
-    this.cr6 = this.add.image(390, this.height-80, 'crystal_button6');
-    this.cr7 = this.add.image(455, this.height-80, 'crystal_button7');
-    this.cr8 = this.add.image(520, this.height-80, 'crystal_button8');
-    this.cr9 = this.add.image(585, this.height-80, 'crystal_button9');
+    this.cr1 = new Crystal_button(this, 65, this.height-80, "one", this.num1);
+    this.cr2 = new Crystal_button(this, 130, this.height-80, "two", this.num2);
+    this.cr3 = new Crystal_button(this, 195, this.height-80, "three", this.num3);
+    this.cr4 = new Crystal_button(this, 260, this.height-80, "four", this.num4);
+    this.cr5 = new Crystal_button(this, 325, this.height-80, "five", this.num5);
+    this.cr6 = new Crystal_button(this, 390, this.height-80, "six", this.num6);
+    this.cr7 = new Crystal_button(this, 455, this.height-80, "seven", this.num7);
+    this.cr8 = new Crystal_button(this, 520, this.height-80, "eight", this.num8);
+    this.cr9 = new Crystal_button(this, 585, this.height-80, "nine", this.num9);
     
-    this.cr1.setInteractive().on('pointerdown',this.oneClicked, this);
-    this.cr2.setInteractive().on('pointerdown',this.twoClicked, this);
-    this.cr3.setInteractive().on('pointerdown',this.threeClicked, this);
-    this.cr4.setInteractive().on('pointerdown',this.fourClicked, this);
-    this.cr5.setInteractive().on('pointerdown',this.fiveClicked, this);
-    this.cr6.setInteractive().on('pointerdown',this.sixClicked, this);
-    this.cr7.setInteractive().on('pointerdown',this.sevenClicked, this);
-    this.cr8.setInteractive().on('pointerdown',this.eightClicked, this);
-    this.cr9.setInteractive().on('pointerdown',this.nineClicked, this);
+    this.cr1.setInteractive().on('pointerdown',() => this.cr1.clicked(this), this);
+    this.cr2.setInteractive().on('pointerdown',() => this.cr2.clicked(this), this);
+    this.cr3.setInteractive().on('pointerdown',() => this.cr3.clicked(this), this);
+    this.cr4.setInteractive().on('pointerdown',() => this.cr4.clicked(this), this);
+    this.cr5.setInteractive().on('pointerdown',() => this.cr5.clicked(this), this);
+    this.cr6.setInteractive().on('pointerdown',() => this.cr6.clicked(this), this);
+    this.cr7.setInteractive().on('pointerdown',() => this.cr7.clicked(this), this);
+    this.cr8.setInteractive().on('pointerdown',() => this.cr8.clicked(this), this);
+    this.cr9.setInteractive().on('pointerdown',() => this.cr9.clicked(this), this);
     this.plus.setInteractive().on('pointerdown',this.plusClicked, this);
     this.minus.setInteractive().on('pointerdown',this.minusClicked, this);
+    //this.times.setInteractive().on('pointerdown',this.timesClicked, this);
+
+    this.cr1.setInteractive().on('pointerover',() => this.cr1.hover(), this);
+    this.cr2.setInteractive().on('pointerover',() => this.cr2.hover(), this);
+    this.cr3.setInteractive().on('pointerover',() => this.cr3.hover(), this);
+    this.cr4.setInteractive().on('pointerover',() => this.cr4.hover(), this);
+    this.cr5.setInteractive().on('pointerover',() => this.cr5.hover(), this);
+    this.cr6.setInteractive().on('pointerover',() => this.cr6.hover(), this);
+    this.cr7.setInteractive().on('pointerover',() => this.cr7.hover(), this);
+    this.cr8.setInteractive().on('pointerover',() => this.cr8.hover(), this);
+    this.cr9.setInteractive().on('pointerover',() => this.cr9.hover(), this);
+
+    this.cr1.setInteractive().on('pointerout',() => this.cr1.no_hover(), this);
+    this.cr2.setInteractive().on('pointerout',() => this.cr2.no_hover(), this);
+    this.cr3.setInteractive().on('pointerout',() => this.cr3.no_hover  (), this);
+    this.cr4.setInteractive().on('pointerout',() => this.cr4.no_hover(), this);
+    this.cr5.setInteractive().on('pointerout',() => this.cr5.no_hover(), this);
+    this.cr6.setInteractive().on('pointerout',() => this.cr6.no_hover(), this);
+    this.cr7.setInteractive().on('pointerout',() => this.cr7.no_hover(), this);
+    this.cr8.setInteractive().on('pointerout',() => this.cr8.no_hover(), this);
+    this.cr9.setInteractive().on('pointerout',() => this.cr9.no_hover(), this);
 
     this.first = this.add.bitmapText(120,this.height-300,"pixelFont", "_", 50 );
     this.op = this.add.bitmapText(150,this.height-300,"pixelFont", "_", 50 );
@@ -189,10 +213,12 @@ export default class BattleScene extends Phaser.Scene {
     this.enemyAtk = this.add.bitmapText(this.width - 70, this.height - 370,"pixelFont", "Atk: " + this.enemy.atk, 30 );
 
     this.playerHp = this.add.bitmapText(30, this.height - 250,"pixelFont", "Hp: " + this.player.health, 30 );
+    this.undo = this.add.bitmapText(30, this.height - 220,"pixelFont", 'Undo', 30 );
+    this.undo.setInteractive().on('pointerdown',this.undoTurn, this);
     
     this.fireText = this.add.bitmapText(155,this.height-298,"pixelFont", "5", 30 );
     this.fireText.alpha = 0;
-    this.fireText.tint = 0x023ada
+    this.fireText.tint = 0x023ada//you may notice this says ada, I will pretend this is on purpose... cause it totally was... yes
 
     this.fireball.play('fireball_anim');
 
@@ -201,286 +227,25 @@ export default class BattleScene extends Phaser.Scene {
   update() {
     this.victory();
     this.turnManager();
-    this.death();
+    this.updateText();
+  }
+
+  updateText(){
+    this.one.text = "x"+this.cr1.amount;
+    this.two.text = "x"+this.cr2.amount;
+    this.three.text = "x"+this.cr3.amount;
+    this.four.text = "x"+this.cr4.amount;
+    this.five.text = "x"+this.cr5.amount;
+    this.six.text = "x"+this.cr6.amount;
+    this.seven.text = "x"+this.cr7.amount;
+    this.eight.text = "x"+this.cr8.amount;
+    this.nine.text = "x"+this.cr9.amount;
 
     if (this.helpText.alpha > 0) {
       this.helpText.alpha -= .003;
     }
     this.enemyHp.text = "Hp: " + this.enemy.health;
     this.playerHp.text = "Hp: " + this.player.health;
-    
-  }
-
-  oneClicked() {
-    console.log(1);
-    if(this.phase === 1 && this.num1>0){
-      this.mutable.reduce("one");
-      this.num1-=1;
-      this.one.text = "x"+this.num1;
-      this.first.text = "1";
-      this.phase++;
-    }
-    else if (this.phase === 2) {
-      this.helpText.text = "Please select an operator";
-      this.helpText.alpha = 1;
-    }
-    else if(this.phase === 3 && this.num1 > 0){
-      this.mutable.reduce("one");
-      this.num1-=1;
-      this.one.text = "x"+this.num1;
-      this.second.text = "1";
-      this.phase = 1;
-      this.playAnim = true;
-      if (this.op.text === "+") {
-        this.attackNum = +(+<number><unknown>this.first.text + +<number><unknown>this.second.text);
-      }
-      else if (this.op.text === "-") {
-        this.attackNum = +(+<number><unknown>this.first.text - +<number><unknown>this.second.text)
-      }
-      this.fireText.text = <string><unknown>this.attackNum;
-    }
-  }
-
-  twoClicked() {
-    console.log(2);
-    if(this.phase === 1 && this.num2 > 0){
-      this.mutable.reduce("two");
-      this.num2-=1;
-      this.two.text = "x"+this.num2;
-      this.first.text = "2";
-      this.phase++;
-    }
-    else if (this.phase === 2) {
-      this.helpText.text = "Please select an operator";
-      this.helpText.alpha = 1;
-    }
-    else if(this.phase === 3 && this.num2 > 0){
-      this.mutable.reduce("two");
-      this.num2-=1;
-      this.two.text = "x"+this.num2;
-      this.second.text = "2";
-      this.phase = 1;
-      this.playAnim = true;
-      if (this.op.text === "+") {
-        this.attackNum = +(+<number><unknown>this.first.text + +<number><unknown>this.second.text);
-      }
-      else if (this.op.text === "-") {
-        this.attackNum = +(+<number><unknown>this.first.text - +<number><unknown>this.second.text)
-      }
-      this.fireText.text = <string><unknown>this.attackNum;
-    }
-  }
-
-  threeClicked() {
-    console.log(3);
-    if(this.phase === 1 && this.num3>0){
-      this.mutable.reduce("three");
-      this.num3-=1;
-      this.three.text = "x"+this.num3;
-      this.first.text = "3";
-      this.phase++;
-    }
-    else if (this.phase === 2) {
-      this.helpText.text = "Please select an operator";
-      this.helpText.alpha = 1;
-    }
-    else if(this.phase === 3 && this.num3){
-      this.mutable.reduce("three");
-      this.num3-=1;
-      this.three.text = "x"+this.num3;
-      this.second.text = "3";
-      this.phase = 1;
-      this.playAnim = true;
-      if (this.op.text === "+") {
-        this.attackNum = +(+<number><unknown>this.first.text + +<number><unknown>this.second.text);
-      }
-      else if (this.op.text === "-") {
-        this.attackNum = +(+<number><unknown>this.first.text - +<number><unknown>this.second.text)
-      }
-      this.fireText.text = <string><unknown>this.attackNum;
-    }
-  }
-
-  fourClicked() {
-    console.log(4);
-    if(this.phase === 1 && this.num4 > 0){
-      this.mutable.reduce("four");
-      this.num4-=1;
-      this.four.text = "x"+this.num4;
-      this.first.text = "4";
-      this.phase++;
-    }
-    else if (this.phase === 2) {
-      this.helpText.text = "Please select an operator";
-      this.helpText.alpha = 1;
-    }
-    else if(this.phase === 3 && this.num4 > 0){
-      this.mutable.reduce("four");
-      this.num4-=1;
-      this.four.text = "x"+this.num4;
-      this.second.text = "4";
-      this.phase = 1;
-      this.playAnim = true;
-      if (this.op.text === "+") {
-        this.attackNum = +(+<number><unknown>this.first.text + +<number><unknown>this.second.text);
-      }
-      else if (this.op.text === "-") {
-        this.attackNum = +(+<number><unknown>this.first.text - +<number><unknown>this.second.text)
-      }
-      this.fireText.text = <string><unknown>this.attackNum;
-    }
-  }
-
-  fiveClicked() {
-    console.log(5);
-    if(this.phase === 1 && this.num5 > 0){
-      this.mutable.reduce("five");
-      this.num5-=1;
-      this.five.text = "x"+this.num5;
-      this.first.text = "5";
-      this.phase++;
-    }
-    else if (this.phase === 2) {
-      this.helpText.text = "Please select an operator";
-      this.helpText.alpha = 1;
-    }
-    else if(this.phase === 3 && this.num5 > 0){
-      this.mutable.reduce("five");
-      this.num5-=1;
-      this.five.text = "x"+this.num5;
-      this.second.text = "5";
-      this.phase = 1;
-      this.playAnim = true;
-      if (this.op.text === "+") {
-        this.attackNum = +(+<number><unknown>this.first.text + +<number><unknown>this.second.text);
-      }
-      else if (this.op.text === "-") {
-        this.attackNum = +(+<number><unknown>this.first.text - +<number><unknown>this.second.text)
-      }
-      this.fireText.text = <string><unknown>this.attackNum;
-    }
-  }
-
-  sixClicked() {
-    console.log(6);
-    if(this.phase === 1 && this.num6 > 0){
-      this.mutable.reduce("six");
-      this.num6-=1;
-      this.six.text = "x"+this.num6;
-      this.first.text = "6";
-      this.phase++;
-    }
-    else if (this.phase === 2) {
-      this.helpText.text = "Please select an operator";
-      this.helpText.alpha = 1;
-    }
-    else if(this.phase === 3 && this.num6 > 0){
-      this.mutable.reduce("six");
-      this.num6-=1;
-      this.six.text = "x"+this.num6;
-      this.second.text = "6";
-      this.phase = 1;
-      this.playAnim = true;
-      if (this.op.text === "+") {
-        this.attackNum = +(+<number><unknown>this.first.text + +<number><unknown>this.second.text);
-      }
-      else if (this.op.text === "-") {
-        this.attackNum = +(+<number><unknown>this.first.text - +<number><unknown>this.second.text)
-      }
-      this.fireText.text = <string><unknown>this.attackNum;
-    }
-  }
-
-  sevenClicked() {
-    console.log(3);
-    if(this.phase === 1 && this.num7 > 0){
-      this.mutable.reduce("seven");
-      this.num7-=1;
-      this.seven.text = "x"+this.num7;
-      this.first.text = "7";
-      this.phase++;
-    }
-    else if(this.phase === 2 && this.num7 > 0){
-      this.num7-=1;
-      this.seven.text = "x"+this.num7;
-      this.helpText.text = "Please select an operator";
-      this.helpText.alpha = 1;
-    }
-    else if(this.phase === 3 && this.num7 > 0){
-      this.mutable.reduce("seven");
-      this.num7-=1;
-      this.seven.text = "x"+this.num7;
-      this.second.text = "7";
-      this.phase = 1;
-      this.playAnim = true;
-      if (this.op.text === "+") {
-        this.attackNum = +(+<number><unknown>this.first.text + +<number><unknown>this.second.text);
-      }
-      else if (this.op.text === "-") {
-        this.attackNum = +(+<number><unknown>this.first.text - +<number><unknown>this.second.text)
-      }
-      this.fireText.text = <string><unknown>this.attackNum;
-    }
-  }
-
-  eightClicked() {
-    console.log(8);
-    if(this.phase === 1 && this.num8 > 0){
-      this.mutable.reduce("eight");
-      this.num8-=1;
-      this.eight.text = "x"+this.num8;
-      this.first.text = "8";
-      this.phase++;
-    }
-    else if (this.phase === 2) {
-      this.helpText.text = "Please select an operator";
-      this.helpText.alpha = 1;
-    }
-    else if(this.phase === 3 && this.num8 > 0){
-      this.mutable.reduce("eight");
-      this.num8-=1;
-      this.eight.text = "x"+this.num8;
-      this.second.text = "8";
-      this.phase = 1;
-      this.playAnim = true;
-      if (this.op.text === "+") {
-        this.attackNum = +(+<number><unknown>this.first.text + +<number><unknown>this.second.text);
-      }
-      else if (this.op.text === "-") {
-        this.attackNum = +(+<number><unknown>this.first.text - +<number><unknown>this.second.text)
-      }
-      this.fireText.text = <string><unknown>this.attackNum;
-    }
-  }
-
-  nineClicked() {
-    console.log(9);
-    if(this.phase === 1 && this.num9 > 0){
-      this.mutable.reduce("nine");
-      this.num9-=1;
-      this.nine.text = "x"+this.num9;
-      this.first.text = "9";
-      this.phase++;
-    }
-    else if (this.phase === 2) {
-      this.helpText.text = "Please select an operator";
-      this.helpText.alpha = 1;
-    }
-    else if(this.phase === 3 && this.num9 > 0){
-      this.mutable.reduce("nine");
-      this.num9-=1;
-      this.nine.text = "x"+this.num9;
-      this.second.text = "9";
-      this.phase = 1;
-      this.playAnim = true;
-      if (this.op.text === "+") {
-        this.attackNum = +(+<number><unknown>this.first.text + +<number><unknown>this.second.text);
-      }
-      else if (this.op.text === "-") {
-        this.attackNum = +(+<number><unknown>this.first.text - +<number><unknown>this.second.text)
-      }
-      this.fireText.text = <string><unknown>this.attackNum;
-    }
   }
 
   plusClicked() {
@@ -504,6 +269,60 @@ export default class BattleScene extends Phaser.Scene {
     else if (this.phase === 1 || this.phase === 3) {
       this.helpText.text = "Please select a number";
       this.helpText.alpha = 1;
+    }
+  }
+
+  timesClicked() {
+    console.log("x");
+    if (this.phase === 2) {
+      this.op.text = "x";
+      this.phase++;
+    }
+    else if (this.phase === 1 || this.phase === 3) {
+      this.helpText.text = "Please select a number";
+      this.helpText.alpha = 1;
+    }
+  }
+
+  undoTurn(){
+    if(this.phase === 1 ){
+      this.helpText.text = "There is nothing to undo";
+      this.helpText.alpha = 1;
+    }
+    else if(this.phase === 2){
+      if(this.first.text === "1"){
+        this.cr1.undo(this);
+      }
+      else if(this.first.text === "2"){
+        this.cr2.undo(this);
+      }
+      else if(this.first.text === "3"){
+        this.cr3.undo(this);
+      }
+      else if(this.first.text === "4"){
+        this.cr4.undo(this);
+      }
+      else if(this.first.text === "5"){
+        this.cr5.undo(this);
+      }
+      else if(this.first.text === "6"){
+        this.cr6.undo(this);
+      }
+      else if(this.first.text === "7"){
+        this.cr7.undo(this);
+      }
+      else if(this.first.text === "8"){
+        this.cr8.undo(this);
+      }
+      else if(this.first.text === "9"){
+        this.cr9.undo(this);
+      }
+      this.first.text = "_";
+      this.phase-=1;
+    }
+    else if(this.phase === 3){
+      this.op.text = "_";
+      this.phase-=1;
     }
   }
 
