@@ -37,4 +37,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     reduce(str:string){
         this.inventory.set(str, <number> this.inventory.get(str)-1);
     }
+    increase(str:string){
+        this.inventory.set(str, <number> this.inventory.get(str)+1);
+    }
 }
