@@ -16,7 +16,6 @@ export default class BattleScene extends Phaser.Scene {
   enemy: any;
   player: Player;
   enemies: Phaser.GameObjects.Group;
-  heartContainers: Phaser.GameObjects.Group;
   one: Phaser.GameObjects.BitmapText;
   two: Phaser.GameObjects.BitmapText;
   three: Phaser.GameObjects.BitmapText;
@@ -84,7 +83,6 @@ export default class BattleScene extends Phaser.Scene {
     this.height = <number>this.game.config.height;
 
     this.enemies = this.physics.add.group();
-    this.heartContainers = this.physics.add.staticGroup();
 
     this.background = this.add.tileSprite(0, 0, this.width, this.height, "fight");
     this.background.setOrigin(0, 0);
@@ -525,9 +523,20 @@ export default class BattleScene extends Phaser.Scene {
     this.scene.get(this.previousScene).input.keyboard.resetKeys();
   }
 
+
   victory() {
     if (this.enemy.health === 0) {
       this.sceneSwitcher();
+    }
+    if (this.enemy.health < 0) {
+      this.sceneSwitcher();
+    }
+  }
+
+  death(){
+    if (this.player.health <= 0){
+      this.scene.pause("BattleScene");
+      this.scene.launch("Restart", {currentScene: this.scene.key});
     }
   }
 

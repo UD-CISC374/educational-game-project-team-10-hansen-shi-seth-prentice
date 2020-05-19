@@ -66,7 +66,7 @@ export default class MainScene extends Phaser.Scene {
     this.pouch.setScale(.1);
     this.pouch.setGravityY(500);
 
-    this.background = this.add.tileSprite(0, 0, this.width, this.height, "background").setDepth(-1);//I know its shit, we can get a better one later
+    this.background = this.add.tileSprite(0, 0, this.width, this.height, "background").setDepth(-1);
     this.background.setOrigin(0, 0);
     this.background.setScrollFactor(0);
 
@@ -103,9 +103,9 @@ export default class MainScene extends Phaser.Scene {
     this.enemies.add(this.enemy);
     this.enemy.setGravityY(1400);
     this.player.setCollideWorldBounds(false);
-    this.enemy2 = new Bat(this, 200, 120, 3, 2);
+    this.enemy2 = new Bat(this, 1200, 150, 3, 2);
     this.enemies.add(this.enemy2);
-    this.enemy3 = new Ghost(this, 1900, 150, 10, 3);
+    this.enemy3 = new Ghost(this, 1875, 150, 10, 3);
     this.enemies.add(this.enemy3);
 
     //camera
@@ -141,7 +141,7 @@ export default class MainScene extends Phaser.Scene {
     this.enemiesManager();
     this.eleveatorHandler();
     this.elevatorHandler2();
-    console.log(this.player.x, this.player.y);
+    this.death();
   }
 
   movePlayerManager() { //moves player with arrow keys (not down)
@@ -192,7 +192,6 @@ export default class MainScene extends Phaser.Scene {
   }
 
   enterCombat(player, enemy) {
-    console.log("get hit nerd");
     enemy.active = false;
   }
 
@@ -232,11 +231,17 @@ export default class MainScene extends Phaser.Scene {
     }
   }
   elevatorHandler2() {
-    if (this.elevator2.y <= 1) {
+    if (this.elevator2.y <= 100) {
       this.elevator2.setVelocityY(25);
     }
     else if (this.elevator2.y >= 300) {
       this.elevator2.setVelocityY(-25);
+    }
+  }
+
+  death(){
+    if (this.player.y > 700){
+      this.scene.launch("Restart", {currentScene: this.scene.key});
     }
   }
 }
