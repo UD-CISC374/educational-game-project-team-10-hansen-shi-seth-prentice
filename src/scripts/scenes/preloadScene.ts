@@ -46,6 +46,10 @@ export default class PreloadScene extends Phaser.Scene {
       frameWidth: 16,
       frameHeight: 16
     });
+    this.load.spritesheet("frog", "assets/Enemies/frog.png", {
+      frameWidth:16,
+      frameHeight:16
+    });
     this.load.spritesheet("cry1", "assets/crystals/Crystal_1.png",{
       frameWidth:32,
       frameHeight:32
@@ -101,6 +105,7 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.image("altar", "assets/level/altar.png");
     this.load.image("statue", "assets/level/statue.png");
     this.load.image("pouch", "assets/crystals/startingPouch.png");
+    this.load.image("formplat", "assets/level/platform.png");
   }
 
   create() {
@@ -116,6 +121,12 @@ export default class PreloadScene extends Phaser.Scene {
       frameRate: 7,
       repeat: -1
     });
+    this.anims.create({
+      key: "frog_anim",
+      frames: this.anims.generateFrameNumbers("frog", { start: 0, end: 3}),
+      frameRate: 7,
+      repeat: -1
+    })
     this.anims.create({
       key: "bat_anim",
       frames: this.anims.generateFrameNumbers("bat", {start: 0, end: 3}),

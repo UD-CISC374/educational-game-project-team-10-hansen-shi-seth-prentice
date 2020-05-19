@@ -8,6 +8,7 @@ import uiScene from './scenes/uiScene';
 import Tutorial from './scenes/tutorial';
 import TutorialBattleScene from './scenes/tutorialBattleScene';
 import Restart from './scenes/restartScene';
+import OtherMainScene from './scenes/otherMainScene'
 
 const DEFAULT_WIDTH: number = 960;
 const DEFAULT_HEIGHT: number = 720;
@@ -22,7 +23,7 @@ const config: GameConfig = {
         width: DEFAULT_WIDTH,
         height: DEFAULT_HEIGHT
     },
-    scene: [PreloadScene, MainScene, BattleScene, Tutorial, uiScene, TutorialBattleScene, Restart],
+    scene: [PreloadScene, MainScene, BattleScene, Tutorial, uiScene, TutorialBattleScene, Restart, OtherMainScene],
     render: {
         pixelArt: true
     },

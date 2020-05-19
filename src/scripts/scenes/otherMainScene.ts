@@ -9,10 +9,14 @@ import Frog from '../objects/Frog';
 
 export default class MainScene extends Phaser.Scene {
   private player: Player;
-  enemy: Skeleton;
-  enemy2: Bat;
-  enemy3: Ghost;
+  enemy: Frog;
+  enemy2: Frog;
+  enemy3: Frog;
   enemy4: Frog;
+  enemy5: Bat;
+  enemy6: Ghost;
+  enemy7: Ghost;
+  enemy8: Ghost;
   background: Phaser.GameObjects.TileSprite;
   height: number;
   width: number;
@@ -21,7 +25,6 @@ export default class MainScene extends Phaser.Scene {
   gems: Phaser.GameObjects.Group;
   platforms: Phaser.GameObjects.Group;
   pouch: Phaser.Physics.Arcade.Sprite;
-  statue: Phaser.Physics.Arcade.Sprite;
 
 
   playerGems: Phaser.GameObjects.BitmapText;
@@ -34,7 +37,7 @@ export default class MainScene extends Phaser.Scene {
 
 
   constructor() {
-    super({ key: 'MainScene' });
+    super({ key: 'OtherMainScene' });
   }
 
   create() {
@@ -45,26 +48,22 @@ export default class MainScene extends Phaser.Scene {
     //I'm making levels the old fashioned way because I've spent way
     //too much time trying to make tilemaps work to no avail
     this.platforms = this.physics.add.staticGroup();
-    this.platforms.create(520, 600, "levelFloor");
-    this.platforms.create(-300, 400, 'levelFloor');
+    this.platforms.create(520, 600, "formplat");
+    this.platforms.create(820, 600, "formplat");
+    this.platforms.create(1120, 600, "formplat");
+    this.platforms.create(1420, 600, "formplat")
+    this.platforms.create(-300, 400, 'platform');
     this.platforms.create(1000, 200, "levelFloor");
     this.platforms.create(350, 325, "batform");
-    this.platforms.create(200, 250, "batform");
-    this.platforms.create(400, 185, "batform");
-    this.platforms.create(100, 50, "batform");
+    this.platforms.create(400, 240, "batform");
     this.platforms.create(1900, 200, "altar");
-    
-    this.statue = this.physics.add.staticSprite(1900, 100, "statue");
+    this.platforms.create(1900, 100, "statue");
 
     this.elevator = this.physics.add.sprite(250, 400, "elevator");
     this.elevator.setImmovable(true);
     this.elevator2 = this.physics.add.sprite(1550, 0, "elevator");
     this.elevator2.setImmovable(true);
 
-    this.helpText = this.add.bitmapText(10, 10, "pixelFont", "Move with arrow keys", 30);
-
-
-    this.helpText = this.add.bitmapText(10, 10, "pixelFont", "Move with arrow keys", 30);
 
     this.pouch = this.physics.add.sprite(70, this.height-600, "pouch");
     this.pouch.setScale(.1);
@@ -79,39 +78,42 @@ export default class MainScene extends Phaser.Scene {
     this.enemies = this.physics.add.group();
     this.gems = this.physics.add.group();
 
-    let testGem1 = new Crystal(this, 200, 550, 'one');
-    let testGem2 = new Crystal(this, 975, 550, 'two');
-    let testGem3 = new Crystal(this, 1000, 550, 'three');
-    let testGem4 = new Crystal(this, 300, 550, 'four');
-    let testGem5 = new Crystal(this, 1025, 550, 'two');
-    let testGem6 = new Crystal(this, 198, 213, 'two');
-    let testGem7 = new Crystal(this, 400, 148, 'two');
-    let testGem8 = new Crystal(this, 628, 150, 'two');
-    let testGem9 = new Crystal(this, 353, 288, 'two');
+    // let testGem1 = new Crystal(this, 200, 550, 'one');
+    // let testGem2 = new Crystal(this, 975, 550, 'two');
+    // let testGem3 = new Crystal(this, 1000, 550, 'three');
+    // let testGem4 = new Crystal(this, 300, 550, 'four');
+    // let testGem5 = new Crystal(this, 1025, 550, 'two');
+    // let testGem6 = new Crystal(this, 198, 213, 'two');
+    // let testGem7 = new Crystal(this, 400, 148, 'two');
+    // let testGem8 = new Crystal(this, 628, 150, 'two');
+    // let testGem9 = new Crystal(this, 353, 288, 'two');
     
-    this.gems.add(testGem1);
-    this.gems.add(testGem4);
-    this.gems.add(testGem2);
-    this.gems.add(testGem3);
-    this.gems.add(testGem5);
-    this.gems.add(testGem6);
-    this.gems.add(testGem7);
-    this.gems.add(testGem8);
-    this.gems.add(testGem9);
+    // this.gems.add(testGem1);
+    // this.gems.add(testGem4);
+    // this.gems.add(testGem2);
+    // this.gems.add(testGem3);
+    // this.gems.add(testGem5);
+    // this.gems.add(testGem6);
+    // this.gems.add(testGem7);
+    // this.gems.add(testGem8);
+    // this.gems.add(testGem9);
     
 
     //define anything that needs animation here
     this.player = new Player(this, 20, this.height - 600)
     this.player.setGravityY(1400);
-    this.enemy = new Skeleton(this, 860, this.height - 250, 5, 2);
+    this.enemy = new Frog(this, 860, this.height - 250, 10, 2);
     this.enemies.add(this.enemy);
     this.enemy.setGravityY(1400);
     this.player.setCollideWorldBounds(false);
-    this.enemy2 = new Bat(this, 1200, 150, 3, 2);
+    this.enemy2 = new Frog(this, 500, this.height-250, 8, 2);
     this.enemies.add(this.enemy2);
-    this.enemy3 = new Ghost(this, 1875, 150, 10, 3);
+    this.enemy2.setGravityY(1400);
+    
+    this.enemy3 = new Skeleton(this, 460, this.height-250, 8, 3);
     this.enemies.add(this.enemy3);
-    this.enemy4 = new Frog(this, 600, 150, 10, 2);
+    this.enemy3.setGravityY(1400);
+    this.enemy4 = new Skeleton(this, 820, this.height-250, 10, 4 );
     this.enemies.add(this.enemy4);
     this.enemy4.setGravityY(1400);
 
@@ -122,13 +124,11 @@ export default class MainScene extends Phaser.Scene {
 
     //collison stuff
     this.physics.add.collider(this.player, this.platforms);
-    this.physics.add.collider(this.enemy, this.platforms);
+    this.physics.add.collider(this.enemies, this.platforms);
     this.physics.add.collider(this.gems, this.platforms);
     this.physics.add.collider(this.player, this.elevator);
     this.physics.add.collider(this.player, this.elevator2);
     this.physics.add.collider(this.pouch, this.platforms);
-    this.physics.add.collider(this.enemy4, this.platforms);
-
 
 
     this.physics.add.overlap(this.player, this.gems, this.pickupItem);
@@ -151,7 +151,6 @@ export default class MainScene extends Phaser.Scene {
     this.eleveatorHandler();
     this.elevatorHandler2();
     this.death();
-    this.proceed();
   }
 
   movePlayerManager() { //moves player with arrow keys (not down)
@@ -189,8 +188,8 @@ export default class MainScene extends Phaser.Scene {
         this.spawnLoot(enemy);
         enemy.destroy();
         this.scene.launch('BattleScene', { baddie: enemy, previousScene: this.scene.key, player: this.player });
-        this.scene.pause('MainScene');
-        this.scene.sendToBack('MainScene');
+        this.scene.pause('OtherMainScene');
+        this.scene.sendToBack('OtherMainScene');
       }
     }
   }
@@ -252,13 +251,6 @@ export default class MainScene extends Phaser.Scene {
   death(){
     if (this.player.y > 700){
       this.scene.launch("Restart", {currentScene: this.scene.key});
-    }
-  }
-
-  proceed(){
-    if (!this.enemy3.active){
-      this.scene.start("OtherMainScene");
-      this.scene.remove("MainScene");
     }
   }
 }

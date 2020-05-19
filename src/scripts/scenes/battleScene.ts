@@ -4,6 +4,8 @@ import Bunny from "../objects/Bunny";
 import Bat from "../objects/Bat";
 import Crystal from "../objects/Crystal";
 import Ghost from "../objects/Ghost";
+import Frog from '../objects/Frog';
+
 
 export default class BattleScene extends Phaser.Scene {
   background: Phaser.GameObjects.TileSprite;
@@ -123,6 +125,11 @@ export default class BattleScene extends Phaser.Scene {
       this.enemy.flipX = true;
       this.enemy.setScale(4); 
     }
+    else if (this.baddie.name === "frog"){
+      this.enemy = new Frog(this, this.width - 40, this.height - 300, this.hp, this.atk);
+      this.enemy.flipX = true;
+      this.enemy.setScale(6);
+    }
 
     this.player = new Player(this, 60, this.height - 300);
     this.player.setScale(3);
@@ -194,6 +201,7 @@ export default class BattleScene extends Phaser.Scene {
   update() {
     this.victory();
     this.turnManager();
+    this.death();
 
     if (this.helpText.alpha > 0) {
       this.helpText.alpha -= .003;
@@ -536,7 +544,8 @@ export default class BattleScene extends Phaser.Scene {
   death(){
     if (this.player.health <= 0){
       this.scene.pause("BattleScene");
-      this.scene.launch("Restart", {currentScene: this.scene.key});
+      this.scene.launch("Restart", {currentScene: this.previousScene});
+      this.scene.sendToBack("BattleScene");
     }
   }
 
