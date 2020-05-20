@@ -343,7 +343,7 @@ export default class BattleScene extends Phaser.Scene {
   }
 
   sceneSwitcher() {
-    this.events.emit("win");
+    this.events.emit("win", this.baddie.name);
     this.scene.stop("BattleScene");
     this.scene.resume(this.previousScene);
     this.scene.setVisible(false, "UI");

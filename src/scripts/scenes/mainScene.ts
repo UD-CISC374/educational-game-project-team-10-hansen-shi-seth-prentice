@@ -1,4 +1,3 @@
-
 import Player from '../objects/Player';
 import { Cameras, Types } from 'phaser';
 import Skeleton from '../objects/Skeleton';
@@ -22,6 +21,7 @@ export default class MainScene extends Phaser.Scene {
   platforms: Phaser.GameObjects.Group;
   pouch: Phaser.Physics.Arcade.Sprite;
   statue: Phaser.Physics.Arcade.Sprite;
+  proceed: boolean = false;
 
 
   playerGems: Phaser.GameObjects.BitmapText;
@@ -53,7 +53,7 @@ export default class MainScene extends Phaser.Scene {
     this.platforms.create(400, 185, "batform");
     this.platforms.create(100, 50, "batform");
     this.platforms.create(1900, 200, "altar");
-    
+
     this.statue = this.physics.add.staticSprite(1900, 100, "statue");
 
     this.elevator = this.physics.add.sprite(250, 400, "elevator");
@@ -66,7 +66,7 @@ export default class MainScene extends Phaser.Scene {
 
     this.helpText = this.add.bitmapText(10, 10, "pixelFont", "Move with arrow keys", 30);
 
-    this.pouch = this.physics.add.sprite(70, this.height-600, "pouch");
+    this.pouch = this.physics.add.sprite(70, this.height - 600, "pouch");
     this.pouch.setScale(.1);
     this.pouch.setGravityY(500);
 
@@ -88,7 +88,7 @@ export default class MainScene extends Phaser.Scene {
     let testGem7 = new Crystal(this, 400, 148, 'two');
     let testGem8 = new Crystal(this, 628, 150, 'two');
     let testGem9 = new Crystal(this, 353, 288, 'two');
-    
+
     this.gems.add(testGem1);
     this.gems.add(testGem4);
     this.gems.add(testGem2);
@@ -98,7 +98,7 @@ export default class MainScene extends Phaser.Scene {
     this.gems.add(testGem7);
     this.gems.add(testGem8);
     this.gems.add(testGem9);
-    
+
 
     //define anything that needs animation here
     this.player = new Player(this, 20, this.height - 600)
@@ -134,7 +134,7 @@ export default class MainScene extends Phaser.Scene {
     this.physics.add.overlap(this.player, this.gems, this.pickupItem);
     this.physics.add.overlap(this.player, this.enemies, this.enterCombat);
     this.physics.add.overlap(this.player, this.enemy3, this.enterCombat);
-    this.physics.add.overlap(this.player, this.pouch, ()=>{
+    this.physics.add.overlap(this.player, this.pouch, () => {
       this.pouch.destroy();
       this.player.inventory.set("one", 5);
       this.player.inventory.set("two", 4);
@@ -151,7 +151,7 @@ export default class MainScene extends Phaser.Scene {
     this.eleveatorHandler();
     this.elevatorHandler2();
     this.death();
-    this.proceed();
+    this.emitHandler();
   }
 
   movePlayerManager() { //moves player with arrow keys (not down)
@@ -208,21 +208,21 @@ export default class MainScene extends Phaser.Scene {
   spawnLoot(enemy: any) {
     if (enemy.name === "skeleton") {
       let loot = new Crystal(this, enemy.x, enemy.y - 100, 'four');
-      let loot2 = new Crystal (this, enemy.x, enemy.y - 100, 'two');
+      let loot2 = new Crystal(this, enemy.x, enemy.y - 100, 'two');
       this.gems.add(loot);
       this.gems.add(loot2);
       loot.setGravityY(400);
       loot2.setGravityY(400);
     }
-    else if (enemy.name === "bat"){
-      let loot = new Crystal(this, enemy.x, enemy.y-100, 'three');
+    else if (enemy.name === "bat") {
+      let loot = new Crystal(this, enemy.x, enemy.y - 100, 'three');
       this.gems.add(loot);
       loot.setGravityY(400);
     }
-    else if (enemy.name === "ghost"){
-      let loot = new Crystal(this, enemy.x, enemy.y-100, 'five');
-      let loot2 = new Crystal(this, enemy.x, enemy.y-100, 'three');
-      let loot3 = new Crystal(this, enemy.x, enemy.y-100, 'one');
+    else if (enemy.name === "ghost") {
+      let loot = new Crystal(this, enemy.x, enemy.y - 100, 'five');
+      let loot2 = new Crystal(this, enemy.x, enemy.y - 100, 'three');
+      let loot3 = new Crystal(this, enemy.x, enemy.y - 100, 'one');
       this.gems.add(loot);
       this.gems.add(loot2);
       this.gems.add(loot3);
@@ -249,14 +249,20 @@ export default class MainScene extends Phaser.Scene {
     }
   }
 
-  death(){
-    if (this.player.y > 700){
-      this.scene.launch("Restart", {currentScene: this.scene.key});
+  death() {
+    if (this.player.y > 700) {
+      this.scene.launch("Restart", { currentScene: this.scene.key });
     }
   }
 
-  proceed(){
-    if (!this.enemy3.active){
+  emitHandler() {
+    this.scene.get('BattleScene').events.once('win', (name) => {
+      if (name === 'ghost') {
+        this.proceed = true;
+      }
+    }, this);
+    
+    if (this.proceed) {
       this.scene.start("OtherMainScene");
       this.scene.remove("MainScene");
     }
