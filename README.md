@@ -10,9 +10,9 @@ Explore a 2-d area and collect number crystals. Engage in combat with enemies by
 
 Combat explanation: Your number crystals are displayed at the bottom along with how many you have of each. Your health is displayed below your character. Likewise, the enemy's health is displayed beneath their character and their attack value above their head. The goal is to combine number crystals to do damage, reducing the enemy's health to 0. 
 
-Movement - arrow keys
+- Movement - arrow keys
 
-Combat - mouse 
+- Combat - mouse 
 
 # Screenshot
 
@@ -22,4 +22,4 @@ Combat - mouse
 
 Please don't judge me for my hilarious and clearly very accurate username:
 
-https://youtu.be/mK6EVnAlQMQ
+- https://youtu.be/mK6EVnAlQMQ
