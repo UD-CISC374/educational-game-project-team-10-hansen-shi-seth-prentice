@@ -15,7 +15,7 @@ Combat - mouse
 
 # Screenshot
 
-![Game](/sr/assets/screenshots/LargeScreenshot.png)
+![Game](/src/assets/screenshots/LargeScreenshot.png)
 
 # Video Link
 
