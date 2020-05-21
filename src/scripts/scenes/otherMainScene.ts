@@ -328,7 +328,7 @@ export default class OtherMainScene extends Phaser.Scene {
       this.cameras.main.shake(50, .002);
       if (this.player.y < 0) {
         this.scene.start("Tutorial");
-        this.scene.remove(this.scene.key);
+        //this.scene.remove(this.scene.key);
       }
     }
   }

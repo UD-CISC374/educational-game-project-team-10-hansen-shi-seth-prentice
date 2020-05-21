@@ -109,7 +109,7 @@ export default class Tutorial extends Phaser.Scene {
             this.cameras.main.shake(50, .001);
             if (this.player.y > this.height){
                 this.scene.start("MainScene");
-                this.scene.remove("TutorialBattleScene");
+                //this.scene.remove("TutorialBattleScene");
             }
         }
     }
