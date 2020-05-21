@@ -233,6 +233,7 @@ export default class BattleScene extends Phaser.Scene {
     this.victory();
     this.turnManager();
     this.updateText();
+    this.death();
   }
 
   updateText() {
