@@ -1,4 +1,5 @@
 # Math Magician
+by Hansen Shi and Seth Prentice
 
 # Quick Pitch
 
