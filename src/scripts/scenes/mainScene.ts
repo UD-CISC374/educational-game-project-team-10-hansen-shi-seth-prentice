@@ -21,6 +21,7 @@ export default class MainScene extends Phaser.Scene {
   platforms: Phaser.GameObjects.Group;
   pouch: Phaser.Physics.Arcade.Sprite;
   statue: Phaser.Physics.Arcade.Sprite;
+  altar: Phaser.Physics.Arcade.Sprite;
   proceed: boolean = false;
 
 
@@ -30,7 +31,6 @@ export default class MainScene extends Phaser.Scene {
 
   elevator: Phaser.Physics.Arcade.Sprite
   elevator2: Phaser.Physics.Arcade.Sprite
-
 
 
   constructor() {
@@ -52,9 +52,9 @@ export default class MainScene extends Phaser.Scene {
     this.platforms.create(200, 250, "batform");
     this.platforms.create(400, 185, "batform");
     this.platforms.create(100, 50, "batform");
-    this.platforms.create(1900, 200, "altar");
 
-    this.statue = this.physics.add.staticSprite(1900, 100, "statue");
+    this.statue = this.physics.add.sprite(1900, 100, "statue");
+    this.altar = this.physics.add.sprite(1900, 200, "altar").setImmovable(true);
 
     this.elevator = this.physics.add.sprite(250, 400, "elevator");
     this.elevator.setImmovable(true);
@@ -128,7 +128,8 @@ export default class MainScene extends Phaser.Scene {
     this.physics.add.collider(this.player, this.elevator2);
     this.physics.add.collider(this.pouch, this.platforms);
     this.physics.add.collider(this.enemy4, this.platforms);
-
+    this.physics.add.collider(this.player, this.altar);
+    this.physics.add.collider(this.altar, this.statue);
 
 
     this.physics.add.overlap(this.player, this.gems, this.pickupItem);
@@ -222,6 +223,17 @@ export default class MainScene extends Phaser.Scene {
     else if (enemy.name === "ghost") {
       let loot = new Crystal(this, enemy.x, enemy.y - 100, 'five');
       let loot2 = new Crystal(this, enemy.x, enemy.y - 100, 'three');
+      let loot3 = new Crystal(this, enemy.x, enemy.y - 100, 'eight');
+      this.gems.add(loot);
+      this.gems.add(loot2);
+      this.gems.add(loot3);
+      loot.setGravityY(400);
+      loot2.setGravityY(400);
+      loot3.setGravityY(400);
+    }
+    else if (enemy.name === "frog"){
+      let loot = new Crystal(this, enemy.x, enemy.y - 100, 'six');
+      let loot2 = new Crystal(this, enemy.x, enemy.y - 100, 'three');
       let loot3 = new Crystal(this, enemy.x, enemy.y - 100, 'one');
       this.gems.add(loot);
       this.gems.add(loot2);
@@ -261,10 +273,14 @@ export default class MainScene extends Phaser.Scene {
         this.proceed = true;
       }
     }, this);
-    
+
     if (this.proceed) {
-      this.scene.start("OtherMainScene");
-      this.scene.remove("MainScene");
+      this.altar.setVelocityY(-50);
+      this.cameras.main.shake(50, .002);
+      if (this.player.y < 0) {
+        this.scene.start("OtherMainScene");
+        this.scene.remove(this.scene.key);
+      }
     }
   }
 }

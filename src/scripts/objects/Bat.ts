@@ -30,7 +30,7 @@ export default class Bat extends Phaser.Physics.Arcade.Sprite {
             this.x += 1;
             this.flipX = false;
         }
-        if (this.x === this.homeX + 270 || this.x === this.homeX - 80){
+        if (this.x === this.homeX + 80 || this.x === this.homeX - 80){
             this.facingLeft = !this.facingLeft;
         }
     }
