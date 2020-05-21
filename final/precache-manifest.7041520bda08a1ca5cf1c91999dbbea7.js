@@ -228,8 +228,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/educational-game-project-team-10-hansen-shi-seth-prentice/finalassets/level/level.png"
   },
   {
-    "revision": "2dbbd86589237154069032ce61f03db8",
-    "url": "/educational-game-project-team-10-hansen-shi-seth-prentice/finalassets/level/stairs.png"
+    "revision": "fc1340983bea3a9b0d0800e19391b359",
+    "url": "/educational-game-project-team-10-hansen-shi-seth-prentice/finalassets/level/platform.png"
   },
   {
     "revision": "9acefb4bdd5f9b6c427ad4d2fbc834e5",
@@ -242,6 +242,14 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "7d94245bf51773c4ce16dafa4f4926d5",
     "url": "/educational-game-project-team-10-hansen-shi-seth-prentice/finalassets/platforms/map.png"
+  },
+  {
+    "revision": "6f8e5c7c4a570729734f32c2978c3ba7",
+    "url": "/educational-game-project-team-10-hansen-shi-seth-prentice/finalassets/screenshots/LargeScreenshot.png"
+  },
+  {
+    "revision": "244ff865c0914a09e7186481f31fb89a",
+    "url": "/educational-game-project-team-10-hansen-shi-seth-prentice/finalassets/screenshots/SmallScreenshot.jpg"
   },
   {
     "revision": "246067bc7bfe342f624c3090be2a7c90",
@@ -272,15 +280,15 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/educational-game-project-team-10-hansen-shi-seth-prentice/finalfavicon.ico"
   },
   {
-    "revision": "754aaba547fbc814ec7b",
-    "url": "/educational-game-project-team-10-hansen-shi-seth-prentice/finalgen.main.4c75fd13240314c92bd2.bundle.js"
+    "revision": "74a05bec9dcd07aaa77c",
+    "url": "/educational-game-project-team-10-hansen-shi-seth-prentice/finalgen.main.45e92aca9791f1f5f591.bundle.js"
   },
   {
-    "revision": "633fc88d72846aef998d",
-    "url": "/educational-game-project-team-10-hansen-shi-seth-prentice/finalgen.vendors.ebe8b6664d1bba7b6cb9.bundle.js"
+    "revision": "7478d3e14e231ba1844c",
+    "url": "/educational-game-project-team-10-hansen-shi-seth-prentice/finalgen.vendors.5fa2b7bc87a77c952dbd.bundle.js"
   },
   {
-    "revision": "53f9d15ecaf118bdba13fb81d3ea7959",
+    "revision": "caebc5f77289149ff1a4d4194ac61855",
     "url": "/educational-game-project-team-10-hansen-shi-seth-prentice/finalindex.html"
   },
   {
