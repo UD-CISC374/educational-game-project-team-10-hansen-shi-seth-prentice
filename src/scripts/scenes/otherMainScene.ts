@@ -8,7 +8,7 @@ import Ghost from '../objects/Ghost';
 import Frog from '../objects/Frog';
 import BigFrog from '../objects/BigFrog'
 
-export default class MainScene extends Phaser.Scene {
+export default class OtherMainScene extends Phaser.Scene {
   private player: Player;
   enemy: Frog;
   enemy2: Frog;
@@ -327,8 +327,8 @@ export default class MainScene extends Phaser.Scene {
       this.altar.setVelocityY(-50);
       this.cameras.main.shake(50, .002);
       if (this.player.y < 0) {
-        this.scene.start("Tutorial");
         this.scene.remove(this.scene.key);
+        this.scene.start("Tutorial");
       }
     }
   }
